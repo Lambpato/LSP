@@ -129,6 +129,24 @@ app.get('api/images/:imageId', async (req, res, next) => {
   }
 });
 
+app.delete('/api/images/:imageId', async (req, res, next) => {
+  try {
+    const { imageId } = req.user;
+    const sql = `
+    delete
+      from "images"
+      where "imageId" = $1
+      returning *
+      `;
+    const params = [imageId];
+    const result = await db.query(sql, params);
+    const image = result.row[0];
+    image ? res.status(204).json(image) : res.status(404).json({ error: `Cannot find image with imageId ${imageId}` });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
