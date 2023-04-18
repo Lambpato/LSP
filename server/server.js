@@ -129,7 +129,7 @@ app.get('api/images/:imageId', async (req, res, next) => {
   }
 });
 
-app.delete('/api/images/:imageId', async (req, res, next) => {
+app.delete('api/images/:imageId', async (req, res, next) => {
   try {
     const { imageId } = req.user;
     const sql = `
@@ -192,6 +192,24 @@ app.get('api/songs/:songId', async (req, res, next) => {
     const result = await db.query(sql, params);
     const song = result.row[0];
     res.status(200).json(song);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.delete('api/songs/:songId', async (req, res, next) => {
+  try {
+    const { songId } = req.user;
+    const sql = `
+    delete
+      from "songs"
+      where "songId" = $1
+      returning *
+      `;
+    const params = [songId];
+    const result = await db.query(sql, params);
+    const song = result.row[0];
+    song ? res.status(204).json(song) : res.status(404).json({ error: `Cannot find song with songId ${songId}` });
   } catch (err) {
     next(err);
   }
