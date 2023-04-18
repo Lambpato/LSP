@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import ClientError from './lib/client-error.js';
 import errorMiddleware from './lib/error-middleware.js';
+import authorizationMiddleware from './lib/authorization-middleware.js';
 import pg from 'pg';
 import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
@@ -32,7 +33,7 @@ app.get('/api/hello', (req, res) => {
 app.post('api/users/register', async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    if (!username || password) { throw new ClientError(401, 'Invalid Login'); }
+    if (!username || password) { throw new ClientError(400, 'username and password are required fields'); }
     const hashedPassword = await argon2.hash(password);
     const sql = `
       insert into "users" ("username", "hashedPassword")
@@ -71,6 +72,28 @@ app.post('api/users/log-in', async (req, res, next) => {
     next(err);
   }
 });
+
+app.use(authorizationMiddleware);
+
+app.post('api/images/upload', async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    const { url, description } = req.body;
+    if (!url || !description) { throw new ClientError(400, 'Bad request'); }
+    const sql = `
+    insert into "images" ("userId", "url", "description")
+    values ($1, $2 ,$3)
+    returning *
+  `;
+    const params = [userId, url, description];
+    const result = await db.query(sql, params);
+    const user = result.row[0];
+    res.status(201).json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
