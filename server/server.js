@@ -122,8 +122,8 @@ app.get('api/images/:imageId', async (req, res, next) => {
     `;
     const params = [imageId];
     const result = await db.query(sql, params);
-    const images = result.row[0];
-    res.status(200).json(images);
+    const image = result.row[0];
+    res.status(200).json(image);
   } catch (err) {
     next(err);
   }
@@ -178,6 +178,23 @@ app.get('api/songs/', async (req, res, next) => {
   const result = await db.query(sql, params);
   const songs = result.row[0];
   res.status(200).json(songs);
+});
+
+app.get('api/songs/:songId', async (req, res, next) => {
+  try {
+    const { songId } = req.user;
+    const sql = `
+    select *
+    from images
+    where "imageId" = $1
+    `;
+    const params = [songId];
+    const result = await db.query(sql, params);
+    const song = result.row[0];
+    res.status(200).json(song);
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.use(errorMiddleware);
