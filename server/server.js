@@ -77,15 +77,16 @@ app.use(authorizationMiddleware);
 
 app.post('api/images/upload', async (req, res, next) => {
   try {
+    const { caption } = req.body;
     const { userId } = req.user;
-    const { url, description } = req.body;
-    if (!url || !description) { throw new ClientError(400, 'Bad request'); }
+    if (!caption) { throw new ClientError(400, 'caption is a required field'); }
+    const url = `/images/${req.file.filename}`;
     const sql = `
-    insert into "images" ("userId", "url", "description")
+    insert into "images" ("userId", "url", "caption")
     values ($1, $2 ,$3)
     returning *
   `;
-    const params = [userId, url, description];
+    const params = [userId, url, caption];
     const result = await db.query(sql, params);
     const user = result.row[0];
     res.status(201).json(user);
@@ -93,6 +94,20 @@ app.post('api/images/upload', async (req, res, next) => {
     next(err);
   }
 });
+
+// app.post('api/images/', async (req, res, next) => {
+//   try {
+//     const { userId } = req.user;
+//     const sql = `
+//     select *
+//     from "images"
+//     where "userId" = $1
+//     `;
+
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 app.use(errorMiddleware);
 
