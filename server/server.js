@@ -147,6 +147,26 @@ app.delete('/api/images/:imageId', async (req, res, next) => {
   }
 });
 
+app.post('api/songs/upload', async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const { userId } = req.user;
+    if (!name) { throw new ClientError(400, 'name is a required field'); }
+    const url = `/songs/${req.file.filename}`;
+    const sql = `
+    insert into "songs" ("userId", "url", "name")
+    values ($1, $2, $3)
+    returning *
+    `;
+    const params = [userId, url, name];
+    const result = await db.query(sql, params);
+    const song = result.row[0];
+    res.status(201).json(song);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
