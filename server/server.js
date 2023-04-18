@@ -167,6 +167,19 @@ app.post('api/songs/upload', async (req, res, next) => {
   }
 });
 
+app.get('api/songs/', async (req, res, next) => {
+  const { userId } = req.user;
+  const sql = `
+  select "name"
+  from "songs"
+  where "userId" = $1
+  `;
+  const params = [userId];
+  const result = await db.query(sql, params);
+  const songs = result.row[0];
+  res.status(200).json(songs);
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
