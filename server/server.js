@@ -88,26 +88,29 @@ app.post('api/images/upload', async (req, res, next) => {
   `;
     const params = [userId, url, caption];
     const result = await db.query(sql, params);
-    const user = result.row[0];
-    res.status(201).json(user);
+    const image = result.row[0];
+    res.status(201).json(image);
   } catch (err) {
     next(err);
   }
 });
 
-// app.post('api/images/', async (req, res, next) => {
-//   try {
-//     const { userId } = req.user;
-//     const sql = `
-//     select *
-//     from "images"
-//     where "userId" = $1
-//     `;
-
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+app.get('api/images/', async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    const sql = `
+    select "caption"
+    from "images"
+    where "userId" = $1
+    `;
+    const params = [userId];
+    const result = await db.query(sql, params);
+    const images = result.row[0];
+    res.status(200).json(images);
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.use(errorMiddleware);
 
