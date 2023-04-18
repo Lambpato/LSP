@@ -112,6 +112,23 @@ app.get('api/images/', async (req, res, next) => {
   }
 });
 
+app.get('api/images/:imageId', async (req, res, next) => {
+  try {
+    const { imageId } = req.user;
+    const sql = `
+    select *
+    from "images"
+    where "imageId" = $1
+    `;
+    const params = [imageId];
+    const result = await db.query(sql, params);
+    const images = result.row[0];
+    res.status(200).json(images);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
