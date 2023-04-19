@@ -17,6 +17,7 @@ const db = new pg.Pool({
   }
 });
 
+let token = '';
 const app = express();
 
 // Create paths for static directories
@@ -24,7 +25,6 @@ const reactStaticDir = new URL('../client/build', import.meta.url).pathname;
 const uploadsStaticDir = new URL('public', import.meta.url).pathname;
 
 app.use(express.static(reactStaticDir));
-// Static directory for file uploads server/public/
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
@@ -35,15 +35,15 @@ app.get('/api/hello', (req, res) => {
 app.post('/api/users/register', async (req, res, next) => {
   try {
     const { username, password } = req.body;
+    const date = new Date();
     if (!username || !password) { throw new ClientError(400, 'username and password are required fields'); }
     const hashedPassword = await argon2.hash(password);
-    const date = new Date();
     const sql = `
-      insert into "users" ("username", "hashedPassword", "createdAt", "loggedInAt")
-      values ($1, $2, $3, $4)
+      insert into "users" ("username", "hashedPassword", "createdAt")
+      values ($1, $2, $3)
       returning *
     `;
-    const params = [username, hashedPassword, date, date];
+    const params = [username, hashedPassword, date];
     const result = await db.query(sql, params);
     const user = result.rows[0];
     res.status(201).json(user);
@@ -66,12 +66,11 @@ app.post('/api/users/log-in', async (req, res, next) => {
     const result = await db.query(sql, params);
     if (!result) { throw new ClientError(401, 'Invalid Login'); }
     const user = result.rows[0];
-    console.log('log-in');
     if (!user) { throw new ClientError(401, 'Invalid Login'); }
     const { userId, hashedPassword } = user;
     if (!await argon2.verify(hashedPassword, password)) { throw new ClientError(401, 'Invalid Login'); }
     const payload = { userId, user };
-    const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+    token = jwt.sign(payload, process.env.TOKEN_SECRET);
     res.json({ user: payload, token });
   } catch (err) {
     next(err);
@@ -84,14 +83,15 @@ app.post('/api/images/upload', imgUploadsMiddleware.single('image'), async (req,
   try {
     const { caption } = req.body;
     const { userId } = req.user;
+    const date = new Date();
     if (!caption) { throw new ClientError(400, 'caption is a required field'); }
     const url = `/images/${req.file.filename}`;
     const sql = `
-    insert into "images" ("userId", "url", "caption")
-    values ($1, $2 ,$3)
+    insert into "images" ("userId", "url", "caption", "createdAt")
+    values ($1, $2 ,$3, $4)
     returning *
   `;
-    const params = [userId, url, caption];
+    const params = [userId, url, caption, date];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     res.status(201).json(image);
@@ -158,14 +158,15 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
   try {
     const { name } = req.body;
     const { userId } = req.user;
+    const date = new Date();
     if (!name) { throw new ClientError(400, 'name is a required field'); }
-    const url = `/songs/${req.file.filename}`;
+    const url = `/audio/${req.file.filename}`;
     const sql = `
-    insert into "songs" ("userId", "url", "name")
-    values ($1, $2, $3)
+    insert into "songs" ("userId", "url", "name", "createdAt")
+    values ($1, $2, $3, $4)
     returning *
     `;
-    const params = [userId, url, name];
+    const params = [userId, url, name, date];
     const result = await db.query(sql, params);
     const song = result.rows[0];
 

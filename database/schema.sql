@@ -10,7 +10,6 @@ CREATE TABLE "public"."users" (
 	"userId" serial NOT NULL,
 	"username" TEXT NOT NULL UNIQUE,
 	"hashedPassword" TEXT NOT NULL,
-	"loggedInAt" TIMESTAMP NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (
@@ -24,6 +23,7 @@ CREATE TABLE "public"."images" (
 	"userId" INTEGER NOT NULL,
 	"url" TEXT NOT NULL,
 	"caption" TEXT NOT NULL,
+	"createdAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "images_pk" PRIMARY KEY ("imageId")
 ) WITH (
   OIDS=FALSE
@@ -36,6 +36,7 @@ CREATE TABLE "public"."songs" (
 	"userId" INTEGER NOT NULL,
 	"url" TEXT NOT NULL,
 	"name" TEXT NOT NULL,
+	"createdAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "songs_pk" PRIMARY KEY ("songId")
 ) WITH (
   OIDS=FALSE
