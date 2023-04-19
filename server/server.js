@@ -3,6 +3,8 @@ import express from 'express';
 import ClientError from './lib/client-error.js';
 import errorMiddleware from './lib/error-middleware.js';
 import authorizationMiddleware from './lib/authorization-middleware.js';
+import imgUploadsMiddleware from './lib/img-uploads-middleware.js';
+import audioUploadsMiddleware from './lib/audio-uploads-middleware.js';
 import pg from 'pg';
 import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
@@ -78,7 +80,7 @@ app.post('/api/users/log-in', async (req, res, next) => {
 
 app.use(authorizationMiddleware);
 
-app.post('/api/images/upload', async (req, res, next) => {
+app.post('/api/images/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
     const { caption } = req.body;
     const { userId } = req.user;
@@ -126,6 +128,7 @@ app.get('/api/images/:imageId', async (req, res, next) => {
     const params = [imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
+    if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);
     res.status(200).json(image);
   } catch (err) {
     next(err);
@@ -144,13 +147,14 @@ app.delete('/api/images/:imageId', async (req, res, next) => {
     const params = [imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
-    image ? res.status(204).json(image) : res.status(404).json({ error: `Cannot find image with imageId ${imageId}` });
+    if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);
+    res.status(204).json(image);
   } catch (err) {
     next(err);
   }
 });
 
-app.post('/api/songs/upload', async (req, res, next) => {
+app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
     const { userId } = req.user;
@@ -164,6 +168,7 @@ app.post('/api/songs/upload', async (req, res, next) => {
     const params = [userId, url, name];
     const result = await db.query(sql, params);
     const song = result.rows[0];
+
     res.status(201).json(song);
   } catch (err) {
     next(err);
@@ -194,6 +199,7 @@ app.get('/api/songs/:songId', async (req, res, next) => {
     const params = [songId];
     const result = await db.query(sql, params);
     const song = result.rows[0];
+    if (!song) throw new ClientError(404, `Could not find song with songId ${songId}`);
     res.status(200).json(song);
   } catch (err) {
     next(err);
@@ -212,7 +218,8 @@ app.delete('/api/songs/:songId', async (req, res, next) => {
     const params = [songId];
     const result = await db.query(sql, params);
     const song = result.rows[0];
-    song ? res.status(204).json(song) : res.status(404).json({ error: `Cannot find song with songId ${songId}` });
+    if (!song) throw new ClientError(404, `Could not find song with songId ${songId}`);
+    res.status(204).json(song);
   } catch (err) {
     next(err);
   }
