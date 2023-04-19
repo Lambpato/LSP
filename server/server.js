@@ -30,44 +30,47 @@ app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello World!' });
 });
 
-app.post('api/users/register', async (req, res, next) => {
+app.post('/api/users/register', async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    if (!username || password) { throw new ClientError(400, 'username and password are required fields'); }
+    if (!username || !password) { throw new ClientError(400, 'username and password are required fields'); }
     const hashedPassword = await argon2.hash(password);
+    const date = new Date();
     const sql = `
-      insert into "users" ("username", "hashedPassword")
-      values ($1, $2)
+      insert into "users" ("username", "hashedPassword", "createdAt", "loggedInAt")
+      values ($1, $2, $3, $4)
       returning *
     `;
-    const params = [username, hashedPassword];
+    const params = [username, hashedPassword, date, date];
     const result = await db.query(sql, params);
-    const user = result.row[0];
+    const user = result.rows[0];
     res.status(201).json(user);
   } catch (err) {
     next(err);
   }
 });
 
-app.post('api/users/log-in', async (req, res, next) => {
+app.post('/api/users/log-in', async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    if (!username || password) { throw new ClientError(401, 'Invalid Login'); }
+    if (!username || !password) { throw new ClientError(401, 'Invalid Login'); }
     const sql = `
-    select "userId", "hashedPassword", "username"
-    from "users"
-    where "username" = $1
+    select "userId",
+     "hashedPassword"
+      from "users"
+      where "username" = $1
     `;
     const params = [username];
     const result = await db.query(sql, params);
     if (!result) { throw new ClientError(401, 'Invalid Login'); }
-    const user = result.row[0];
+    const user = result.rows[0];
+    console.log('log-in');
     if (!user) { throw new ClientError(401, 'Invalid Login'); }
     const { userId, hashedPassword } = user;
     if (!await argon2.verify(hashedPassword, password)) { throw new ClientError(401, 'Invalid Login'); }
     const payload = { userId, user };
     const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-    res.status(202).json({ user: payload, token });
+    res.json({ user: payload, token });
   } catch (err) {
     next(err);
   }
@@ -75,7 +78,7 @@ app.post('api/users/log-in', async (req, res, next) => {
 
 app.use(authorizationMiddleware);
 
-app.post('api/images/upload', async (req, res, next) => {
+app.post('/api/images/upload', async (req, res, next) => {
   try {
     const { caption } = req.body;
     const { userId } = req.user;
@@ -88,14 +91,14 @@ app.post('api/images/upload', async (req, res, next) => {
   `;
     const params = [userId, url, caption];
     const result = await db.query(sql, params);
-    const image = result.row[0];
+    const image = result.rows[0];
     res.status(201).json(image);
   } catch (err) {
     next(err);
   }
 });
 
-app.get('api/images/', async (req, res, next) => {
+app.get('/api/images/', async (req, res, next) => {
   try {
     const { userId } = req.user;
     const sql = `
@@ -105,14 +108,14 @@ app.get('api/images/', async (req, res, next) => {
     `;
     const params = [userId];
     const result = await db.query(sql, params);
-    const images = result.row[0];
+    const images = result.rows[0];
     res.status(200).json(images);
   } catch (err) {
     next(err);
   }
 });
 
-app.get('api/images/:imageId', async (req, res, next) => {
+app.get('/api/images/:imageId', async (req, res, next) => {
   try {
     const { imageId } = req.user;
     const sql = `
@@ -122,14 +125,14 @@ app.get('api/images/:imageId', async (req, res, next) => {
     `;
     const params = [imageId];
     const result = await db.query(sql, params);
-    const image = result.row[0];
+    const image = result.rows[0];
     res.status(200).json(image);
   } catch (err) {
     next(err);
   }
 });
 
-app.delete('api/images/:imageId', async (req, res, next) => {
+app.delete('/api/images/:imageId', async (req, res, next) => {
   try {
     const { imageId } = req.user;
     const sql = `
@@ -140,14 +143,14 @@ app.delete('api/images/:imageId', async (req, res, next) => {
       `;
     const params = [imageId];
     const result = await db.query(sql, params);
-    const image = result.row[0];
+    const image = result.rows[0];
     image ? res.status(204).json(image) : res.status(404).json({ error: `Cannot find image with imageId ${imageId}` });
   } catch (err) {
     next(err);
   }
 });
 
-app.post('api/songs/upload', async (req, res, next) => {
+app.post('/api/songs/upload', async (req, res, next) => {
   try {
     const { name } = req.body;
     const { userId } = req.user;
@@ -160,14 +163,14 @@ app.post('api/songs/upload', async (req, res, next) => {
     `;
     const params = [userId, url, name];
     const result = await db.query(sql, params);
-    const song = result.row[0];
+    const song = result.rows[0];
     res.status(201).json(song);
   } catch (err) {
     next(err);
   }
 });
 
-app.get('api/songs/', async (req, res, next) => {
+app.get('/api/songs/', async (req, res, next) => {
   const { userId } = req.user;
   const sql = `
   select "name"
@@ -176,11 +179,11 @@ app.get('api/songs/', async (req, res, next) => {
   `;
   const params = [userId];
   const result = await db.query(sql, params);
-  const songs = result.row[0];
+  const songs = result.rows[0];
   res.status(200).json(songs);
 });
 
-app.get('api/songs/:songId', async (req, res, next) => {
+app.get('/api/songs/:songId', async (req, res, next) => {
   try {
     const { songId } = req.user;
     const sql = `
@@ -190,14 +193,14 @@ app.get('api/songs/:songId', async (req, res, next) => {
     `;
     const params = [songId];
     const result = await db.query(sql, params);
-    const song = result.row[0];
+    const song = result.rows[0];
     res.status(200).json(song);
   } catch (err) {
     next(err);
   }
 });
 
-app.delete('api/songs/:songId', async (req, res, next) => {
+app.delete('/api/songs/:songId', async (req, res, next) => {
   try {
     const { songId } = req.user;
     const sql = `
@@ -208,7 +211,7 @@ app.delete('api/songs/:songId', async (req, res, next) => {
       `;
     const params = [songId];
     const result = await db.query(sql, params);
-    const song = result.row[0];
+    const song = result.rows[0];
     song ? res.status(204).json(song) : res.status(404).json({ error: `Cannot find song with songId ${songId}` });
   } catch (err) {
     next(err);
