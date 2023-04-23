@@ -6,6 +6,9 @@ export default function errorMiddleware(err, req, res, next) {
     res.status(err.status).json({ error: err.message });
   } else if (err instanceof jwt.JsonWebTokenError) {
     res.status(401).json({ error: 'invalid access token' });
+  } else if (err.code === '23505') {
+    console.error(err);
+    res.status(403).json({ error: 'Username already exists!' });
   } else {
     console.error(err);
     res.status(500).json({ error: 'an unexpected error occurred' });

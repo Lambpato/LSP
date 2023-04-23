@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { RegIn } from '../lib';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function RegisterPage ({ action, onSignIn }) {
+  const navigate = useNavigate();
   const [error, setError] = useState();
 
   async function handleSubmit(event) {
@@ -11,8 +13,9 @@ export default function RegisterPage ({ action, onSignIn }) {
     const { username, password } = Object.fromEntries(formData.entries());
     try {
       const result = await RegIn(action, username, password);
-
-      if (result.user && result.token) onSignIn(result);
+      if (action === 'register') {
+        navigate('/log-in')
+      } else if(result.user && result.token) onSignIn(result);
     } catch (err) {
       setError(err);
     }

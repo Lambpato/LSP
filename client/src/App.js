@@ -4,17 +4,18 @@ import Background from './components/Background';
 // import AppContext from './components/AppContext';
 import RegInPage from './Pages/RegInPage';
 import { ActionContextProvider } from './components/ActionContext';
-// import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 export default function App() {
  return (
-
     <ActionContextProvider>
-
-        <LockScreen/>
-        <RegInPage/>
-        <Background/>
-
+      <Routes>
+        <Route path='/' element={<Background/>}>
+          <Route index element={ <LockScreen/>}/>
+          <Route path='log-in' element={<RegInPage action={'log-in'}/>}/>
+          <Route path='register' element={<RegInPage action={'register'}/>}/>
+        </Route>
+      </Routes>
     </ActionContextProvider>
   );
 }

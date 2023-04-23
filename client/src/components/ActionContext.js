@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react'
+import { useState, createContext } from 'react';
 
 export const ActionContext = createContext();
 
@@ -8,12 +8,13 @@ export function ActionContextProvider(props) {
   const handleRegister = (e) => {
     e.preventDefault();
     setAction('register');
+    console.log('register');
   }
 
   const handleLogIn = (e) => {
     e.preventDefault();
-    setAction('log-in')
-    console.log(action)
+    setAction('log-in');
+    console.log('log-in');
   }
 
   const contextValue = {
