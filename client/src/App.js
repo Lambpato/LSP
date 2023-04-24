@@ -1,31 +1,20 @@
-import { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import LockScreen from './Pages/LockScreen'
+import Background from './components/Background';
+import RegInPage from './Pages/RegInPage';
+import { ActionContextProvider } from './components/ActionContext';
+import { Routes, Route } from 'react-router-dom'
 
-function App() {
-  const [serverData, setServerData] = useState("");
-
-  useEffect(() => {
-    async function getServerData() {
-      const resp = await fetch('/api/hello');
-      const data = await resp.json();
-
-      console.log('Data from server:', data);
-
-      setServerData(data.message);
-    }
-
-    getServerData();
-  }, []);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>{serverData}</h1>
-      </header>
-    </div>
+export default function App() {
+ return (
+    <ActionContextProvider>
+      <Routes>
+        <Route path='/' element={<Background/>}>
+          <Route index element={ <LockScreen/>}/>
+          <Route path='log-in' element={<RegInPage action={'log-in'}/>}/>
+          <Route path='register' element={<RegInPage action={'register'}/>}/>
+        </Route>
+      </Routes>
+    </ActionContextProvider>
   );
 }
-
-export default App;
