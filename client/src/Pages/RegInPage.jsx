@@ -8,10 +8,11 @@ import { useNavigate } from 'react-router-dom';
 export default function RegInPage({action, onSignIn}) {
 
   const navigate = useNavigate();
-const onLogIn = () => { navigate('/homepage')}
+  const onLogIn = () => { navigate('/homepage')};
+
     return (
       action !== '' ?
-    <div className={MediaQuery() ? 'row welcome px-5 mx-auto pt-5 position-absolute' : 'position-absolute top-0 start-0 bottom-0 end-0'}>
+        <div className={MediaQuery() ? 'row position-absolute top-0 start-0 bottom-0 end-0' : 'position-absolute top-0 start-0 bottom-0 end-0'}>
     <RegIn action={action}  onSignIn={onLogIn} />
     {MediaQuery() ? <About/> : undefined}
     </div>

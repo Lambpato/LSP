@@ -1,7 +1,6 @@
 import MediaQuery from '../components/MediaQuery';
-import '../css/LockScreen.css'
 import { useContext } from 'react';
-import Welcome from './Welcome';
+import Welcome from '../components/Welcome';
 import About from '../components/About';
 import { ActionContext } from '../components/ActionContext';
 

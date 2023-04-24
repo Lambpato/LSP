@@ -22,34 +22,40 @@ export default function RegisterPage ({ action, onSignIn }) {
 
 
   return (
-
-    <form method="post" onSubmit={handleSubmit}>
-      <label className="form-label">
-        <input
-        required
-        type="text"
-        name="username"
-        placeholder="Username"
-        ></input>
-      </label>
-
-      <label className="form-label">
-        <div>
-
-        </div>
+    <div className="col mt-5">
+       <form className="bg-light-subtle py-5 mx-5 rounded-5 d-flex flex-column align-items-center gap-4"
+        method="post"
+        onSubmit={handleSubmit}>
+        <label className="form-label">
           <input
-        required
-        type="password"
-        name="password"
-        placeholder="Password"
-        ></input>
-      </label>
+          required
+          type="text"
+          name="username"
+          placeholder="👤 Username"
+          className="rounded-5 border-1 text-center py-2"
+          ></input>
+        </label>
+
+        <label className="form-label">
+          <input
+          required
+          type="password"
+          name="password"
+          placeholder="🔑 Password"
+          className="rounded-5 border-1 text-center py-2"
+          ></input>
+        </label>
+
       <button
-      type="submit"
-      className="btn btn-primary">
+        type="submit"
+        className="rounded-pill mb-4 btn fw-semibold border border-dark"
+        >
         {action}
       </button>
+
       {error && <div style={{ color: 'red' }}>Error: {error.message}</div>}
     </form>
+    </div>
+
   )
 };
