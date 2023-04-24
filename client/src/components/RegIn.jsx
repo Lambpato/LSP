@@ -13,9 +13,8 @@ export default function RegisterPage ({ action, onSignIn }) {
     const { username, password } = Object.fromEntries(formData.entries());
     try {
       const result = await RegIn(action, username, password);
-      if (action === 'register') {
-        navigate('/log-in')
-      } else if(result.user && result.token) onSignIn(result);
+      if (action === 'register') { navigate('/log-in') }
+      else if(result.user && result.token) onSignIn(result);
     } catch (err) {
       setError(err);
     }
@@ -29,7 +28,7 @@ export default function RegisterPage ({ action, onSignIn }) {
         <input
         required
         type="text"
-        name="usename"
+        name="username"
         placeholder="Username"
         ></input>
       </label>

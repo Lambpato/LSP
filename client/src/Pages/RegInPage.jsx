@@ -1,19 +1,18 @@
-import { useContext } from "react";
 import RegIn from "../components/RegIn";
 import About from "../components/About";
 import MediaQuery from "../components/MediaQuery";
-import { ActionContext } from "../components/ActionContext";
+import { useNavigate } from 'react-router-dom';
 
 
 
-export default function RegInPage() {
-  const { action } = useContext(ActionContext);
+export default function RegInPage({action, onSignIn}) {
 
+  const navigate = useNavigate();
+const onLogIn = () => { navigate('/homepage')}
     return (
-      action === '' ?
+      action !== '' ?
     <div className={MediaQuery() ? 'row welcome px-5 mx-auto pt-5 position-absolute' : 'position-absolute top-0 start-0 bottom-0 end-0'}>
-
-    <RegIn action={action}/>
+    <RegIn action={action}  onSignIn={onLogIn} />
     {MediaQuery() ? <About/> : undefined}
     </div>
     : undefined

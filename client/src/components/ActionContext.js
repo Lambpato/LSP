@@ -1,24 +1,21 @@
-import { useState, createContext } from 'react';
+import { createContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const ActionContext = createContext();
 
 export function ActionContextProvider(props) {
-  const [action, setAction] = useState('');
+  const nagivate = useNavigate();
 
   const handleRegister = (e) => {
-    e.preventDefault();
-    setAction('register');
-    console.log('register');
+    nagivate('/register');
   }
 
   const handleLogIn = (e) => {
     e.preventDefault();
-    setAction('log-in');
-    console.log('log-in');
+    nagivate('/log-in')
   }
 
   const contextValue = {
-    action,
     handleRegister,
     handleLogIn
   }

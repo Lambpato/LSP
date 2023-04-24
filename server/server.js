@@ -32,6 +32,7 @@ app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello World!' });
 });
 
+// register
 app.post('/api/users/register', async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -52,6 +53,7 @@ app.post('/api/users/register', async (req, res, next) => {
   }
 });
 
+// Login
 app.post('/api/users/log-in', async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -79,6 +81,7 @@ app.post('/api/users/log-in', async (req, res, next) => {
 
 app.use(authorizationMiddleware);
 
+// upload image
 app.post('/api/images/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
     const { caption } = req.body;
@@ -100,6 +103,7 @@ app.post('/api/images/upload', imgUploadsMiddleware.single('image'), async (req,
   }
 });
 
+// get image
 app.get('/api/images/', async (req, res, next) => {
   try {
     const { userId } = req.user;
@@ -117,6 +121,7 @@ app.get('/api/images/', async (req, res, next) => {
   }
 });
 
+// get single image
 app.get('/api/images/:imageId', async (req, res, next) => {
   try {
     const { imageId } = req.user;
@@ -135,6 +140,7 @@ app.get('/api/images/:imageId', async (req, res, next) => {
   }
 });
 
+// delete an image
 app.delete('/api/images/:imageId', async (req, res, next) => {
   try {
     const { imageId } = req.user;
@@ -154,6 +160,7 @@ app.delete('/api/images/:imageId', async (req, res, next) => {
   }
 });
 
+// upload song
 app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
@@ -176,6 +183,7 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
   }
 });
 
+// get songs
 app.get('/api/songs/', async (req, res, next) => {
   const { userId } = req.user;
   const sql = `
@@ -189,6 +197,7 @@ app.get('/api/songs/', async (req, res, next) => {
   res.status(200).json(songs);
 });
 
+// get song
 app.get('/api/songs/:songId', async (req, res, next) => {
   try {
     const { songId } = req.user;
@@ -207,6 +216,7 @@ app.get('/api/songs/:songId', async (req, res, next) => {
   }
 });
 
+// delete song
 app.delete('/api/songs/:songId', async (req, res, next) => {
   try {
     const { songId } = req.user;

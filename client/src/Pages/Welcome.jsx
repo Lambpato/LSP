@@ -1,6 +1,5 @@
 import RegButton from "../components/RegButton";
 
-
 export default function Welcome({handleRegister, handleLogIn, action}) {
   return (
     <div className='col mt-5'>
