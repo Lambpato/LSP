@@ -15,9 +15,16 @@ export function ActionContextProvider(props) {
     nagivate('/log-in')
   }
 
+  const time = () => {
+    const date = new Date();
+    const time = date.getHours() + ':' + date.getMinutes();
+    return time;
+  }
+
   const contextValue = {
     handleRegister,
-    handleLogIn
+    handleLogIn,
+    time
   }
 
   return (

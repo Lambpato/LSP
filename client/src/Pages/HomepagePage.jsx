@@ -3,39 +3,39 @@ import HomePage from '../components/HomePage';
   const icons = [{
     id: 1,
     name: 'Settings',
-    imgUrl: '../../',
+    imgUrl: "../icons/Settings",
     children: [{
       childId: 1,
       name: 'Language',
-      childUrl: "../../public/icons/Language.png"
+      childUrl: "../icons/Language"
     }]
   },
   {
     id: 2,
     name: 'Photos',
-    imgUrl: '../../public/icons/menu-icons/Photos.png',
+    imgUrl: '../icons/Photos.png',
     children: [{
       childId: 1,
       name: 'Camera',
-      childUrl: '../../public/icons/ui-icons/Camera'
+      childUrl: '../icons/camera.png'
     },{
       childId: 2,
       name: 'Saved Photos',
-      childUrl: '../../public/icons/ui-icons/Data'
+      childUrl: '../public/icons/Data'
     }]
   },
   {
     id: 3,
     name: 'Music',
-    imgUrl: '../../public/icons/menu-icons/Music',
+    imgUrl: '../icons/Music',
       children: [{
         childId: 1,
         name:'New Song',
-        childUrl: '../../public/icons/ui-icons/Plus'
+        childUrl: '../public/icons/Plus'
       }, {
         childId: 2,
         name: 'Saved Songs',
-        childUrl: '../../public/icons/ui-icons/Data'
+        childUrl: '../public/icons/Data'
       }]
 }];
 

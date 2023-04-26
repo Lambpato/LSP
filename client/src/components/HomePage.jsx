@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import '../../public/icons/'
 
 export default function HomePage ({ icons }) {
   const [isClicked, setClicked] = useState(true);
@@ -13,7 +12,7 @@ export default function HomePage ({ icons }) {
   };
 
   return (
-    <div className="container">
+    <div className="row position-absolute top-0 start-0 bottom-0 end-0">
       <div className="row">
         <CurrentIcon icons={icons} onClick={toggleCurrent} current={current} />
       </div>
@@ -23,11 +22,12 @@ export default function HomePage ({ icons }) {
 
  const CurrentIcon = ({ icons, onClick, current }) => {
     const dashboard = icons.map(icons =>
-      <li onClick={() => onClick(icons.id)} key={icons.id}>
-        <div><img src={icons.imgUrl} alt={icons.name}/></div>
-            {current === icons.id ? icons.children.map(child =>
-              <div className='row'><span><img src={child.childUrl} alt={child.name} /></span> <p>{child.name}</p></div>)
-            : undefined}
+      <li onClick={() => onClick(icons.id)}
+       key={icons.id}>
+        <div><img href={icons.imgUrl} alt={icons.name}/></div>
+        {current === icons.id ? icons.children.map(child =>
+          <div className='row' key={child.childId}><span><img href={child.childUrl} alt={child.name} /></span> <p>{child.name}</p></div>)
+          : undefined}
       </li>);
-  return <ul>{dashboard}</ul>
+  return <ul className='list-unstyled list-group-horizontal'>{dashboard}</ul>
 };
