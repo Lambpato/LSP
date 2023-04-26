@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 export default function Background() {
   return (
     <>
-    <div id="bg-wrap" >
+    <div id="bg-wrap">
       <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
         <defs>
           <radialGradient id="Gradient1" cx="50%" cy="50%" fx="0.441602%" fy="50%" r=".5"><animate attributeName="fx" dur="34s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stopColor="rgba(255, 0, 255, 1)"></stop><stop offset="100%" stopColor="rgba(255, 0, 255, 0)"></stop></radialGradient>

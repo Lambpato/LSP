@@ -7,24 +7,43 @@ export function ActionContextProvider(props) {
   const nagivate = useNavigate();
 
   const handleRegister = (e) => {
+    e.preventDefault();
     nagivate('/register');
   }
 
   const handleLogIn = (e) => {
     e.preventDefault();
-    nagivate('/log-in')
+    nagivate('/log-in');
   }
 
-  const time = () => {
-    const date = new Date();
-    const time = date.getHours() + ':' + date.getMinutes();
-    return time;
-  }
+  const handleLanguage = () => {
+    nagivate('/language');
+  };
+
+  const handleCamera = () => {
+    nagivate('/camera');
+  };
+
+  const handleSavedPhotos = () => {
+    nagivate('/savedPhotos');
+  };
+
+  const handleNewSong = () => {
+    nagivate('/newSong');
+  };
+
+  const handleSavedSongs = () => {
+    nagivate('/savedSongs');
+  };
 
   const contextValue = {
     handleRegister,
     handleLogIn,
-    time
+    handleLanguage,
+    handleCamera,
+    handleSavedPhotos,
+    handleNewSong,
+    handleSavedSongs
   }
 
   return (

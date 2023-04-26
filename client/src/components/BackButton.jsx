@@ -1,10 +1,10 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function BackButton () {
-  const navigate = Navigate();
+export default function BackButton ({action}) {
+  const navigate = useNavigate();
   const toggleBack = () => navigate(-1);
 
   return (
-    <button onClick={toggleBack}>Back</button>
+    <button className="btn align-self-start fw-semibold" onClick={toggleBack}>{action}</button>
   );
 };
