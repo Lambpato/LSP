@@ -1,6 +1,6 @@
 import RegButton from "../components/RegButton";
 
-export default function Welcome({handleRegister, handleLogIn, action}) {
+export default function Welcome({handleRegister, handleLogIn}) {
   return (
     <div className='col mt-5'>
       <div className='bg-light-subtle py-5 mx-5 rounded-5'>
