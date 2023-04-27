@@ -5,9 +5,11 @@ import RegInPage from './Pages/RegInPage';
 import HomepagePage from './Pages/HomepagePage';
 import CameraPage from './Pages/CameraPage';
 import { ActionContextProvider } from './components/ActionContext';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 
 export default function App() {
+
+
  return (
     <ActionContextProvider>
       <Routes>
