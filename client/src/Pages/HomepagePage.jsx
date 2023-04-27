@@ -60,7 +60,7 @@ const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSa
 
   return (
     <div className="position-absolute top-0 start-0 bottom-0 end-0 d-flex flex-column">
-      <NavBar />
+      <NavBar action={'Log Out'} />
       <div className="mx-auto my-auto">
         <HomePage icons={icons} />
       </div>
