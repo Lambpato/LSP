@@ -44,9 +44,11 @@ export function ActionContextProvider(props) {
   const tokenKey = 'react-context-jwt';
   const [user, setUser] = useState();
   const [authorized, setAuthorized] = useState(true);
+  const [globalToken, setGlobalToken] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem(tokenKey);
+    setGlobalToken(token);
     const user = token ? jwtDecode(token) : null;
     setUser(user);
     setAuthorized(false);
@@ -79,7 +81,8 @@ export function ActionContextProvider(props) {
     handleSignIn,
     handleLogOut,
     handleBack,
-    user
+    user,
+    globalToken
   }
 
   return (

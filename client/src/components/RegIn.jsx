@@ -17,9 +17,8 @@ export default function RegisterPage ({ action, onSignIn }) {
       else if(result.user && result.token) onSignIn(result);
     } catch (err) {
       setError(err);
-    }
-  }
-
+    };
+  };
 
   return (
     <div className="col mt-5">

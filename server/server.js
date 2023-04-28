@@ -78,23 +78,21 @@ app.post('/api/users/log-in', async (req, res, next) => {
     next(err);
   }
 });
-
+console.log('fart');
 app.use(authorizationMiddleware);
 
 // upload image
-app.post('/api/images/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
+app.post('/api/images/upload/', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
-    const { caption } = req.body;
     const { userId } = req.user;
     const date = new Date();
-    if (!caption) { throw new ClientError(400, 'caption is a required field'); }
     const url = `/images/${req.file.filename}`;
     const sql = `
-    insert into "images" ("userId", "url", "caption", "createdAt")
-    values ($1, $2 ,$3, $4)
+    insert into "images" ("userId", "url", "createdAt")
+    values ($1, $2, $3)
     returning *
   `;
-    const params = [userId, url, caption, date];
+    const params = [userId, url, date];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     res.status(201).json(image);

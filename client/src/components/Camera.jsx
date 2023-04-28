@@ -1,8 +1,7 @@
 import Webcam from 'react-webcam';
 import { useRef } from 'react';
-import { StopCircle } from 'react-bootstrap-icons';
 import MediaQuery from './MediaQuery';
-
+import CameraButton from './CameraButton';
 
 export default function Camera () {
   const photoConstraints = {
@@ -12,7 +11,6 @@ export default function Camera () {
   };
 
   const selfieRef = useRef(null);
-  // const imageSrc = selfieRef.current.getScreenshot();
   let width = 840;
   let height = 840;
   if(!MediaQuery()) {width=360; height=360;}
@@ -28,9 +26,7 @@ export default function Camera () {
       videoConstraints={photoConstraints}
       mirrored={true}
       />
-    <button type='button' className='btn-lg btn fs-1 text-light position-absolute align-self-end'>
-      <StopCircle />
-    </button>
+      <CameraButton selfie={selfieRef}/>
     </div>
   )
 };
