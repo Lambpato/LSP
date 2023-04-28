@@ -1,5 +1,6 @@
-import { createContext } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 export const ActionContext = createContext();
 
@@ -25,16 +26,49 @@ export function ActionContextProvider(props) {
   };
 
   const handleSavedPhotos = () => {
-    nagivate('/savedPhotos');
+    nagivate('/photos');
   };
 
   const handleNewSong = () => {
-    nagivate('/newSong');
+    nagivate('/songs/new');
   };
 
   const handleSavedSongs = () => {
-    nagivate('/savedSongs');
+    nagivate('/songs');
   };
+
+  const handleBack = () =>  {
+    console.log('fart')
+    nagivate(-1)};
+
+  const tokenKey = 'react-context-jwt';
+  const [user, setUser] = useState();
+  const [authorized, setAuthorized] = useState(true);
+  const [globalToken, setGlobalToken] = useState();
+
+  useEffect(() => {
+    const token = localStorage.getItem(tokenKey);
+    setGlobalToken(token);
+    const user = token ? jwtDecode(token) : null;
+    setUser(user);
+    setAuthorized(false);
+  }, []);
+
+   const handleSignIn = (result) => {
+    const { user, token } = result;
+    localStorage.setItem(tokenKey, token);
+    setUser(user);
+    nagivate('/homepage');
+  }
+
+  const handleLogOut = () => {
+    localStorage.removeItem(tokenKey);
+    setUser(undefined);
+  }
+
+  if (authorized) return null;
+
+
 
   const contextValue = {
     handleRegister,
@@ -43,7 +77,12 @@ export function ActionContextProvider(props) {
     handleCamera,
     handleSavedPhotos,
     handleNewSong,
-    handleSavedSongs
+    handleSavedSongs,
+    handleSignIn,
+    handleLogOut,
+    handleBack,
+    user,
+    globalToken
   }
 
   return (

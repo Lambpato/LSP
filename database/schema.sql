@@ -22,7 +22,6 @@ CREATE TABLE "public"."images" (
 	"imageId" serial NOT NULL,
 	"userId" INTEGER NOT NULL,
 	"url" TEXT NOT NULL,
-	"caption" TEXT NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "images_pk" PRIMARY KEY ("imageId")
 ) WITH (
