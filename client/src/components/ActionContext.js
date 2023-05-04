@@ -68,8 +68,6 @@ export function ActionContextProvider(props) {
 
   if (authorized) return null;
 
-
-
   const contextValue = {
     handleRegister,
     handleLogIn,

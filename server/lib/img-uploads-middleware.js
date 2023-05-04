@@ -1,4 +1,4 @@
-import path from 'node:path';
+// import path from 'node:path';
 import multer from 'multer';
 
 const imagesDirectory = 'public/images';
@@ -8,7 +8,8 @@ const storage = multer.diskStorage({
     callback(null, imagesDirectory);
   },
   filename: (req, file, callback) => {
-    const fileExtension = path.extname(file.originalname);
+    const fileExtension = '.png';
+    // path.extname(file.originalname);
     const name = `${file.fieldname}-${Date.now()}${fileExtension}`;
     callback(null, name);
   }

@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import ClientError from './lib/client-error.js';
 import errorMiddleware from './lib/error-middleware.js';
-import authorizationMiddleware from './lib/authorization-middleware.js';
+// import authorizationMiddleware from './lib/authorization-middleware.js';
 import imgUploadsMiddleware from './lib/img-uploads-middleware.js';
 import audioUploadsMiddleware from './lib/audio-uploads-middleware.js';
 import pg from 'pg';
@@ -79,12 +79,12 @@ app.post('/api/users/log-in', async (req, res, next) => {
   }
 });
 console.log('fart');
-app.use(authorizationMiddleware);
+// app.use(authorizationMiddleware);
 
 // upload image
 app.post('/api/images/upload/', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
-    const { userId } = req.user;
+    // const { userId } = req.user;
     const date = new Date();
     const url = `/images/${req.file.filename}`;
     const sql = `
@@ -92,7 +92,7 @@ app.post('/api/images/upload/', imgUploadsMiddleware.single('image'), async (req
     values ($1, $2, $3)
     returning *
   `;
-    const params = [userId, url, date];
+    const params = [1, url, date];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     res.status(201).json(image);
@@ -104,15 +104,15 @@ app.post('/api/images/upload/', imgUploadsMiddleware.single('image'), async (req
 // get image
 app.get('/api/images/', async (req, res, next) => {
   try {
-    const { userId } = req.user;
+    // const { userId } = req.user;
     const sql = `
-    select "caption"
+    select "imageId", "createdAt", "url"
     from "images"
     where "userId" = $1
     `;
-    const params = [userId];
+    const params = [1];
     const result = await db.query(sql, params);
-    const images = result.rows[0];
+    const images = result.rows;
     res.status(200).json(images);
   } catch (err) {
     next(err);
@@ -122,7 +122,7 @@ app.get('/api/images/', async (req, res, next) => {
 // get single image
 app.get('/api/images/:imageId', async (req, res, next) => {
   try {
-    const { imageId } = req.user;
+    const { imageId } = req.params;
     const sql = `
     select *
     from "images"

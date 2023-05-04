@@ -36,7 +36,7 @@ const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSa
       onClick: handleCamera
     },{
       childId: 2,
-      name: 'Saved Photos',
+      name: 'Photos',
       childUrl: data,
       onClick: handleSavedPhotos
     }]
