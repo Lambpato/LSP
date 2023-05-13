@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import { ActionContext } from './ActionContext';
 import { FileEarmarkImageFill } from 'react-bootstrap-icons';
-import data from '../icons/Data.png';
+import data from '../public/icons/Data.png';
 
 export default function Photos () {
   const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
+  const [currentImg, setCurrentImg] = useState('')
   const { globalToken } = useContext(ActionContext);
 
   useEffect(() => {
@@ -13,7 +14,7 @@ export default function Photos () {
       try {
         const response = await fetch('/api/images/', {
           headers: {
-             'Authorization':`Bearer ${globalToken}`
+             'Authorization': `Bearer ${globalToken}`
           }
         });
         if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
@@ -26,11 +27,29 @@ export default function Photos () {
     getImages();
   },);
 
+  const displayImage = (imageId) => {
+    current !== imageId ? setCurrent(imageId) : setCurrent(0);
+    console.log(images);
 
-  const displayImage = (i) => {
-    current !== i ? setCurrent(i) : setCurrent(0);
-    console.log(current);
+    const currentImg = async (i) => {
+       try {
+        const response = await fetch(`/api/images/${imageId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${globalToken}`
+        }
+      });
+      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      const imageJson = await response.json();
+      setCurrentImg(imageJson);
+     } catch (err) {
+      console.error(err);
+     };
+    };
+
+    currentImg();
   };
+
 
   return(
      <div>
@@ -43,9 +62,8 @@ export default function Photos () {
       <ImageList images={images} onClick={displayImage} />
       </div>
 
-      <div>
-      {current === images.imageId ? <img src={images.url} alt='selfie' /> : undefined}
-      </div>
+
+      { images.filter(images => images.imageId === current) ? <div><img src={images.url} alt='selfie' /></div> : undefined}
      </div>
   )
 };
@@ -54,7 +72,7 @@ export default function Photos () {
     const imagesList = images.map(images =>
            <li className='d-flex gap-2' key={images.imageId} onClick={() => onClick(images.imageId)} >
               <FileEarmarkImageFill />
-              <p>{`${images.url}.png`}</p>
+              <p>{`${images.url}`}</p>
            </li> );
 
            return   <ul className='list-unstyled'> {imagesList} </ul>

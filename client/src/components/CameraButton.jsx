@@ -5,7 +5,6 @@ import { useContext } from 'react';
 
 export default function CameraButton({selfie}) {
   const { globalToken } = useContext(ActionContext);
-  console.log(globalToken);
   const handleImage = async() => {
     let screenshot = selfie.current.getScreenshot();
     let base64 = screenshot.slice(22);
@@ -13,7 +12,7 @@ export default function CameraButton({selfie}) {
     console.log(blob);
     console.log(screenshot);
     const formData = new FormData();
-    formData.append("image", blob);
+    formData.append('image', blob);
 
   try {
     const response = await fetch('/api/images/upload/', {
