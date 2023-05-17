@@ -6,7 +6,7 @@ import data from '../public/icons/Data.png';
 export default function Photos () {
   const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
-  const [currentImg, setCurrentImg] = useState('')
+  const [activeImg, setActiveImg] = useState('')
   const { globalToken } = useContext(ActionContext);
 
   useEffect(() => {
@@ -29,19 +29,18 @@ export default function Photos () {
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
-    console.log(images);
-
     const currentImg = async (i) => {
        try {
         const response = await fetch(`/api/images/${imageId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${globalToken}`
-        }
-      });
+          }
+        });
       if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
       const imageJson = await response.json();
-      setCurrentImg(imageJson);
+      const { url } = imageJson
+      activeImg !== url ? setActiveImg(url) : setActiveImg('');
      } catch (err) {
       console.error(err);
      };
@@ -53,7 +52,7 @@ export default function Photos () {
 
   return(
      <div>
-      <div>
+      <div className="d-flex">
         <img src={data} alt='photos'></img>
         <p>Photos</p>
       </div>
@@ -63,16 +62,16 @@ export default function Photos () {
       </div>
 
 
-      { images.filter(images => images.imageId === current) ? <div><img src={images.url} alt='selfie' /></div> : undefined}
+      { activeImg !== '' ? <div><img src={activeImg} alt='selfie' /></div> : undefined}
      </div>
   )
 };
 
   const ImageList = ({images, onClick}) => {
     const imagesList = images.map(images =>
-           <li className='d-flex gap-2' key={images.imageId} onClick={() => onClick(images.imageId)} >
+           <li className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
               <FileEarmarkImageFill />
-              <p>{`${images.url}`}</p>
+              <p className="mb-0 align-items-center">{`${images.url}`}</p>
            </li> );
 
            return   <ul className='list-unstyled'> {imagesList} </ul>
