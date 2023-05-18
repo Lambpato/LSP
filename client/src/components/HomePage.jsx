@@ -1,14 +1,13 @@
 import { useState } from 'react';
 
 export default function HomePage ({ icons }) {
-  const [isClicked, setClicked] = useState(true);
   const [current, setCurrent] = useState(0);
 
   // const togglePrev = () => setcurrent((current + 1) % icons.length);
   // const toggleNext = () => setcurrent(((current - 1) + icons.length) % icons.length);
   const toggleCurrent = (i) => {
-    setClicked(!isClicked);
     current !== i ? setCurrent(i) : setCurrent(0);
+    console.log(current)
   };
 
   return (

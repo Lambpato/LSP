@@ -1,12 +1,12 @@
 import HomePage from '../components/HomePage';
 import NavBar from '../components/NavBar';
-import settings from '../icons/Settings.png';
-import language from '../icons/Language.png';
-import photos from '../icons/Photos.png';
-import camera from '../icons/Camera.png';
-import data from '../icons/Data.png';
-import music from '../icons/Music.png';
-import plus from '../icons/Plus.png';
+import settings from '../public/icons/Settings.png';
+import language from '../public/icons/Language.png';
+import photos from '../public/icons/Photos.png';
+import camera from '../public/icons/Camera.png';
+import data from '../public/icons/Data.png';
+import music from '../public/icons/Music.png';
+import plus from '../public/icons/Plus.png';
 import { useContext } from 'react';
 import { ActionContext } from '../components/ActionContext';
 
@@ -36,7 +36,7 @@ const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSa
       onClick: handleCamera
     },{
       childId: 2,
-      name: 'Saved Photos',
+      name: 'Photos',
       childUrl: data,
       onClick: handleSavedPhotos
     }]
