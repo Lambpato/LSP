@@ -2,11 +2,13 @@ import { useState, useEffect, useContext } from 'react';
 import { ActionContext } from './ActionContext';
 import { FileEarmarkImageFill } from 'react-bootstrap-icons';
 import data from '../public/icons/Data.png';
+import ToggleModal from './DeleteModal';
 
 export default function Photos () {
   const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
-  const [activeImg, setActiveImg] = useState('')
+  const [activeImg, setActiveImg] = useState('');
+  const [deleteImg, setDeleteImg] = useState(false);
   const { globalToken } = useContext(ActionContext);
 
   useEffect(() => {
@@ -24,8 +26,18 @@ export default function Photos () {
         console.error(err);
       };
     };
+
+    window.addEventListener('keydown', detectKey);
+
     getImages();
   },);
+
+  const detectKey = (e) => {
+    if ((e.key === 'D' && current !== 0) || (e.key === 'd' && current !== 0)) {
+    setDeleteImg(!deleteImg);
+    console.log(e.key);
+    };
+  };
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
@@ -45,12 +57,12 @@ export default function Photos () {
       console.error(err);
      };
     };
-
     currentImg();
   };
 
-
   return(
+    <>
+    <ToggleModal action={'images'} id={current}/>
      <div>
       <div className="d-flex">
         <img src={data} alt='photos'></img>
@@ -64,6 +76,8 @@ export default function Photos () {
 
       { activeImg !== '' ? <div><img src={activeImg} alt='selfie' /></div> : undefined}
      </div>
+    </>
+
   )
 };
 
