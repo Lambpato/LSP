@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { ActionContext } from './ActionContext';
 import { FileEarmarkImageFill } from 'react-bootstrap-icons';
 import data from '../public/icons/Data.png';
-import ToggleModal from './DeleteModal';
+import Modal from './Modal';
 
 export default function Photos () {
   const [images, setImages] = useState([]);
@@ -10,6 +10,15 @@ export default function Photos () {
   const [activeImg, setActiveImg] = useState('');
   const [deleteImg, setDeleteImg] = useState(false);
   const { globalToken } = useContext(ActionContext);
+
+const detectKey = useCallback((e) => {
+    if (e.key === 'D' && current !== 0) {
+    setDeleteImg(!deleteImg);
+    console.log(e.key);
+    console.log(current);
+    console.log(deleteImg);
+    };
+  }, [current, deleteImg]);
 
   useEffect(() => {
     const getImages = async () => {
@@ -27,17 +36,10 @@ export default function Photos () {
       };
     };
 
-    window.addEventListener('keydown', detectKey);
+      document.addEventListener('keydown', detectKey, true)
 
     getImages();
-  },);
-
-  const detectKey = (e) => {
-    if ((e.key === 'D' && current !== 0) || (e.key === 'd' && current !== 0)) {
-    setDeleteImg(!deleteImg);
-    console.log(e.key);
-    };
-  };
+  }, );
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
@@ -62,7 +64,7 @@ export default function Photos () {
 
   return(
     <>
-    <ToggleModal action={'images'} id={current}/>
+    {deleteImg ? <Modal action={'images'} id={current}/> : undefined}
      <div>
       <div className="d-flex">
         <img src={data} alt='photos'></img>
