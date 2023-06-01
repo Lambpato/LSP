@@ -12,10 +12,7 @@ export default function Photos () {
   const [keyPressed, setKeyPressed] = useState(false);
   const { globalToken } = useContext(ActionContext);
 
-  useEffect(() => {
-    const myModal = new Modal(document.getElementById("delete-modal"));
-
-    const getImages = async () => {
+  const getImages = async () => {
       try {
         const response = await fetch('/api/images/', {
           headers: {
@@ -30,6 +27,11 @@ export default function Photos () {
       };
     };
 
+  getImages();
+
+  useEffect(() => {
+    const myModal = new Modal(document.getElementById("delete-modal"));
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'D') {
       setKeyPressed(true);
@@ -43,10 +45,7 @@ export default function Photos () {
     setKeyPressed(false);
   };
 
-    getImages();
   }, [current, globalToken, keyPressed]);
-
-
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
@@ -71,7 +70,7 @@ export default function Photos () {
 
   return(
     <>
-    <DeleteModal action={'images'} id={current} resetKey={keyPressed} />
+    <DeleteModal path={'images'} id={current} resetKey={keyPressed} />
      <div>
       <div className="d-flex">
         <img src={data} alt='photos'></img>

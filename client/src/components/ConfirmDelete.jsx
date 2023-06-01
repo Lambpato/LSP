@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { ActionContext } from "./ActionContext";
 
-export default function ConfirmDelete () {
+export default function ConfirmDelete ({path, id}) {
   const { globalToken } = useContext(ActionContext);
 
-  const handleConfirm = async ({ path, id }) => {
+  const handleConfirm = async () => {
      try {
       const response = await fetch(`/api/${path}/${id}`, {
         method: 'DELETE',
@@ -17,7 +17,6 @@ export default function ConfirmDelete () {
     } catch (err) {
       console.error(err);
     };
-    console.log('farted again');
   };
 
   return (
