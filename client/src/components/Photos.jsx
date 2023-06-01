@@ -1,26 +1,20 @@
-import { useState, useEffect, useContext, useCallback } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ActionContext } from './ActionContext';
 import { FileEarmarkImageFill } from 'react-bootstrap-icons';
 import data from '../public/icons/Data.png';
-import Modal from './Modal';
+import { Modal } from 'bootstrap';
+import DeleteModal from './Modal';
 
 export default function Photos () {
   const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
   const [activeImg, setActiveImg] = useState('');
-  const [deleteImg, setDeleteImg] = useState(false);
+  const [keyPressed, setKeyPressed] = useState(false);
   const { globalToken } = useContext(ActionContext);
 
-const detectKey = useCallback((e) => {
-    if (e.key === 'D' && current !== 0) {
-    setDeleteImg(!deleteImg);
-    console.log(e.key);
-    console.log(current);
-    console.log(deleteImg);
-    };
-  }, [current, deleteImg]);
-
   useEffect(() => {
+    const myModal = new Modal(document.getElementById("delete-modal"));
+
     const getImages = async () => {
       try {
         const response = await fetch('/api/images/', {
@@ -36,10 +30,30 @@ const detectKey = useCallback((e) => {
       };
     };
 
-      document.addEventListener('keydown', detectKey, true)
+
+  // if(current !== 0) {
+  //   setDeleteImg(true)
+  // } else {
+  //   setDeleteImg(false)
+  // };
+
+
+    document.addEventListener('keydown',(e) => {
+      if (e.key === 'D') {
+        console.log(e.key);
+        console.log(current);
+      setKeyPressed(true);
+      };
+    });
+
+  if(current !== 0 && keyPressed) {
+    myModal.show();
+  };
 
     getImages();
-  }, );
+  }, [current, globalToken, keyPressed]);
+
+
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
@@ -64,7 +78,7 @@ const detectKey = useCallback((e) => {
 
   return(
     <>
-    {deleteImg ? <Modal action={'images'} id={current}/> : undefined}
+    <DeleteModal action={'images'} id={current}/>
      <div>
       <div className="d-flex">
         <img src={data} alt='photos'></img>

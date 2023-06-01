@@ -1,8 +1,8 @@
 import ConfirmDelete from "./ConfirmDelete";
 
-export default function Modal ({action, current}) {
+export default function DeleteModal ({action, current}) {
   return (
-    <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div className="modal fade" id="delete-modal" data-bs-backdrop="static" data-bs-keyboard="true" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-body">
