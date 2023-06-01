@@ -3,7 +3,7 @@ import { ActionContext } from './ActionContext';
 import { FileEarmarkImageFill } from 'react-bootstrap-icons';
 import data from '../public/icons/Data.png';
 import { Modal } from 'bootstrap';
-import DeleteModal from './Modal';
+import DeleteModal from './DeleteModal';
 
 export default function Photos () {
   const [images, setImages] = useState([]);
@@ -30,24 +30,17 @@ export default function Photos () {
       };
     };
 
-
-  // if(current !== 0) {
-  //   setDeleteImg(true)
-  // } else {
-  //   setDeleteImg(false)
-  // };
-
-
-    document.addEventListener('keydown',(e) => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'D') {
-        console.log(e.key);
-        console.log(current);
       setKeyPressed(true);
       };
     });
 
   if(current !== 0 && keyPressed) {
+    setKeyPressed(false)
     myModal.show();
+  } else if (current === 0 && keyPressed){
+    setKeyPressed(false);
   };
 
     getImages();
@@ -78,7 +71,7 @@ export default function Photos () {
 
   return(
     <>
-    <DeleteModal action={'images'} id={current}/>
+    <DeleteModal action={'images'} id={current} resetKey={keyPressed} />
      <div>
       <div className="d-flex">
         <img src={data} alt='photos'></img>

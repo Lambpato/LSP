@@ -1,6 +1,6 @@
 import ConfirmDelete from "./ConfirmDelete";
 
-export default function DeleteModal ({action, current}) {
+export default function DeleteModal ({action, current, resetKey}) {
   return (
     <div className="modal fade" id="delete-modal" data-bs-backdrop="static" data-bs-keyboard="true" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div className="modal-dialog">
@@ -10,7 +10,7 @@ export default function DeleteModal ({action, current}) {
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <ConfirmDelete  action={action} current={current}/>
+            <ConfirmDelete  action={action} current={current} />
           </div>
         </div>
       </div>
