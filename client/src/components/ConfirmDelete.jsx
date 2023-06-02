@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ActionContext } from "./ActionContext";
 
-export default function ConfirmDelete ({path, id}) {
+export default function ConfirmDelete ({path, id, reset}) {
   const { globalToken } = useContext(ActionContext);
 
   const handleConfirm = async () => {
@@ -13,6 +13,7 @@ export default function ConfirmDelete ({path, id}) {
           'Authorization': `Bearer ${globalToken}`
         }
       });
+      reset();
       if (!response.ok) throw new Error (`Error Code: ${response.status} Error Message: It Boken`);
     } catch (err) {
       console.error(err);

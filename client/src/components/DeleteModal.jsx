@@ -1,6 +1,6 @@
 import ConfirmDelete from "./ConfirmDelete";
 
-export default function DeleteModal ({ path, id }) {
+export default function DeleteModal ({ path, id, reset }) {
 const action = path.slice(0, -1);
 
   return (
@@ -12,7 +12,7 @@ const action = path.slice(0, -1);
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <ConfirmDelete  path={path} id={id} />
+            <ConfirmDelete  path={path} id={id} reset={reset} />
           </div>
         </div>
       </div>

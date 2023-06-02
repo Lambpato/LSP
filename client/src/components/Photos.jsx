@@ -68,9 +68,15 @@ export default function Photos () {
     currentImg();
   };
 
+  const reset = () => {
+    setActiveImg('');
+    setCurrent(0);
+    setKeyPressed(false);
+  };
+
   return(
     <>
-    <DeleteModal path={'images'} id={current} resetKey={keyPressed} />
+    <DeleteModal path={'images'} id={current} reset={reset} />
      <div>
       <div className="d-flex">
         <img src={data} alt='photos'></img>
