@@ -141,7 +141,7 @@ app.get('/api/images/:imageId', async (req, res, next) => {
 // delete an image
 app.delete('/api/images/:imageId', async (req, res, next) => {
   try {
-    const { imageId } = req.user;
+    const imageId = Number(req.params.imageId);
     const sql = `
     delete
       from "images"

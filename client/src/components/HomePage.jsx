@@ -7,7 +7,6 @@ export default function HomePage ({ icons }) {
   // const toggleNext = () => setcurrent(((current - 1) + icons.length) % icons.length);
   const toggleCurrent = (i) => {
     current !== i ? setCurrent(i) : setCurrent(0);
-    console.log(current)
   };
 
   return (
