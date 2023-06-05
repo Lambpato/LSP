@@ -5,7 +5,7 @@ import data from '../public/icons/Data.png';
 import { Modal } from 'bootstrap';
 import DeleteModal from './DeleteModal';
 
-export default function Photos () {
+export default function Selfie () {
   const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
   const [activeImg, setActiveImg] = useState('');
