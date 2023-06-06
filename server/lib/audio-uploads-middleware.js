@@ -1,4 +1,3 @@
-import path from 'node:path';
 import multer from 'multer';
 
 const audioDirectory = 'public/audio';
@@ -8,8 +7,8 @@ const storage = multer.diskStorage({
     callback(null, audioDirectory);
   },
   filename: (req, file, callback) => {
-    const fileExtension = path.extname(file.originalname);
-    const name = `${file.fieldname}-${Date.now()}${fileExtension}`;
+    const fileExtension = '.mp3';
+    const name = `${Date.now()}-${file.fieldname}${fileExtension}`;
     callback(null, name);
   }
 });

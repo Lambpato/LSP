@@ -162,7 +162,7 @@ app.delete('/api/images/:imageId', async (req, res, next) => {
 app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
-    const { userId } = req.user;
+    // const { userId } = req.user;
     const date = new Date();
     if (!name) { throw new ClientError(400, 'name is a required field'); }
     const url = `/audio/${req.file.filename}`;
@@ -171,7 +171,7 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
     values ($1, $2, $3, $4)
     returning *
     `;
-    const params = [userId, url, name, date];
+    const params = [1, url, name, date];
     const result = await db.query(sql, params);
     const song = result.rows[0];
 
