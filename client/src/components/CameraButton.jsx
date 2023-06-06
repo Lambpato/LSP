@@ -8,9 +8,7 @@ export default function CameraButton({selfie}) {
   const handleImage = async() => {
     let screenshot = selfie.current.getScreenshot();
     let base64 = screenshot.slice(22);
-    let blob = base64StringToBlob(base64)
-    console.log(blob);
-    console.log(screenshot);
+    let blob = base64StringToBlob(base64);
     const formData = new FormData();
     formData.append('image', blob);
 

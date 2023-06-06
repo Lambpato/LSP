@@ -5,6 +5,7 @@ import RegInPage from './Pages/RegInPage';
 import HomepagePage from './Pages/HomepagePage';
 import CameraPage from './Pages/CameraPage';
 import SelfiePage from './Pages/SelfiePage';
+import SongPage from './Pages/SongPage';
 import { ActionContextProvider } from './components/ActionContext';
 import { Routes, Route } from 'react-router-dom';
 
@@ -20,7 +21,8 @@ export default function App() {
           <Route path='register' element={<RegInPage action={'register'}/>}/>
           <Route path='homepage' element={<HomepagePage />}/>
           <Route path='camera' element={<CameraPage />} />
-          <Route path='selfies' element={<SelfiePage />} />
+          <Route path='photos' element={<SelfiePage />} />
+          <Route path='songs/new' element={<SongPage />} />
         </Route>
       </Routes>
     </ActionContextProvider>

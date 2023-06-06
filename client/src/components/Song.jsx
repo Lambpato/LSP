@@ -1,12 +1,19 @@
-export default function NewSong () {
+import { ActionContext } from "./ActionContext";
+import { useContext } from "react";
 
+export default function Song () {
+  const { globalToken } = useContext(ActionContext);
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const formData = new FormData(e.target);
+
+
     try {
-      const response = await fetch ('/api/songs/uploads', {
+      const response = await fetch ('/api/songs/upload', {
         method: "POST",
         body: formData,
+        headers: {
+          'Authorization':`Bearer ${globalToken}`
+        }
       });
 
       if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boke`);
@@ -30,13 +37,13 @@ export default function NewSong () {
           }>
             <div className="mb-3">
               <label className="form-label">
-                Caption:
+                Song Name:
                 <input
                   required
                   autoFocus
                   type="text"
-                  id="caption"
-                  name="caption"
+                  id="name"
+                  name="name"
                   className="form-control bg-light" />
               </label>
             </div>
@@ -44,7 +51,7 @@ export default function NewSong () {
               <input
                 required
                 type="file"
-                name="image"
+                name="audio"
                 accept=".mp3" />
               <button type="submit" className="btn btn-primary">
                 Upload
