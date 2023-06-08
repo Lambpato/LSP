@@ -101,7 +101,7 @@ app.post('/api/images/upload/', imgUploadsMiddleware.single('image'), async (req
   }
 });
 
-// get image
+// get images
 app.get('/api/images/', async (req, res, next) => {
   try {
     // const { userId } = req.user;
@@ -119,7 +119,7 @@ app.get('/api/images/', async (req, res, next) => {
   }
 });
 
-// get single image
+// get image
 app.get('/api/images/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
@@ -184,15 +184,19 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
 // get songs
 app.get('/api/songs/', async (req, res, next) => {
   // const { userId } = req.user;
-  const sql = `
+  try {
+    const sql = `
   select "songId", "name"
   from "songs"
   where "userId" = $1
   `;
-  const params = [1];
-  const result = await db.query(sql, params);
-  const songs = result.rows[0];
-  res.status(200).json(songs);
+    const params = [1];
+    const result = await db.query(sql, params);
+    const songs = result.rows;
+    res.status(200).json(songs);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // get song
