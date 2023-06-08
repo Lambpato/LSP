@@ -1,5 +1,5 @@
-import Selfie from "../components/Selfie";
 import NavBar from "../components/NavBar";
+import Selfie from "../components/Selfie";
 
 export default function SelfiePage () {
   return (

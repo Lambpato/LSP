@@ -12,6 +12,9 @@ export default function Selfie () {
   const [keyPressed, setKeyPressed] = useState(false);
   const { globalToken } = useContext(ActionContext);
 
+
+
+  useEffect(() => {
   const getImages = async () => {
       try {
         const response = await fetch('/api/images/', {
@@ -27,9 +30,6 @@ export default function Selfie () {
       };
     };
 
-  getImages();
-
-  useEffect(() => {
     const myModal = new Modal(document.getElementById("delete-modal"));
 
     document.addEventListener('keydown', (e) => {
@@ -44,6 +44,8 @@ export default function Selfie () {
   } else if (current === 0 && keyPressed){
     setKeyPressed(false);
   };
+
+   getImages();
 
   }, [current, globalToken, keyPressed]);
 
@@ -79,7 +81,7 @@ export default function Selfie () {
     <DeleteModal path={'images'} id={current} reset={reset} />
      <div>
       <div className="d-flex">
-        <img src={data} alt='photos'></img>
+        <img src={data} alt="photos"></img>
         <p>Photos</p>
       </div>
 
@@ -99,8 +101,8 @@ export default function Selfie () {
     const imagesList = images.map(images =>
            <li className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
               <FileEarmarkImageFill />
-              <p className="mb-0 align-items-center">{`${images.url}`}</p>
+              <p className="mb-0 align-items-center">{images.url}</p>
            </li> );
 
-           return   <ul className='list-unstyled'> {imagesList} </ul>
+           return   <ul className="list-unstyled">{imagesList}</ul>
           };

@@ -183,13 +183,13 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
 
 // get songs
 app.get('/api/songs/', async (req, res, next) => {
-  const { userId } = req.user;
+  // const { userId } = req.user;
   const sql = `
-  select "name"
+  select "songId", "name"
   from "songs"
   where "userId" = $1
   `;
-  const params = [userId];
+  const params = [1];
   const result = await db.query(sql, params);
   const songs = result.rows[0];
   res.status(200).json(songs);
