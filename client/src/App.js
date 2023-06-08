@@ -5,6 +5,7 @@ import RegInPage from './Pages/RegInPage';
 import HomepagePage from './Pages/HomepagePage';
 import CameraPage from './Pages/CameraPage';
 import SelfiePage from './Pages/SelfiePage';
+import NewSongPage from './Pages/NewSongPage';
 import SongPage from './Pages/SongPage';
 import { ActionContextProvider } from './components/ActionContext';
 import { Routes, Route } from 'react-router-dom';
@@ -22,7 +23,8 @@ export default function App() {
           <Route path='homepage' element={<HomepagePage />}/>
           <Route path='camera' element={<CameraPage />} />
           <Route path='photos' element={<SelfiePage />} />
-          <Route path='songs/new' element={<SongPage />} />
+          <Route path='songs/new' element={<NewSongPage />} />
+          <Route path='songs' element={<SongPage />} />
         </Route>
       </Routes>
     </ActionContextProvider>
