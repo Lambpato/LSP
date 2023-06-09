@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { ActionContext } from './ActionContext';
 import data from '../public/icons/Data.png';
 import { FileMusicFill } from 'react-bootstrap-icons';
+import MediaControls from './MediaControls';
 
 export default function Songs () {
   const [songs, setSongs] = useState([]);
@@ -39,7 +40,9 @@ export default function Songs () {
         <SongList songs={songs} />
       </div>
     </div>
+    <MediaControls />
     </>
+
   )
 };
 
