@@ -6,6 +6,8 @@ import MediaControls from './MediaControls';
 
 export default function Songs () {
   const [songs, setSongs] = useState([]);
+  const [current, setCurrent] = useState(0);
+  const [activeSong, setActiveSong] = useState('');
   const { globalToken } = useContext(ActionContext);
 
   useEffect(() => {
@@ -28,6 +30,27 @@ export default function Songs () {
 
   }, [globalToken]);
 
+  const displaySong = (songId) => {
+    current !== songId ? setCurrent(songId) : setCurrent(0);
+    const currentSong = async (i) => {
+       try {
+        const response = await fetch(`/api/songs/${songId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${globalToken}`
+          }
+        });
+      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      const imageJson = await response.json();
+      const { url } = imageJson
+      activeSong !== url ? setActiveSong(url) : setActiveSong('');
+     } catch (err) {
+      console.error(err);
+     };
+    };
+    currentSong();
+  };
+
   return(
     <>
     <div>
@@ -37,7 +60,7 @@ export default function Songs () {
       </div>
 
       <div>
-        <SongList songs={songs} />
+        <SongList songs={songs} onClick={displaySong} />
       </div>
     </div>
     <MediaControls />

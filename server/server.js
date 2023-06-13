@@ -124,7 +124,7 @@ app.get('/api/images/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
     const sql = `
-    select url
+    select "url"
     from "images"
     where "imageId" = $1
     `;
@@ -202,10 +202,10 @@ app.get('/api/songs/', async (req, res, next) => {
 // get song
 app.get('/api/songs/:songId', async (req, res, next) => {
   try {
-    const { songId } = req.user;
+    const songId = Number(req.params.songId);
     const sql = `
-    select *
-    from songs
+    select "url", "name"
+    from "songs"
     where "songId" = $1
     `;
     const params = [songId];
