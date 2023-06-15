@@ -41,9 +41,9 @@ export default function Songs () {
           }
         });
       if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
-      const imageJson = await response.json();
-      const { url } = imageJson
-      activeSong !== url ? setActiveSong(url) : setActiveSong('');
+      const songJson = await response.json();
+      const song = songJson
+      activeSong !== song.url ? setActiveSong(song) : setActiveSong('');
      } catch (err) {
       console.error(err);
      };
@@ -52,19 +52,19 @@ export default function Songs () {
   };
 
   return(
-    <>
-    <div>
-      <div className="d-flex">
-        <img src={data} alt="songs"></img>
-        <p>Songs</p>
-      </div>
-
+    <div className="d-flex justify-content-between">
       <div>
-        <SongList songs={songs} onClick={displaySong} />
+        <div className="d-flex">
+          <img src={data} alt="songs"></img>
+          <p>Songs</p>
+        </div>
+
+        <div>
+          <SongList songs={songs} onClick={displaySong}/>
+        </div>
       </div>
+     <MediaControls song={activeSong} />
     </div>
-    <MediaControls />
-    </>
 
   )
 };
