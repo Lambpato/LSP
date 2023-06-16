@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { SkipBackwardFill, PlayCircleFill, PauseCircleFill, SkipForwardFill } from "react-bootstrap-icons";
 import Slider from "./Slider";
 
-export default function MediaControls({song}) {
+export default function MediaControls({song, current, displaySong, songs}) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -14,6 +14,22 @@ export default function MediaControls({song}) {
     const audio = audioRef.current;
     audio.currentTime = (audio.duration / 100) * e.target.value;
     setPercentage(e.target.value)
+  };
+
+  const onBackSkip = () => {
+    const audio = audioRef.current;
+
+    if (currentTime > 5) {
+      setCurrentTime(0);
+      setPercentage(0);
+      audio.currentTime = 0
+    } else if (currentTime < 5 && current === 1) {
+      displaySong(songs.length);
+      setIsPlaying(true);
+    } else {
+      displaySong(current - 1);
+      setIsPlaying(true);
+    }
   };
 
   const onPlay = () => {
@@ -47,7 +63,7 @@ export default function MediaControls({song}) {
       autoPlay={true}
     ></audio>
     <div>
-      <button className="btn btn-link" ><SkipBackwardFill /></button>
+      <button className="btn btn-link" onClick={onBackSkip}><SkipBackwardFill /></button>
       <button className="btn btn-link" onClick={onPlay}>{isPlaying ?<PauseCircleFill />  : <PlayCircleFill />}</button>
       <button className="btn btn-link" ><SkipForwardFill /></button>
     </div>

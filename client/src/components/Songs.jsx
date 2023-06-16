@@ -31,7 +31,7 @@ export default function Songs () {
   }, [globalToken]);
 
   const displaySong = (songId) => {
-    current !== songId ? setCurrent(songId) : setCurrent(0);
+    setCurrent(songId);
     const currentSong = async (i) => {
        try {
         const response = await fetch(`/api/songs/${songId}`, {
@@ -63,7 +63,7 @@ export default function Songs () {
           <SongList songs={songs} onClick={displaySong}/>
         </div>
       </div>
-     <MediaControls song={activeSong} />
+     <MediaControls song={activeSong} displaySong={displaySong} current={current}  songs={songs} />
     </div>
 
   )
