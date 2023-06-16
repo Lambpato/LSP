@@ -40,7 +40,6 @@ export default function Songs () {
   if(current !== 0 && keyPressed) {
     setKeyPressed(false)
     myModal.show();
-    console.log('hello')
   } else if (current === 0 && keyPressed){
     setKeyPressed(false);
   };
@@ -90,7 +89,7 @@ export default function Songs () {
             <SongList songs={songs} onClick={displaySong}/>
           </div>
         </div>
-        <MediaControls song={activeSong} displaySong={displaySong} current={current}  songs={songs} />
+        { activeSong !== '' ? <MediaControls song={activeSong} displaySong={displaySong} current={current}  songs={songs} /> : undefined}
       </div>
     </>
 

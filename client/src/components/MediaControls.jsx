@@ -23,7 +23,7 @@ export default function MediaControls({song, current, displaySong, songs}) {
       setPercentage(0);
       audio.currentTime = 0
     } else if (currentTime < 5 && current === 1) {
-      displaySong(songs.length);
+      displaySong(songs.songId);
       setIsPlaying(true);
     } else {
       displaySong(current - 1);
