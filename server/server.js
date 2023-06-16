@@ -221,7 +221,7 @@ app.get('/api/songs/:songId', async (req, res, next) => {
 // delete song
 app.delete('/api/songs/:songId', async (req, res, next) => {
   try {
-    const { songId } = req.user;
+    const songId = Number(req.params.songId);
     const sql = `
     delete
       from "songs"
