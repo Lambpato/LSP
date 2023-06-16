@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SkipBackwardFill, PlayCircleFill, PauseCircleFill, SkipForwardFill } from "react-bootstrap-icons";
 import Slider from "./Slider";
 
@@ -43,11 +43,9 @@ export default function MediaControls({song, current, displaySong, songs}) {
    };
 
    const onSkip = () => {
-    const audio = audioRef.current;
     setCurrentTime(0);
     setPercentage(0);
     setIsPlaying(true);
-    audio.currentTime = audio.duration;
      if (current === songs.length) {
       displaySong(1);
      } else {
@@ -55,10 +53,19 @@ export default function MediaControls({song, current, displaySong, songs}) {
      };
    };
 
+   useEffect(() => {
+    const songComplete = () => {
+      if(percentage === 100 && isPlaying) {
+        return onSkip();
+      };
+    };
+
+    songComplete();
+   });
+
   const getCurrentDuration = (e) => {
     const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2);
     const time = e.currentTarget.currentTime;
-
     setPercentage(+percent);
     setCurrentTime(time.toFixed(2));
   };
