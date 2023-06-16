@@ -18,7 +18,6 @@ export default function MediaControls({song, current, displaySong, songs}) {
 
   const onBackSkip = () => {
     const audio = audioRef.current;
-
     if (currentTime > 5) {
       setCurrentTime(0);
       setPercentage(0);
@@ -29,7 +28,7 @@ export default function MediaControls({song, current, displaySong, songs}) {
     } else {
       displaySong(current - 1);
       setIsPlaying(true);
-    }
+    };
   };
 
   const onPlay = () => {
@@ -41,6 +40,19 @@ export default function MediaControls({song, current, displaySong, songs}) {
        setIsPlaying(false);
       audio.pause();
     };
+   };
+
+   const onSkip = () => {
+    const audio = audioRef.current;
+    setCurrentTime(0);
+    setPercentage(0);
+    setIsPlaying(true);
+    audio.currentTime = audio.duration;
+     if (current === songs.length) {
+      displaySong(1);
+     } else {
+      displaySong(current + 1);
+     };
    };
 
   const getCurrentDuration = (e) => {
@@ -65,7 +77,7 @@ export default function MediaControls({song, current, displaySong, songs}) {
     <div>
       <button className="btn btn-link" onClick={onBackSkip}><SkipBackwardFill /></button>
       <button className="btn btn-link" onClick={onPlay}>{isPlaying ?<PauseCircleFill />  : <PlayCircleFill />}</button>
-      <button className="btn btn-link" ><SkipForwardFill /></button>
+      <button className="btn btn-link" onClick={onSkip}><SkipForwardFill /></button>
     </div>
   </div>
  )
