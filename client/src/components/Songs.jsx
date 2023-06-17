@@ -8,7 +8,8 @@ import DeleteModal from './DeleteModal';
 
 export default function Songs () {
   const [songs, setSongs] = useState([]);
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState({});
+  const [index, setIndex] = useState(0);
   const [activeSong, setActiveSong] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
   const { globalToken } = useContext(ActionContext);
@@ -48,11 +49,12 @@ export default function Songs () {
 
   }, [current, globalToken, keyPressed]);
 
-  const displaySong = (songId) => {
-    setCurrent(songId);
+  const displaySong = (songPlaying) => {
+    setIndex(songs.indexOf(songPlaying));
+    setCurrent(songPlaying);
     const currentSong = async (i) => {
        try {
-        const response = await fetch(`/api/songs/${songId}`, {
+        const response = await fetch(`/api/songs/${songPlaying.songId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${globalToken}`
@@ -71,13 +73,13 @@ export default function Songs () {
 
     const reset = () => {
     setActiveSong('');
-    setCurrent(0);
+    setCurrent({});
     setKeyPressed(false);
   };
 
   return(
     <>
-      <DeleteModal path={'songs'} id={current} reset={reset} />
+      <DeleteModal path={'songs'} id={current.songId} reset={reset} />
       <div className="d-flex justify-content-between">
         <div>
           <div className="d-flex">
@@ -89,7 +91,7 @@ export default function Songs () {
             <SongList songs={songs} onClick={displaySong}/>
           </div>
         </div>
-        { activeSong !== '' ? <MediaControls song={activeSong} displaySong={displaySong} current={current}  songs={songs} /> : undefined}
+        { activeSong !== '' ? <MediaControls song={activeSong} displaySong={displaySong} index={index}  songs={songs} /> : undefined}
       </div>
     </>
 
@@ -99,7 +101,7 @@ export default function Songs () {
 
   const SongList = ({songs, onClick}) => {
     const songsList = songs.map(songs =>
-      <li className="d-flex gap-2" key={songs.songId} onClick={() => onClick(songs.songId)}>
+      <li className="d-flex gap-2" key={songs.songId} onClick={() => onClick(songs)}>
         <FileMusicFill />
         <p className="mb-0 align-items-center">{songs.name}</p>
       </li>);

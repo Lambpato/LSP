@@ -29,7 +29,7 @@ export default function Song () {
     <div className="container">
       <div className="row min-vh-100 pb-5 justify-content-center align-items-center">
         <div className="col col-md-8">
-          <h3 className="text-center mb-5">React File Uploads</h3>
+          <h3 className="text-center mb-5">Upload New Song!</h3>
           <form onSubmit={handleSubmit
 
 
