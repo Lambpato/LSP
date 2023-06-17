@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { ActionContext } from './ActionContext';
 import { FileEarmarkImageFill } from 'react-bootstrap-icons';
-import data from '../public/icons/Data.png';
 import { Modal } from 'bootstrap';
+import data from '../public/icons/Data.png';
 import DeleteModal from './DeleteModal';
 
 export default function Selfie () {
@@ -11,8 +11,6 @@ export default function Selfie () {
   const [activeImg, setActiveImg] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
   const { globalToken } = useContext(ActionContext);
-
-
 
   useEffect(() => {
   const getImages = async () => {
@@ -30,13 +28,13 @@ export default function Selfie () {
       };
     };
 
-    const myModal = new Modal(document.getElementById("delete-modal"));
+  const myModal = new Modal(document.getElementById("delete-modal"));
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'D') {
-      setKeyPressed(true);
-      };
-    });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'D') {
+    setKeyPressed(true);
+    };
+  });
 
   if(current !== 0 && keyPressed) {
     setKeyPressed(false)
@@ -78,16 +76,16 @@ export default function Selfie () {
 
   return(
     <>
-    <DeleteModal path={'images'} id={current} reset={reset} />
-     <div>
-      <div className="d-flex">
-        <img src={data} alt="photos"></img>
-        <p>Photos</p>
-      </div>
-
+      <DeleteModal path={'images'} id={current} reset={reset} />
       <div>
-      <ImageList images={images} onClick={displayImage} />
-      </div>
+        <div className="d-flex">
+          <img src={data} alt="photos"></img>
+          <p>Photos</p>
+        </div>
+
+        <div>
+          <ImageList images={images} onClick={displayImage} />
+        </div>
 
 
       { activeImg !== '' ? <div><img src={activeImg} alt='selfie' /></div> : undefined}

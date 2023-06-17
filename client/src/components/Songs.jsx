@@ -1,13 +1,17 @@
 import { useState, useEffect, useContext } from 'react';
 import { ActionContext } from './ActionContext';
-import data from '../public/icons/Data.png';
 import { FileMusicFill } from 'react-bootstrap-icons';
+import { Modal } from 'bootstrap';
+import data from '../public/icons/Data.png';
 import MediaControls from './MediaControls';
+import DeleteModal from './DeleteModal';
 
 export default function Songs () {
   const [songs, setSongs] = useState([]);
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState({});
+  const [index, setIndex] = useState(0);
   const [activeSong, setActiveSong] = useState('');
+  const [keyPressed, setKeyPressed] = useState(false);
   const { globalToken } = useContext(ActionContext);
 
   useEffect(() => {
@@ -26,15 +30,31 @@ export default function Songs () {
       };
     };
 
+  const myModal = new Modal(document.getElementById("delete-modal"));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'D') {
+    setKeyPressed(true);
+    };
+  });
+
+  if(current !== 0 && keyPressed) {
+    setKeyPressed(false)
+    myModal.show();
+  } else if (current === 0 && keyPressed){
+    setKeyPressed(false);
+  };
+
     getSongs();
 
-  }, [globalToken]);
+  }, [current, globalToken, keyPressed]);
 
-  const displaySong = (songId) => {
-    setCurrent(songId);
+  const displaySong = (songPlaying) => {
+    setIndex(songs.indexOf(songPlaying));
+    setCurrent(songPlaying);
     const currentSong = async (i) => {
        try {
-        const response = await fetch(`/api/songs/${songId}`, {
+        const response = await fetch(`/api/songs/${songPlaying.songId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${globalToken}`
@@ -51,27 +71,37 @@ export default function Songs () {
     currentSong();
   };
 
-  return(
-    <div className="d-flex justify-content-between">
-      <div>
-        <div className="d-flex">
-          <img src={data} alt="songs"></img>
-          <p>Songs</p>
-        </div>
+    const reset = () => {
+    setActiveSong('');
+    setCurrent({});
+    setKeyPressed(false);
+  };
 
+  return(
+    <>
+      <DeleteModal path={'songs'} id={current.songId} reset={reset} />
+      <div className="d-flex justify-content-between">
         <div>
-          <SongList songs={songs} onClick={displaySong}/>
+          <div className="d-flex">
+            <img src={data} alt="songs"></img>
+            <p>Songs</p>
+          </div>
+
+          <div>
+            <SongList songs={songs} onClick={displaySong}/>
+          </div>
         </div>
+        { activeSong !== '' ? <MediaControls song={activeSong} displaySong={displaySong} index={index}  songs={songs} /> : undefined}
       </div>
-     <MediaControls song={activeSong} displaySong={displaySong} current={current}  songs={songs} />
-    </div>
+    </>
+
 
   )
 };
 
   const SongList = ({songs, onClick}) => {
     const songsList = songs.map(songs =>
-      <li className="d-flex gap-2" key={songs.songId} onClick={() => onClick(songs.songId)}>
+      <li className="d-flex gap-2" key={songs.songId} onClick={() => onClick(songs)}>
         <FileMusicFill />
         <p className="mb-0 align-items-center">{songs.name}</p>
       </li>);

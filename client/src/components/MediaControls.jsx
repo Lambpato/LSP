@@ -1,12 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { SkipBackwardFill, PlayCircleFill, PauseCircleFill, SkipForwardFill } from "react-bootstrap-icons";
 import Slider from "./Slider";
 
-export default function MediaControls({song, current, displaySong, songs}) {
+export default function MediaControls({song, index, displaySong, songs}) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [percentage, setPercentage] = useState(0);
+  const [currentSong, setCurrentSong] = useState('');
 
   const audioRef = useRef();
 
@@ -18,50 +19,55 @@ export default function MediaControls({song, current, displaySong, songs}) {
 
   const onBackSkip = () => {
     const audio = audioRef.current;
-    if (currentTime > 5) {
-      setCurrentTime(0);
-      setPercentage(0);
-      audio.currentTime = 0
-    } else if (currentTime < 5 && current === 1) {
-      displaySong(songs.length);
+    if (currentTime < 5 && index === 0) {
+      displaySong(songs[songs.length - 1]);
+      setIsPlaying(true);
+    } else if (currentTime < 5 && index !== 0) {
+      displaySong(songs[index - 1]);
       setIsPlaying(true);
     } else {
-      displaySong(current - 1);
       setIsPlaying(true);
+      audio.play();
+      audio.currentTime = 0
     };
   };
 
   const onPlay = () => {
     const audio = audioRef.current;
     if(!isPlaying) {
-       setIsPlaying(true);
+      setIsPlaying(true);
       audio.play();
     } else if (isPlaying) {
-       setIsPlaying(false);
+      setIsPlaying(false);
       audio.pause();
     };
    };
 
-   const onSkip = () => {
+   const onSkip = useCallback(()=> {
     setCurrentTime(0);
     setPercentage(0);
     setIsPlaying(true);
-     if (current === songs.length) {
-      displaySong(1);
+     if (index + 1 === songs.length) {
+      displaySong(songs[0]);
      } else {
-      displaySong(current + 1);
+      displaySong(songs[index + 1]);
      };
-   };
+   }, [displaySong, index, songs]);
 
    useEffect(() => {
+    setCurrentSong(song.url);
+
     const songComplete = () => {
-      if(percentage === 100 && isPlaying) {
-        return onSkip();
-      };
+      if(percentage === 100 && isPlaying) { onSkip() };
     };
 
+    const newSongSelected = () => {
+      if(currentSong !== song.url) { setIsPlaying(true) };
+    };
+
+    newSongSelected();
     songComplete();
-   });
+   }, [currentSong, isPlaying, onSkip, percentage, song.url]);
 
   const getCurrentDuration = (e) => {
     const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2);
