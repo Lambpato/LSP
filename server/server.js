@@ -78,7 +78,6 @@ app.post('/api/users/log-in', async (req, res, next) => {
     next(err);
   }
 });
-console.log('fart');
 // app.use(authorizationMiddleware);
 
 // upload image
