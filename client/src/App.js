@@ -4,7 +4,7 @@ import Background from './components/Background';
 import RegInPage from './Pages/RegInPage';
 import HomepagePage from './Pages/HomepagePage';
 import CameraPage from './Pages/CameraPage';
-import SelfiePage from './Pages/SelfiePage';
+import PhotosPage from './Pages/PhotosPage';
 import NewSongPage from './Pages/NewSongPage';
 import SongPage from './Pages/SongPage';
 import { ActionContextProvider } from './components/ActionContext';
@@ -22,7 +22,7 @@ export default function App() {
           <Route path='register' element={<RegInPage action={'register'}/>}/>
           <Route path='homepage' element={<HomepagePage />}/>
           <Route path='camera' element={<CameraPage />} />
-          <Route path='photos' element={<SelfiePage />} />
+          <Route path='photos' element={<PhotosPage />} />
           <Route path='songs/new' element={<NewSongPage />} />
           <Route path='songs' element={<SongPage />} />
         </Route>
