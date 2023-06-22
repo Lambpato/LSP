@@ -33,7 +33,8 @@ export function ActionContextProvider(props) {
     const user = token ? jwtDecode(token) : null;
     setUser(user);
     setAuthorized(false);
-  }, []);
+    if(!token) nagivate('/log-in');
+  }, [nagivate]);
 
    const handleSignIn = (result) => {
     const { user, token } = result;
