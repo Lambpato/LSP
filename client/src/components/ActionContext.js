@@ -2,9 +2,6 @@ import { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
-
-
-
 export const ActionContext = createContext();
 
 export function ActionContextProvider(props) {
@@ -48,6 +45,7 @@ export function ActionContextProvider(props) {
   const handleLogOut = () => {
     localStorage.removeItem(tokenKey);
     setUser(undefined);
+    nagivate('/log-in');
   }
 
   if (authorized) return null;

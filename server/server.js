@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import ClientError from './lib/client-error.js';
 import errorMiddleware from './lib/error-middleware.js';
-// import authorizationMiddleware from './lib/authorization-middleware.js';
+import authorizationMiddleware from './lib/authorization-middleware.js';
 import imgUploadsMiddleware from './lib/img-uploads-middleware.js';
 import audioUploadsMiddleware from './lib/audio-uploads-middleware.js';
 import pg from 'pg';
@@ -17,7 +17,6 @@ const db = new pg.Pool({
   }
 });
 
-let token = '';
 const app = express();
 
 // Create paths for static directories
@@ -68,18 +67,18 @@ app.post('/api/users/log-in', async (req, res, next) => {
     const { userId, hashedPassword } = user;
     if (!await argon2.verify(hashedPassword, password)) { throw new ClientError(401, 'Invalid Login'); }
     const payload = { userId, user };
-    token = jwt.sign(payload, process.env.TOKEN_SECRET);
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET);
     res.json({ user: payload, token });
   } catch (err) {
     next(err);
   }
 });
-// app.use(authorizationMiddleware);
+app.use(authorizationMiddleware);
 
 // upload image
-app.post('/api/images/upload/', imgUploadsMiddleware.single('image'), async (req, res, next) => {
+app.post('/api/images/upload/:userId', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
-    // const { userId } = req.user;
+    // const { userId } = req.params.userId;
     const date = new Date();
     const url = `/images/${req.file.filename}`;
     const sql = `
