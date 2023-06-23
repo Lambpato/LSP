@@ -10,9 +10,9 @@ import plus from '../public/icons/Plus.png';
 import { useContext } from 'react';
 import { ActionContext } from '../components/ActionContext';
 
-export default function HomepagePage () {
+export default function HomepagePage ({ onLogOut }) {
 
-const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSavedSongs, handleLogOut } = useContext(ActionContext);
+const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSavedSongs } = useContext(ActionContext);
 
   const icons = [{
     id: 1,
@@ -60,7 +60,7 @@ const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSa
 
   return (
     <div className="position-absolute top-0 start-0 bottom-0 end-0 d-flex flex-column">
-      <NavBar onClick={handleLogOut} action={'Log Out'} />
+      <NavBar onClick={onLogOut} action={'Log Out'} />
       <div className="mx-auto my-auto">
         <HomePage icons={icons} />
       </div>

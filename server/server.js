@@ -76,7 +76,7 @@ app.post('/api/users/log-in', async (req, res, next) => {
 app.use(authorizationMiddleware);
 
 // upload image
-app.post('/api/images/upload/:userId', imgUploadsMiddleware.single('image'), async (req, res, next) => {
+app.post('/api/images/:userId/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
     // const { userId } = req.params.userId;
     const date = new Date();

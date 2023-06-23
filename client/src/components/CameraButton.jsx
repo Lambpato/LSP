@@ -3,7 +3,7 @@ import { base64StringToBlob } from 'blob-util';
 import { ActionContext } from './ActionContext';
 import { useContext } from 'react';
 
-export default function CameraButton({selfie}) {
+export default function CameraButton({selfie, userId}) {
   const { globalToken } = useContext(ActionContext);
   const handleImage = async() => {
     let screenshot = selfie.current.getScreenshot();
@@ -13,7 +13,7 @@ export default function CameraButton({selfie}) {
     formData.append('image', blob);
 
   try {
-    const response = await fetch('/api/images/upload/', {
+    const response = await fetch(`/api/images/${userId}upload/`, {
       method: "POST",
       body: formData,
       headers: {

@@ -3,7 +3,7 @@ import { RegIn } from '../lib';
 import { useNavigate } from 'react-router-dom';
 
 
-export default function RegisterPage ({ action, onSignIn }) {
+export default function RegisterPage ({ action, onLogIn }) {
   const navigate = useNavigate();
   const [error, setError] = useState();
 
@@ -14,7 +14,7 @@ export default function RegisterPage ({ action, onSignIn }) {
     try {
       const result = await RegIn(action, username, password);
       if (action === 'register') { navigate('/log-in') }
-      else if(result.user && result.token) onSignIn(result);
+      else if(result.user && result.token) onLogIn(result);
     } catch (err) {
       setError(err);
     };
