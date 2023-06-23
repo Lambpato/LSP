@@ -96,7 +96,7 @@ app.post('/api/images/upload/:userId', imgUploadsMiddleware.single('image'), asy
 });
 
 // get images
-app.get('/api/images/', async (req, res, next) => {
+app.get('/api/images/:userId', async (req, res, next) => {
   try {
     // const { userId } = req.user;
     const sql = `
@@ -114,7 +114,7 @@ app.get('/api/images/', async (req, res, next) => {
 });
 
 // get image
-app.get('/api/images/:imageId', async (req, res, next) => {
+app.get('/api/images/:userId/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
     const sql = `
@@ -133,7 +133,7 @@ app.get('/api/images/:imageId', async (req, res, next) => {
 });
 
 // delete an image
-app.delete('/api/images/:imageId', async (req, res, next) => {
+app.delete('/api/images/:userId/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
     const sql = `
@@ -153,7 +153,7 @@ app.delete('/api/images/:imageId', async (req, res, next) => {
 });
 
 // upload song
-app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
+app.post('/api/songs/:userId/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
     // const { userId } = req.user;
@@ -176,7 +176,7 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
 });
 
 // get songs
-app.get('/api/songs/', async (req, res, next) => {
+app.get('/api/songs/:userId', async (req, res, next) => {
   // const { userId } = req.user;
   try {
     const sql = `
@@ -194,7 +194,7 @@ app.get('/api/songs/', async (req, res, next) => {
 });
 
 // get song
-app.get('/api/songs/:songId', async (req, res, next) => {
+app.get('/api/songs/:userId/:songId', async (req, res, next) => {
   try {
     const songId = Number(req.params.songId);
     const sql = `
@@ -213,7 +213,7 @@ app.get('/api/songs/:songId', async (req, res, next) => {
 });
 
 // delete song
-app.delete('/api/songs/:songId', async (req, res, next) => {
+app.delete('/api/songs/:userId/:songId', async (req, res, next) => {
   try {
     const songId = Number(req.params.songId);
     const sql = `
