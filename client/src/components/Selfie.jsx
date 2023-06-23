@@ -12,7 +12,6 @@ export default function Selfie ({ userId }) {
   const [keyPressed, setKeyPressed] = useState(false);
   const { token } = useContext(ActionContext);
 
-  console.log(activeImg);
   useEffect(() => {
   const getImages = async () => {
       try {
@@ -52,7 +51,7 @@ export default function Selfie ({ userId }) {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
     const currentImg = async (i) => {
        try {
-        const response = await fetch(`/api/images/${imageId}`, {
+        const response = await fetch(`/api/images/${userId}/${imageId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
