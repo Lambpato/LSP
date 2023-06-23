@@ -12,21 +12,22 @@ export default function Selfie ({ userId }) {
   const [keyPressed, setKeyPressed] = useState(false);
   const { token } = useContext(ActionContext);
 
+
   useEffect(() => {
   const getImages = async () => {
-      try {
-        const response = await fetch(`/api/images/${userId}`, {
-          headers: {
-             'Authorization': `Bearer ${token}`
-          }
-        });
-        if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
-        const imagesJson = await response.json();
-        setImages(imagesJson);
-      } catch (err) {
-        console.error(err);
-      };
+    try {
+      const response = await fetch(`/api/images/${userId}`, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+      });
+      if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      const imagesJson = await response.json();
+      setImages(imagesJson);
+    } catch (err) {
+      console.error(err);
     };
+  };
 
   const myModal = new Modal(document.getElementById("delete-modal"));
 
@@ -53,8 +54,8 @@ export default function Selfie ({ userId }) {
        try {
         const response = await fetch(`/api/images/${userId}/${imageId}`, {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
           }
         });
       if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);

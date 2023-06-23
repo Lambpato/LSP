@@ -98,13 +98,13 @@ app.post('/api/images/:userId/upload', imgUploadsMiddleware.single('image'), asy
 // get images
 app.get('/api/images/:userId', async (req, res, next) => {
   try {
-    // const { userId } = req.user;
+    const userId = Number(req.params.userId);
     const sql = `
     select "imageId", "createdAt", "url"
     from "images"
     where "userId" = $1
     `;
-    const params = [1];
+    const params = [userId];
     const result = await db.query(sql, params);
     const images = result.rows;
     res.status(200).json(images);
@@ -117,12 +117,13 @@ app.get('/api/images/:userId', async (req, res, next) => {
 app.get('/api/images/:userId/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
+    const userId = Number(req.params.userId);
     const sql = `
     select "url"
     from "images"
-    where "imageId" = $1
+    where "userId" = $1 and "imageId" = $2
     `;
-    const params = [imageId];
+    const params = [userId, imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);
