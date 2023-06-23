@@ -137,13 +137,14 @@ app.get('/api/images/:userId/:imageId', async (req, res, next) => {
 app.delete('/api/images/:userId/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
+    const userId = Number(req.params.userId);
     const sql = `
     delete
       from "images"
-      where "imageId" = $1
+      where "userId" = $1 and "imageId" = $2
       returning *
       `;
-    const params = [imageId];
+    const params = [userId, imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);

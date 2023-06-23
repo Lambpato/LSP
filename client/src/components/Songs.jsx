@@ -6,7 +6,7 @@ import data from '../public/icons/Data.png';
 import MediaControls from './MediaControls';
 import DeleteModal from './DeleteModal';
 
-export default function Songs () {
+export default function Songs ({ userId }) {
   const [songs, setSongs] = useState([]);
   const [current, setCurrent] = useState({});
   const [index, setIndex] = useState(0);
