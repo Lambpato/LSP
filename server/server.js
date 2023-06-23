@@ -78,7 +78,7 @@ app.use(authorizationMiddleware);
 // upload image
 app.post('/api/images/:userId/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
-    // const { userId } = req.params.userId;
+    const { userId } = req.params.userId;
     const date = new Date();
     const url = `/images/${req.file.filename}`;
     const sql = `
@@ -86,7 +86,7 @@ app.post('/api/images/:userId/upload', imgUploadsMiddleware.single('image'), asy
     values ($1, $2, $3)
     returning *
   `;
-    const params = [1, url, date];
+    const params = [userId, url, date];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     res.status(201).json(image);

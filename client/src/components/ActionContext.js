@@ -6,6 +6,9 @@ export const ActionContext = createContext();
 export function ActionContextProvider(props) {
   const nagivate = useNavigate();
 
+  const tokenKey = 'react-context-jwt';
+  const token = localStorage.getItem(tokenKey);
+
   const handleRegister = (e) => {
     e.preventDefault();
     nagivate('/register');
@@ -31,6 +34,7 @@ export function ActionContextProvider(props) {
     handleNewSong,
     handleSavedSongs,
     handleBack,
+    token
   };
 
   return (

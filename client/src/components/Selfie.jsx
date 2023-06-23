@@ -3,21 +3,22 @@ import { ActionContext } from './ActionContext';
 import { FileEarmarkImageFill } from 'react-bootstrap-icons';
 import { Modal } from 'bootstrap';
 import data from '../public/icons/Data.png';
-import DeleteModal from './DeleteModal';
+import DeleteModal from './DeleteModal';;
 
-export default function Selfie () {
+export default function Selfie ({ userId }) {
   const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
   const [activeImg, setActiveImg] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
-  const { globalToken } = useContext(ActionContext);
+  const { token } = useContext(ActionContext);
 
+  console.log(activeImg);
   useEffect(() => {
   const getImages = async () => {
       try {
-        const response = await fetch('/api/images/', {
+        const response = await fetch(`/api/images/${userId}`, {
           headers: {
-             'Authorization': `Bearer ${globalToken}`
+             'Authorization': `Bearer ${token}`
           }
         });
         if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
@@ -45,7 +46,7 @@ export default function Selfie () {
 
    getImages();
 
-  }, [current, globalToken, keyPressed]);
+  }, [current, keyPressed, userId, token]);
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
@@ -54,7 +55,7 @@ export default function Selfie () {
         const response = await fetch(`/api/images/${imageId}`, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${globalToken}`
+            'Authorization': `Bearer ${token}`
           }
         });
       if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);

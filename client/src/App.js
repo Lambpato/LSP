@@ -20,7 +20,6 @@ export default function App() {
 
     useEffect(() => {
     const token = localStorage.getItem(tokenKey);
-    // setGlobalToken(token);
     const user = token ? jwtDecode(token) : null;
     setUser(user);
     setAuthorized(false);
@@ -45,11 +44,11 @@ export default function App() {
     <ActionContextProvider>
       <Routes>
         <Route path='/' element={<Background/>}>
-          <Route path='log-in' element={<LockScreen action={'log-in'} onLogIn={handleLogIn} />}/>
-          <Route path='register' element={<LockScreen action={'register'}  />}/>
+          <Route path='log-in' element={<LockScreen action={'log-in'} onLogIn={handleLogIn}/>}/>
+          <Route path='register' element={<LockScreen action={'register'}/>}/>
           <Route path='homepage' element={<HomepagePage onLogOut={handleLogOut}/>}/>
-          <Route path='camera' element={<CameraPage />} />
-          <Route path='photos' element={<PhotosPage />} />
+          <Route path='camera' element={<CameraPage userId={user.userId}/>}/>
+          <Route path='photos' element={<PhotosPage userId={user.userId}/>} />
           <Route path='songs/new' element={<NewSongPage />} />
           <Route path='songs' element={<SongPage />} />
         </Route>

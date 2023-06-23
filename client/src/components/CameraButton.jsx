@@ -13,7 +13,7 @@ export default function CameraButton({selfie, userId}) {
     formData.append('image', blob);
 
   try {
-    const response = await fetch(`/api/images/${userId}upload/`, {
+    const response = await fetch(`/api/images/${userId}/upload`, {
       method: "POST",
       body: formData,
       headers: {
