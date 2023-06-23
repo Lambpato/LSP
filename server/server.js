@@ -78,7 +78,7 @@ app.use(authorizationMiddleware);
 // upload image
 app.post('/api/images/:userId/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
-    const { userId } = req.params.userId;
+    const userId = Number(req.params.userId);
     const date = new Date();
     const url = `/images/${req.file.filename}`;
     const sql = `
@@ -157,16 +157,17 @@ app.delete('/api/images/:userId/:imageId', async (req, res, next) => {
 app.post('/api/songs/:userId/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
-    // const { userId } = req.user;
+    const userId = req.params.userId;
     const date = new Date();
     if (!name) { throw new ClientError(400, 'name is a required field'); }
     const url = `/audio/${req.file.filename}`;
     const sql = `
     insert into "songs" ("userId", "url", "name", "createdAt")
     values ($1, $2, $3, $4)
+    wherev
     returning *
     `;
-    const params = [1, url, name, date];
+    const params = [userId, url, name, date];
     const result = await db.query(sql, params);
     const song = result.rows[0];
 

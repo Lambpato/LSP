@@ -1,18 +1,18 @@
 import { ActionContext } from "./ActionContext";
 import { useContext } from "react";
 
-export default function Song () {
-  const { globalToken } = useContext(ActionContext);
+export default function Song ({ userId }) {
+  const { token } = useContext(ActionContext);
   const handleSubmit = async (e) => {
     const formData = new FormData(e.target);
 
 
     try {
-      const response = await fetch ('/api/songs/upload', {
+      const response = await fetch (`/api/songs/${userId}/upload`, {
         method: "POST",
         body: formData,
         headers: {
-          'Authorization':`Bearer ${globalToken}`
+        'Authorization':`Bearer ${token}`
         }
       });
 

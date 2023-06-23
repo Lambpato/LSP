@@ -1,4 +1,5 @@
 import './App.css';
+import Home from './Pages/Home';
 import LockScreen from './Pages/LockScreen'
 import Background from './components/Background';
 import HomepagePage from './Pages/HomepagePage';
@@ -25,7 +26,6 @@ export default function App() {
     setAuthorized(false);
   }, []);
 
-
   if (authorized) return null;
 
    const handleLogIn = (result) => {
@@ -45,12 +45,13 @@ export default function App() {
     <ActionContextProvider>
       <Routes>
         <Route path='/' element={<Background/>}>
+          <Route index element={<Home/>} />
           <Route path='log-in' element={<LockScreen action={'log-in'} onLogIn={handleLogIn}/>}/>
           <Route path='register' element={<LockScreen action={'register'}/>}/>
           <Route path='homepage' element={<HomepagePage onLogOut={handleLogOut}/>}/>
           <Route path='camera' element={<CameraPage userId={user}/>}/>
-          <Route path='photos' element={<PhotosPage userId={user}/>} />
-          <Route path='songs/new' element={<NewSongPage />} />
+          <Route path='photos' element={<PhotosPage userId={user}/>}/>
+          <Route path='songs/new' element={<NewSongPage userId={user}/>} />
           <Route path='songs' element={<SongPage />} />
         </Route>
       </Routes>

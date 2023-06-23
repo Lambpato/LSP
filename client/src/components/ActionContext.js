@@ -12,12 +12,17 @@ export function ActionContextProvider(props) {
   const handleRegister = (e) => {
     e.preventDefault();
     nagivate('/register');
-  }
+  };
 
   const handleLogIn = (e) => {
     e.preventDefault();
     nagivate('/log-in');
-  }
+  };
+
+  const ifLoggedIn = () => {
+      if(token) nagivate('/homepage');
+  };
+
   const handleLanguage = () => { nagivate('/language') };
   const handleCamera = () => { nagivate('/camera') };
   const handleSavedPhotos = () => { nagivate('/photos') };
@@ -34,6 +39,7 @@ export function ActionContextProvider(props) {
     handleNewSong,
     handleSavedSongs,
     handleBack,
+    ifLoggedIn,
     token
   };
 

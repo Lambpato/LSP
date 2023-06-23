@@ -12,14 +12,14 @@ export default function Songs () {
   const [index, setIndex] = useState(0);
   const [activeSong, setActiveSong] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
-  const { globalToken } = useContext(ActionContext);
+  const { token } = useContext(ActionContext);
 
   useEffect(() => {
     const getSongs = async () => {
       try {
         const response = await fetch('/api/songs/', {
           headers: {
-            'Authorization': `Bearer ${globalToken}`
+            'Authorization': `Bearer ${token}`
           }
         });
         if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
@@ -47,7 +47,7 @@ export default function Songs () {
 
     getSongs();
 
-  }, [current, globalToken, keyPressed]);
+  }, [current, token, keyPressed]);
 
   const displaySong = (songPlaying) => {
     setIndex(songs.indexOf(songPlaying));
@@ -57,7 +57,7 @@ export default function Songs () {
         const response = await fetch(`/api/songs/${songPlaying.songId}`, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${globalToken}`
+            'Authorization': `Bearer ${token}`
           }
         });
       if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);

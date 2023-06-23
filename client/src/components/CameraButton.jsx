@@ -4,7 +4,7 @@ import { ActionContext } from './ActionContext';
 import { useContext } from 'react';
 
 export default function CameraButton({selfie, userId}) {
-  const { globalToken } = useContext(ActionContext);
+  const { token } = useContext(ActionContext);
   const handleImage = async() => {
     let screenshot = selfie.current.getScreenshot();
     let base64 = screenshot.slice(22);
@@ -17,7 +17,7 @@ export default function CameraButton({selfie, userId}) {
       method: "POST",
       body: formData,
       headers: {
-        'Authorization':`Bearer ${globalToken}`
+        'Authorization':`Bearer ${token}`
       }
     });
     if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boke`);
