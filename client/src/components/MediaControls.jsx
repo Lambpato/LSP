@@ -47,11 +47,11 @@ export default function MediaControls({song, index, displaySong, songs}) {
     setCurrentTime(0);
     setPercentage(0);
     setIsPlaying(true);
-     if (index + 1 === songs.length) {
-      displaySong(songs[0]);
-     } else {
-      displaySong(songs[index + 1]);
-     };
+    if (index + 1 === songs.length) {
+    displaySong(songs[0]);
+    } else {
+    displaySong(songs[index + 1]);
+    };
    }, [displaySong, index, songs]);
 
    useEffect(() => {

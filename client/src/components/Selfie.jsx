@@ -16,7 +16,7 @@ export default function Selfie ({ userId }) {
   useEffect(() => {
   const getImages = async () => {
     try {
-      const response = await fetch(`/api/images/${userId}`, {
+      const response = await fetch(`/api/${userId}/images`, {
         headers: {
         'Authorization': `Bearer ${token}`
         }
@@ -52,7 +52,7 @@ export default function Selfie ({ userId }) {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
     const currentImg = async (i) => {
        try {
-        const response = await fetch(`/api/images/${userId}/${imageId}`, {
+        const response = await fetch(`/api/${userId}/images/${imageId}`, {
           headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

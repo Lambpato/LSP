@@ -8,7 +8,7 @@ export default function Song ({ userId }) {
 
 
     try {
-      const response = await fetch (`/api/songs/${userId}/upload`, {
+      const response = await fetch (`/api/${userId}/songs/upload`, {
         method: "POST",
         body: formData,
         headers: {

@@ -17,7 +17,7 @@ export default function Songs ({ userId }) {
   useEffect(() => {
     const getSongs = async () => {
       try {
-        const response = await fetch('/api/songs/', {
+        const response = await fetch(`/api/${userId}/songs/`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -47,14 +47,14 @@ export default function Songs ({ userId }) {
 
     getSongs();
 
-  }, [current, token, keyPressed]);
+  }, [current, token, keyPressed, userId]);
 
   const displaySong = (songPlaying) => {
     setIndex(songs.indexOf(songPlaying));
     setCurrent(songPlaying);
     const currentSong = async (i) => {
        try {
-        const response = await fetch(`/api/songs/${songPlaying.songId}`, {
+        const response = await fetch(`/api/${userId}/songs/${songPlaying.songId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`

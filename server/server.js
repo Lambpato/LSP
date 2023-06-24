@@ -76,7 +76,7 @@ app.post('/api/users/log-in', async (req, res, next) => {
 app.use(authorizationMiddleware);
 
 // upload image
-app.post('/api/images/:userId/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
+app.post('/api/:userId/images/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
     const date = new Date();
@@ -96,7 +96,7 @@ app.post('/api/images/:userId/upload', imgUploadsMiddleware.single('image'), asy
 });
 
 // get images
-app.get('/api/images/:userId', async (req, res, next) => {
+app.get('/api/:userId/images', async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
     const sql = `
@@ -114,7 +114,7 @@ app.get('/api/images/:userId', async (req, res, next) => {
 });
 
 // get image
-app.get('/api/images/:userId/:imageId', async (req, res, next) => {
+app.get('/api/:userId/images/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
     const userId = Number(req.params.userId);
@@ -134,7 +134,7 @@ app.get('/api/images/:userId/:imageId', async (req, res, next) => {
 });
 
 // delete an image
-app.delete('/api/images/:userId/:imageId', async (req, res, next) => {
+app.delete('/api/:userId/images/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
     const userId = Number(req.params.userId);
@@ -155,7 +155,7 @@ app.delete('/api/images/:userId/:imageId', async (req, res, next) => {
 });
 
 // upload song
-app.post('/api/songs/:userId/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
+app.post('/api/:userId/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
     const userId = req.params.userId;
@@ -165,7 +165,6 @@ app.post('/api/songs/:userId/upload', audioUploadsMiddleware.single('audio'), as
     const sql = `
     insert into "songs" ("userId", "url", "name", "createdAt")
     values ($1, $2, $3, $4)
-    wherev
     returning *
     `;
     const params = [userId, url, name, date];
@@ -179,15 +178,15 @@ app.post('/api/songs/:userId/upload', audioUploadsMiddleware.single('audio'), as
 });
 
 // get songs
-app.get('/api/songs/:userId', async (req, res, next) => {
-  // const { userId } = req.user;
+app.get('/api/:userId/songs', async (req, res, next) => {
+  const userId = Number(req.params.userId);
   try {
     const sql = `
   select "songId", "name"
   from "songs"
   where "userId" = $1
   `;
-    const params = [1];
+    const params = [userId];
     const result = await db.query(sql, params);
     const songs = result.rows;
     res.status(200).json(songs);
@@ -197,7 +196,7 @@ app.get('/api/songs/:userId', async (req, res, next) => {
 });
 
 // get song
-app.get('/api/songs/:userId/:songId', async (req, res, next) => {
+app.get('/api/:userId/songs/:songId', async (req, res, next) => {
   try {
     const songId = Number(req.params.songId);
     const sql = `
@@ -216,7 +215,7 @@ app.get('/api/songs/:userId/:songId', async (req, res, next) => {
 });
 
 // delete song
-app.delete('/api/songs/:userId/:songId', async (req, res, next) => {
+app.delete('/api/:userId/songs/:songId', async (req, res, next) => {
   try {
     const songId = Number(req.params.songId);
     const sql = `

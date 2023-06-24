@@ -52,7 +52,7 @@ export default function App() {
           <Route path='camera' element={<CameraPage userId={user}/>}/>
           <Route path='photos' element={<PhotosPage userId={user}/>}/>
           <Route path='songs/new' element={<NewSongPage userId={user}/>} />
-          <Route path='songs' element={<SongPage />} />
+          <Route path='songs' element={<SongPage userId={user}/>} />
         </Route>
       </Routes>
     </ActionContextProvider>

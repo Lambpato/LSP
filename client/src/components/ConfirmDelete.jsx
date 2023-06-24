@@ -6,7 +6,7 @@ export default function ConfirmDelete ({ userId, path, id, reset }) {
 
   const handleConfirm = async () => {
      try {
-      const response = await fetch(`/api/${path}/${userId}/${id}`, {
+      const response = await fetch(`/api/${userId}/${path}/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
