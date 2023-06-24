@@ -116,8 +116,8 @@ app.get('/api/:userId/images', async (req, res, next) => {
 // get image
 app.get('/api/:userId/images/:imageId', async (req, res, next) => {
   try {
-    const imageId = Number(req.params.imageId);
     const userId = Number(req.params.userId);
+    const imageId = Number(req.params.imageId);
     const sql = `
     select "url"
     from "images"
@@ -158,7 +158,7 @@ app.delete('/api/:userId/images/:imageId', async (req, res, next) => {
 app.post('/api/:userId/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
-    const userId = req.params.userId;
+    const userId = Number(req.params.userId);
     const date = new Date();
     if (!name) { throw new ClientError(400, 'name is a required field'); }
     const url = `/audio/${req.file.filename}`;
@@ -199,12 +199,13 @@ app.get('/api/:userId/songs', async (req, res, next) => {
 app.get('/api/:userId/songs/:songId', async (req, res, next) => {
   try {
     const songId = Number(req.params.songId);
+    const userId = Number(req.params.userId);
     const sql = `
     select "url", "name"
     from "songs"
-    where "songId" = $1
+    where "userId" = $1 and "songId" = $2
     `;
-    const params = [songId];
+    const params = [userId, songId];
     const result = await db.query(sql, params);
     const song = result.rows[0];
     if (!song) throw new ClientError(404, `Could not find song with songId ${songId}`);

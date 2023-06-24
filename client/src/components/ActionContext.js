@@ -20,10 +20,10 @@ export function ActionContextProvider(props) {
   };
 
   const ifLoggedIn = () => {
-      if(token) nagivate('/homepage');
+    if(token) nagivate('/homepage');
   };
 
-  const handleLanguage = () => { nagivate('/language') };
+  const handleGuide = () => { nagivate('/guide') };
   const handleCamera = () => { nagivate('/camera') };
   const handleSavedPhotos = () => { nagivate('/photos') };
   const handleNewSong = () => { nagivate('/songs/new') };
@@ -33,7 +33,7 @@ export function ActionContextProvider(props) {
   const contextValue = {
     handleRegister,
     handleLogIn,
-    handleLanguage,
+    handleGuide,
     handleCamera,
     handleSavedPhotos,
     handleNewSong,

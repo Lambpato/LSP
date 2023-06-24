@@ -1,7 +1,7 @@
 import HomePage from '../components/HomePage';
 import NavBar from '../components/NavBar';
 import settings from '../public/icons/Settings.png';
-import language from '../public/icons/Language.png';
+import Guide from '../public/icons/Guide.png';
 import photos from '../public/icons/Photos.png';
 import camera from '../public/icons/Camera.png';
 import data from '../public/icons/Data.png';
@@ -12,7 +12,7 @@ import { ActionContext } from '../components/ActionContext';
 
 export default function HomepagePage ({ onLogOut }) {
 
-const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSavedSongs } = useContext(ActionContext);
+const { handleGuide, handleCamera, handleSavedPhotos, handleNewSong, handleSavedSongs } = useContext(ActionContext);
 
   const icons = [{
     id: 1,
@@ -20,9 +20,9 @@ const { handleLanguage, handleCamera, handleSavedPhotos, handleNewSong, handleSa
     imgUrl: settings,
     children: [{
       childId: 1,
-      name: 'Language',
-      childUrl: language,
-      onClick: handleLanguage
+      name: 'Guide',
+      childUrl: Guide,
+      onClick: handleGuide
     }]
   },
   {

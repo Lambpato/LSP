@@ -3,8 +3,6 @@ import { useState } from 'react';
 export default function HomePage ({ icons }) {
   const [current, setCurrent] = useState(0);
 
-  // const togglePrev = () => setcurrent((current + 1) % icons.length);
-  // const toggleNext = () => setcurrent(((current - 1) + icons.length) % icons.length);
   const toggleCurrent = (i) => {
     current !== i ? setCurrent(i) : setCurrent(0);
   };
