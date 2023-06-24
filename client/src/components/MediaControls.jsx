@@ -26,9 +26,9 @@ export default function MediaControls({song, index, displaySong, songs}) {
       displaySong(songs[index - 1]);
       setIsPlaying(true);
     } else {
-      setIsPlaying(true);
       audio.play();
       audio.currentTime = 0
+      setIsPlaying(true);
     };
   };
 
@@ -43,14 +43,18 @@ export default function MediaControls({song, index, displaySong, songs}) {
     };
    };
 
-   const onSkip = useCallback(()=> {
-    setCurrentTime(0);
-    setPercentage(0);
-    setIsPlaying(true);
-    if (index + 1 === songs.length) {
-    displaySong(songs[0]);
+  const onSkip = useCallback(()=> {
+    const audio = audioRef.current;
+    if (songs.length === 1) {
+      audio.play();
+      audio.currentTime = 0
+      setIsPlaying(true);
+    } else if (index + 1 === songs.length) {
+      displaySong(songs[0]);
+      setIsPlaying(true);
     } else {
-    displaySong(songs[index + 1]);
+      displaySong(songs[index + 1]);
+      setIsPlaying(true);
     };
    }, [displaySong, index, songs]);
 

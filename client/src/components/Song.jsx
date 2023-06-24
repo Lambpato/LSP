@@ -4,9 +4,8 @@ import { useContext } from "react";
 export default function Song ({ userId }) {
   const { token } = useContext(ActionContext);
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData(e.target);
-
-
     try {
       const response = await fetch (`/api/${userId}/songs/upload`, {
         method: "POST",
@@ -15,11 +14,7 @@ export default function Song ({ userId }) {
         'Authorization':`Bearer ${token}`
         }
       });
-
       if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boke`);
-
-      const postJson = await response.json();
-      console.log(postJson);
     } catch (err) {
       console.error('Error:', err)
     }
