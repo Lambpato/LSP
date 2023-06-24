@@ -6,20 +6,20 @@ import data from '../public/icons/Data.png';
 import MediaControls from './MediaControls';
 import DeleteModal from './DeleteModal';
 
-export default function Songs () {
+export default function Songs ({ userId }) {
   const [songs, setSongs] = useState([]);
   const [current, setCurrent] = useState({});
   const [index, setIndex] = useState(0);
   const [activeSong, setActiveSong] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
-  const { globalToken } = useContext(ActionContext);
+  const { token } = useContext(ActionContext);
 
   useEffect(() => {
     const getSongs = async () => {
       try {
-        const response = await fetch('/api/songs/', {
+        const response = await fetch(`/api/${userId}/songs/`, {
           headers: {
-            'Authorization': `Bearer ${globalToken}`
+            'Authorization': `Bearer ${token}`
           }
         });
         if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
@@ -47,17 +47,17 @@ export default function Songs () {
 
     getSongs();
 
-  }, [current, globalToken, keyPressed]);
+  }, [current, token, keyPressed, userId]);
 
   const displaySong = (songPlaying) => {
     setIndex(songs.indexOf(songPlaying));
     setCurrent(songPlaying);
     const currentSong = async (i) => {
        try {
-        const response = await fetch(`/api/songs/${songPlaying.songId}`, {
+        const response = await fetch(`/api/${userId}/songs/${songPlaying.songId}`, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${globalToken}`
+            'Authorization': `Bearer ${token}`
           }
         });
       if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);

@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import MediaQuery from './MediaQuery';
 import CameraButton from './CameraButton';
 
-export default function Camera () {
+export default function Camera ({userId}) {
   const photoConstraints = {
     width: 1080,
     height: 1080,
@@ -26,7 +26,7 @@ export default function Camera () {
       videoConstraints={photoConstraints}
       mirrored={true}
       />
-      <CameraButton selfie={selfieRef}/>
+      <CameraButton selfie={selfieRef} userId={userId}/>
     </div>
   )
 };

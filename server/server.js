@@ -76,9 +76,9 @@ app.post('/api/users/log-in', async (req, res, next) => {
 app.use(authorizationMiddleware);
 
 // upload image
-app.post('/api/images/upload/:userId', imgUploadsMiddleware.single('image'), async (req, res, next) => {
+app.post('/api/:userId/images/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
   try {
-    // const { userId } = req.params.userId;
+    const userId = Number(req.params.userId);
     const date = new Date();
     const url = `/images/${req.file.filename}`;
     const sql = `
@@ -86,7 +86,7 @@ app.post('/api/images/upload/:userId', imgUploadsMiddleware.single('image'), asy
     values ($1, $2, $3)
     returning *
   `;
-    const params = [1, url, date];
+    const params = [userId, url, date];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     res.status(201).json(image);
@@ -96,15 +96,15 @@ app.post('/api/images/upload/:userId', imgUploadsMiddleware.single('image'), asy
 });
 
 // get images
-app.get('/api/images/', async (req, res, next) => {
+app.get('/api/:userId/images', async (req, res, next) => {
   try {
-    // const { userId } = req.user;
+    const userId = Number(req.params.userId);
     const sql = `
     select "imageId", "createdAt", "url"
     from "images"
     where "userId" = $1
     `;
-    const params = [1];
+    const params = [userId];
     const result = await db.query(sql, params);
     const images = result.rows;
     res.status(200).json(images);
@@ -114,15 +114,16 @@ app.get('/api/images/', async (req, res, next) => {
 });
 
 // get image
-app.get('/api/images/:imageId', async (req, res, next) => {
+app.get('/api/:userId/images/:imageId', async (req, res, next) => {
   try {
+    const userId = Number(req.params.userId);
     const imageId = Number(req.params.imageId);
     const sql = `
     select "url"
     from "images"
-    where "imageId" = $1
+    where "userId" = $1 and "imageId" = $2
     `;
-    const params = [imageId];
+    const params = [userId, imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);
@@ -133,16 +134,17 @@ app.get('/api/images/:imageId', async (req, res, next) => {
 });
 
 // delete an image
-app.delete('/api/images/:imageId', async (req, res, next) => {
+app.delete('/api/:userId/images/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
+    const userId = Number(req.params.userId);
     const sql = `
     delete
       from "images"
-      where "imageId" = $1
+      where "userId" = $1 and "imageId" = $2
       returning *
       `;
-    const params = [imageId];
+    const params = [userId, imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
     if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);
@@ -153,10 +155,10 @@ app.delete('/api/images/:imageId', async (req, res, next) => {
 });
 
 // upload song
-app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
+app.post('/api/:userId/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
   try {
     const { name } = req.body;
-    // const { userId } = req.user;
+    const userId = Number(req.params.userId);
     const date = new Date();
     if (!name) { throw new ClientError(400, 'name is a required field'); }
     const url = `/audio/${req.file.filename}`;
@@ -165,7 +167,7 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
     values ($1, $2, $3, $4)
     returning *
     `;
-    const params = [1, url, name, date];
+    const params = [userId, url, name, date];
     const result = await db.query(sql, params);
     const song = result.rows[0];
 
@@ -176,15 +178,15 @@ app.post('/api/songs/upload', audioUploadsMiddleware.single('audio'), async (req
 });
 
 // get songs
-app.get('/api/songs/', async (req, res, next) => {
-  // const { userId } = req.user;
+app.get('/api/:userId/songs', async (req, res, next) => {
+  const userId = Number(req.params.userId);
   try {
     const sql = `
   select "songId", "name"
   from "songs"
   where "userId" = $1
   `;
-    const params = [1];
+    const params = [userId];
     const result = await db.query(sql, params);
     const songs = result.rows;
     res.status(200).json(songs);
@@ -194,15 +196,16 @@ app.get('/api/songs/', async (req, res, next) => {
 });
 
 // get song
-app.get('/api/songs/:songId', async (req, res, next) => {
+app.get('/api/:userId/songs/:songId', async (req, res, next) => {
   try {
     const songId = Number(req.params.songId);
+    const userId = Number(req.params.userId);
     const sql = `
     select "url", "name"
     from "songs"
-    where "songId" = $1
+    where "userId" = $1 and "songId" = $2
     `;
-    const params = [songId];
+    const params = [userId, songId];
     const result = await db.query(sql, params);
     const song = result.rows[0];
     if (!song) throw new ClientError(404, `Could not find song with songId ${songId}`);
@@ -213,7 +216,7 @@ app.get('/api/songs/:songId', async (req, res, next) => {
 });
 
 // delete song
-app.delete('/api/songs/:songId', async (req, res, next) => {
+app.delete('/api/:userId/songs/:songId', async (req, res, next) => {
   try {
     const songId = Number(req.params.songId);
     const sql = `

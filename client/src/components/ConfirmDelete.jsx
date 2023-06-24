@@ -1,16 +1,16 @@
 import { useContext } from "react";
 import { ActionContext } from "./ActionContext";
 
-export default function ConfirmDelete ({path, id, reset}) {
-  const { globalToken } = useContext(ActionContext);
+export default function ConfirmDelete ({ userId, path, id, reset }) {
+  const { token } = useContext(ActionContext);
 
   const handleConfirm = async () => {
      try {
-      const response = await fetch(`/api/${path}/${id}`, {
+      const response = await fetch(`/api/${userId}/${path}/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${globalToken}`
+          'Authorization': `Bearer ${token}`
         }
       });
       reset();
