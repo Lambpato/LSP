@@ -3,6 +3,7 @@ import Home from './Pages/Home';
 import LockScreen from './Pages/LockScreen'
 import Background from './components/Background';
 import HomepagePage from './Pages/HomepagePage';
+import GuidePage from './Pages/GuidePage';
 import CameraPage from './Pages/CameraPage';
 import PhotosPage from './Pages/PhotosPage';
 import NewSongPage from './Pages/NewSongPage';
@@ -49,6 +50,7 @@ export default function App() {
           <Route path='log-in' element={<LockScreen action={'log-in'} onLogIn={handleLogIn}/>}/>
           <Route path='register' element={<LockScreen action={'register'}/>}/>
           <Route path='homepage' element={<HomepagePage onLogOut={handleLogOut}/>}/>
+          <Route path='guide' element={<GuidePage/>}/>
           <Route path='camera' element={<CameraPage userId={user}/>}/>
           <Route path='photos' element={<PhotosPage userId={user}/>}/>
           <Route path='songs/new' element={<NewSongPage userId={user}/>} />
