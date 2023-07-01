@@ -1,11 +1,13 @@
 import { createContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive'
 
 export const ActionContext = createContext();
 
 export function ActionContextProvider(props) {
   const nagivate = useNavigate();
 
+  const mediaQuery = useMediaQuery({ query: '(min-width: 768px)' });
   const tokenKey = 'react-context-jwt';
   const token = localStorage.getItem(tokenKey);
 
@@ -40,7 +42,8 @@ export function ActionContextProvider(props) {
     handleSavedSongs,
     handleBack,
     ifLoggedIn,
-    token
+    token,
+    mediaQuery
   };
 
   return (

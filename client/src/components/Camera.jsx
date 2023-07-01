@@ -1,9 +1,11 @@
 import Webcam from 'react-webcam';
-import { useRef } from 'react';
-import MediaQuery from './MediaQuery';
 import CameraButton from './CameraButton';
+import { useContext,useRef } from 'react';
+import { ActionContext } from './ActionContext';
 
 export default function Camera ({userId}) {
+  const { mediaQuery } = useContext(ActionContext);
+
   const photoConstraints = {
     width: 1080,
     height: 1080,
@@ -13,10 +15,10 @@ export default function Camera ({userId}) {
   const selfieRef = useRef(null);
   let width = 840;
   let height = 840;
-  if(!MediaQuery()) {width=360; height=360;}
+  if(!mediaQuery) {width=360; height=360;}
 
   return (
-    <div className={`d-flex justify-content-center ${MediaQuery() ? 'mt-5' : 'mt-2'}`}>
+    <div className={`d-flex justify-content-center ${mediaQuery ? 'mt-5' : 'mt-2'}`}>
       <Webcam
       audio={false}
       height={height}

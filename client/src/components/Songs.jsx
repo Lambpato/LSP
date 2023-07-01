@@ -101,7 +101,7 @@ export default function Songs ({ userId }) {
 
   const SongList = ({songs, onClick}) => {
     const songsList = songs.map(songs =>
-      <li className="d-flex gap-2" key={songs.songId} onClick={() => onClick(songs)}>
+      <li role="button" className="d-flex gap-2" key={songs.songId} onClick={() => onClick(songs)}>
         <FileMusicFill />
         <p className="mb-0 align-items-center">{songs.name}</p>
       </li>);

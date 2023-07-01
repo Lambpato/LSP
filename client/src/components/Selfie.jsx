@@ -98,7 +98,7 @@ export default function Selfie ({ userId }) {
 
   const ImageList = ({images, onClick}) => {
     const imagesList = images.map(images =>
-           <li className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
+           <li role="button" className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
               <FileEarmarkImageFill />
               <p className="mb-0 align-items-center">{images.url}</p>
            </li> );

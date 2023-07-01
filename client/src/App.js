@@ -1,5 +1,5 @@
 import './App.css';
-import Home from './Pages/Home';
+import WelcomePage from './Pages/WelcomePage';
 import LockScreen from './Pages/LockScreen'
 import Background from './components/Background';
 import HomepagePage from './Pages/HomepagePage';
@@ -17,28 +17,28 @@ const tokenKey = 'react-context-jwt';
 
 export default function App() {
   const nagivate = useNavigate();
-  const [user, setUser] = useState();
+  const [userId, setUserId] = useState();
   const [authorized, setAuthorized] = useState(true);
 
     useEffect(() => {
     const token = localStorage.getItem(tokenKey);
     const user = token ? jwtDecode(token) : null;
-    setUser(user.userId);
+    setUserId(user.userId);
     setAuthorized(false);
   }, []);
 
   if (authorized) return null;
 
    const handleLogIn = (result) => {
-    const { user, token } = result;
+    const { token } = result;
     localStorage.setItem(tokenKey, token);
-    setUser(user);
+    // setUserId(user);
     nagivate('/homepage');
   }
 
   const handleLogOut = () => {
     localStorage.removeItem(tokenKey);
-    setUser(undefined);
+    setUserId(undefined);
     nagivate('/log-in');
   }
 
@@ -46,15 +46,15 @@ export default function App() {
     <ActionContextProvider>
       <Routes>
         <Route path='/' element={<Background/>}>
-          <Route index element={<Home/>} />
+          <Route index element={<WelcomePage/>} />
           <Route path='log-in' element={<LockScreen action={'log-in'} onLogIn={handleLogIn}/>}/>
           <Route path='register' element={<LockScreen action={'register'}/>}/>
           <Route path='homepage' element={<HomepagePage onLogOut={handleLogOut}/>}/>
           <Route path='guide' element={<GuidePage/>}/>
-          <Route path='camera' element={<CameraPage userId={user}/>}/>
-          <Route path='photos' element={<PhotosPage userId={user}/>}/>
-          <Route path='songs/new' element={<NewSongPage userId={user}/>} />
-          <Route path='songs' element={<SongPage userId={user}/>} />
+          <Route path='camera' element={<CameraPage userId={userId}/>}/>
+          <Route path='photos' element={<PhotosPage userId={userId}/>}/>
+          <Route path='songs/new' element={<NewSongPage userId={userId}/>} />
+          <Route path='songs' element={<SongPage userId={userId}/>} />
         </Route>
       </Routes>
     </ActionContextProvider>
