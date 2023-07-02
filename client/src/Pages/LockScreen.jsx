@@ -7,12 +7,12 @@ export default function LockScreen({action, onLogIn}) {
   const { mediaQuery, ifLoggedIn } = useContext(ActionContext);
 
   useEffect(() => {
-      ifLoggedIn()
+    ifLoggedIn()
   },[ifLoggedIn]);
 
   return (
     action !== '' ?
-    <div className={mediaQuery ? 'row position-absolute top-0 start-0 bottom-0 end-0' : 'position-absolute top-0 start-0 bottom-0 end-0'}>
+    <div className={mediaQuery ? "row position-absolute top-0 start-0 bottom-0 end-0" : "position-absolute top-0 start-0 bottom-0 end-0"}>
       <RegIn action={action} onLogIn={onLogIn}/>
       {mediaQuery ? <About/> : undefined}
     </div>

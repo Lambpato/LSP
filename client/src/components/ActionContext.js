@@ -22,7 +22,7 @@ export function ActionContextProvider(props) {
   };
 
   const ifLoggedIn = () => {
-    if(token) nagivate('/homepage');
+    token ? nagivate('/homepage') : nagivate('/log-in');
   };
 
   const handleGuide = () => { nagivate('/guide') };

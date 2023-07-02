@@ -17,13 +17,13 @@ const tokenKey = 'react-context-jwt';
 
 export default function App() {
   const nagivate = useNavigate();
-  const [userId, setUserId] = useState();
+  const [user, setUser] = useState();
   const [authorized, setAuthorized] = useState(true);
 
-    useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem(tokenKey);
     const user = token ? jwtDecode(token) : null;
-    setUserId(user.userId);
+    setUser(user.userId);
     setAuthorized(false);
   }, []);
 
@@ -32,13 +32,13 @@ export default function App() {
    const handleLogIn = (result) => {
     const { token } = result;
     localStorage.setItem(tokenKey, token);
-    // setUserId(user);
+    setUser(user);
     nagivate('/homepage');
   }
 
   const handleLogOut = () => {
     localStorage.removeItem(tokenKey);
-    setUserId(undefined);
+    setUser(undefined);
     nagivate('/log-in');
   }
 
@@ -51,10 +51,10 @@ export default function App() {
           <Route path='register' element={<LockScreen action={'register'}/>}/>
           <Route path='homepage' element={<HomepagePage onLogOut={handleLogOut}/>}/>
           <Route path='guide' element={<GuidePage/>}/>
-          <Route path='camera' element={<CameraPage userId={userId}/>}/>
-          <Route path='photos' element={<PhotosPage userId={userId}/>}/>
-          <Route path='songs/new' element={<NewSongPage userId={userId}/>} />
-          <Route path='songs' element={<SongPage userId={userId}/>} />
+          <Route path='camera' element={<CameraPage userId={user}/>}/>
+          <Route path='photos' element={<PhotosPage userId={user}/>}/>
+          <Route path='songs/new' element={<NewSongPage userId={user}/>}/>
+          <Route path='songs' element={<SongPage userId={user}/>}/>
         </Route>
       </Routes>
     </ActionContextProvider>
