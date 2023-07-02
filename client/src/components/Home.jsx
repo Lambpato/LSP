@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function HomePage ({ icons }) {
+export default function Home ({ icons }) {
   const [current, setCurrent] = useState(0);
 
   const toggleCurrent = (i) => {

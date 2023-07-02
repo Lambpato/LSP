@@ -2,7 +2,7 @@ import './App.css';
 import WelcomePage from './Pages/WelcomePage';
 import LockScreen from './Pages/LockScreen'
 import Background from './components/Background';
-import HomepagePage from './Pages/HomepagePage';
+import HomePage from './Pages/HomePage';
 import GuidePage from './Pages/GuidePage';
 import CameraPage from './Pages/CameraPage';
 import PhotosPage from './Pages/PhotosPage';
@@ -16,30 +16,30 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 const tokenKey = 'react-context-jwt';
 
 export default function App() {
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
   const [user, setUser] = useState();
   const [authorized, setAuthorized] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem(tokenKey);
     const user = token ? jwtDecode(token) : null;
-    setUser(user.userId);
+    if (user) setUser(user.userId);
     setAuthorized(false);
   }, []);
 
-  if (authorized) return null;
+  if(authorized) return null;
 
    const handleLogIn = (result) => {
     const { token } = result;
     localStorage.setItem(tokenKey, token);
     setUser(user);
-    nagivate('/homepage');
+    navigate('/homepage');
   }
 
   const handleLogOut = () => {
     localStorage.removeItem(tokenKey);
     setUser(undefined);
-    nagivate('/log-in');
+    navigate('/log-in');
   }
 
  return (
@@ -49,7 +49,7 @@ export default function App() {
           <Route index element={<WelcomePage/>} />
           <Route path='log-in' element={<LockScreen action={'log-in'} onLogIn={handleLogIn}/>}/>
           <Route path='register' element={<LockScreen action={'register'}/>}/>
-          <Route path='homepage' element={<HomepagePage onLogOut={handleLogOut}/>}/>
+          <Route path='homepage' element={<HomePage onLogOut={handleLogOut}/>}/>
           <Route path='guide' element={<GuidePage/>}/>
           <Route path='camera' element={<CameraPage userId={user}/>}/>
           <Route path='photos' element={<PhotosPage userId={user}/>}/>

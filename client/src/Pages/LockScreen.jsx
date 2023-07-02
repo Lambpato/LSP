@@ -1,14 +1,10 @@
 import RegIn from "../components/RegIn";
 import About from "../components/About";
 import { ActionContext } from '../components/ActionContext';
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 export default function LockScreen({action, onLogIn}) {
-  const { mediaQuery, ifLoggedIn } = useContext(ActionContext);
-
-  useEffect(() => {
-    ifLoggedIn()
-  },[ifLoggedIn]);
+  const { mediaQuery } = useContext(ActionContext);
 
   return (
     action !== '' ?
