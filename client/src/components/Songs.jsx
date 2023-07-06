@@ -25,7 +25,7 @@ export default function Songs ({ userId }) {
             'Authorization': `Bearer ${token}`
           }
         });
-        if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+        if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: ${response.statusText}`);
         const songsJson = await response.json();
         setSongs(songsJson);
       } catch (err) {
@@ -36,10 +36,6 @@ export default function Songs ({ userId }) {
       };
     };
 
-
-
-  const myModal = new Modal(document.getElementById("delete-modal"));
-
   document.addEventListener('keydown', (e) => {
     if (e.key === 'D') {
     setKeyPressed(true);
@@ -47,6 +43,7 @@ export default function Songs ({ userId }) {
   });
 
   if(current !== 0 && keyPressed) {
+    const myModal = new Modal(document.getElementById("delete-modal"));
     setKeyPressed(false)
     myModal.show();
   } else if (current === 0 && keyPressed){
