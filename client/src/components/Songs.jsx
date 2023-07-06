@@ -76,9 +76,13 @@ export default function Songs ({ userId }) {
     currentSong();
   };
 
-    const reset = () => {
+  const reset = () => {
     setActiveSong('');
     setCurrent({});
+    setKeyPressed(false);
+  };
+
+  const cancel = () => {
     setKeyPressed(false);
   };
 
@@ -91,7 +95,7 @@ export default function Songs ({ userId }) {
 
   return(
     <>
-      <DeleteModal path={'songs'} id={current.songId} reset={reset} />
+      <DeleteModal path={'songs'} id={current.songId} reset={reset} cancel={cancel} />
       <div className="d-flex justify-content-between">
         <div>
           <div className="d-flex">
@@ -106,8 +110,6 @@ export default function Songs ({ userId }) {
         { activeSong !== '' ? <MediaControls song={activeSong} displaySong={displaySong} index={index}  songs={songs} /> : undefined}
       </div>
     </>
-
-
   )
 };
 
