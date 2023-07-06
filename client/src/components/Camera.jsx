@@ -1,6 +1,6 @@
 import Webcam from 'react-webcam';
 import CameraButton from './CameraButton';
-import { useContext,useRef, useEffect } from 'react';
+import { useContext, useRef } from 'react';
 import { ActionContext } from './ActionContext';
 
 export default function Camera ({userId}) {
@@ -17,18 +17,16 @@ export default function Camera ({userId}) {
     facingMode: "user"
   };
 
-
-
   return (
     <div className={`d-flex justify-content-center ${mediaQuery ? 'mt-5' : 'mt-2'}`}>
       <Webcam
-      audio={false}
-      height={height}
-      ref={selfieRef}
-      screenshotFormat="image/png"
-      width={width}
-      videoConstraints={photoConstraints}
-      mirrored={true}
+        audio={false}
+        height={height}
+        ref={selfieRef}
+        screenshotFormat="image/png"
+        width={width}
+        videoConstraints={photoConstraints}
+        mirrored={true}
       />
       <CameraButton selfie={selfieRef} userId={userId}/>
     </div>

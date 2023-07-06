@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { ActionContext } from './ActionContext';
 import { FileMusicFill } from 'react-bootstrap-icons';
 import { Modal } from 'bootstrap';
@@ -12,6 +13,8 @@ export default function Songs ({ userId }) {
   const [index, setIndex] = useState(0);
   const [activeSong, setActiveSong] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
   const { token } = useContext(ActionContext);
 
   useEffect(() => {
@@ -26,9 +29,14 @@ export default function Songs ({ userId }) {
         const songsJson = await response.json();
         setSongs(songsJson);
       } catch (err) {
+        setError(err);
         console.error(err);
+      } finally {
+        setIsLoading(false);
       };
     };
+
+
 
   const myModal = new Modal(document.getElementById("delete-modal"));
 
@@ -77,6 +85,13 @@ export default function Songs ({ userId }) {
     setKeyPressed(false);
   };
 
+  if(isLoading) return <div>Loading ...</div>;
+
+  if(error) {
+    console.error(`Fetch Error: ${error}`);
+    return <div>Error! {error.message}</div>
+  };
+
   return(
     <>
       <DeleteModal path={'songs'} id={current.songId} reset={reset} />
@@ -88,7 +103,7 @@ export default function Songs ({ userId }) {
           </div>
 
           <div>
-            <SongList songs={songs} onClick={displaySong}/>
+            {songs.length === 0 ? <div>Take a Selfie at the camera <Link to="/camera">page</Link></div> : <SongList songs={songs} onClick={displaySong}/>}
           </div>
         </div>
         { activeSong !== '' ? <MediaControls song={activeSong} displaySong={displaySong} index={index}  songs={songs} /> : undefined}
