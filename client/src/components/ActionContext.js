@@ -47,7 +47,8 @@ export function ActionContextProvider(props) {
     handleBack,
     ifLoggedIn,
     ifLoggedOut,
-    mediaQuery
+    mediaQuery,
+    token
   };
 
   return (
