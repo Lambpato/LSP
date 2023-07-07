@@ -10,6 +10,8 @@ export default function Selfie ({ userId }) {
   const [current, setCurrent] = useState(0);
   const [activeImg, setActiveImg] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
   const { token } = useContext(ActionContext);
 
 
@@ -25,11 +27,12 @@ export default function Selfie ({ userId }) {
       const imagesJson = await response.json();
       setImages(imagesJson);
     } catch (err) {
+      setError(err);
       console.error(err);
+    } finally {
+      setIsLoading(false);
     };
   };
-
-  const myModal = new Modal(document.getElementById("delete-modal"));
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'D') {
@@ -38,6 +41,7 @@ export default function Selfie ({ userId }) {
   });
 
   if(current !== 0 && keyPressed) {
+    const myModal = new Modal(document.getElementById("delete-modal"));
     setKeyPressed(false)
     myModal.show();
   } else if (current === 0 && keyPressed){
@@ -73,6 +77,13 @@ export default function Selfie ({ userId }) {
     setActiveImg('');
     setCurrent(0);
     setKeyPressed(false);
+  };
+
+  if(isLoading) return <div>Loading ...</div>;
+
+  if(error) {
+    console.error(`Fetch Error: ${error}`);
+    return <div>Error! {error.message}</div>
   };
 
   return(
