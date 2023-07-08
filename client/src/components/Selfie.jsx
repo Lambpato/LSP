@@ -23,7 +23,7 @@ export default function Selfie ({ userId }) {
         'Authorization': `Bearer ${token}`
         }
       });
-      if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: ${response.statusText}`);
       const imagesJson = await response.json();
       setImages(imagesJson);
     } catch (err) {
@@ -62,7 +62,7 @@ export default function Selfie ({ userId }) {
           'Authorization': `Bearer ${token}`
           }
         });
-      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: ${response.statusText}`);
       const imageJson = await response.json();
       const { url } = imageJson
       activeImg !== url ? setActiveImg(url) : setActiveImg('');

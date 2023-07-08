@@ -65,7 +65,7 @@ export default function Songs ({ userId }) {
             'Authorization': `Bearer ${token}`
           }
         });
-      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: ${response.statusText}`);
       const songJson = await response.json();
       const song = songJson
       activeSong !== song.url ? setActiveSong(song) : setActiveSong('');
