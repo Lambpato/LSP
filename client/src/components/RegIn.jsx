@@ -64,8 +64,21 @@ export default function RegisterPage ({ action, onLogIn }) {
         >
         {action}
       </button>
-      {(error || (passwordReq && action === "register")) && <div style={{ color: 'red' }}>{error ? `Error: ${error.message}` : passwordReq}</div>}
+      {(error || (passwordReq && action === 'register')) && <div style={{ color: "red" }}>{error ? error.message : passwordReq}</div>}
+       <Button action={action}/>
     </form>
     </div>
   )
+};
+
+function Button ({ action }) {
+  if (action === 'log-in') {
+    return (
+    <p> Not registered? <a href="/register" className="link-secondary">Register</a> </p>
+    )};
+
+  if (action === 'register') {
+    return (
+    <p> Already registered? <a href="/log-in" className="link-secondary">Log In</a></p>
+    )};
 };

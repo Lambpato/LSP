@@ -31,6 +31,8 @@ app.use(express.json());
 app.post('/api/users/register', async (req, res, next) => {
   try {
     const { username, password } = req.body;
+    const usaname = username.toLowerCase();
+    console.log(usaname);
     const date = new Date();
     if (!username || !password) { throw new ClientError(400, 'username and password are required fields'); }
     const hashedPassword = await argon2.hash(password);
@@ -39,7 +41,7 @@ app.post('/api/users/register', async (req, res, next) => {
       values ($1, $2, $3)
       returning *
     `;
-    const params = [username, hashedPassword, date];
+    const params = [usaname, hashedPassword, date];
     const result = await db.query(sql, params);
     const user = result.rows[0];
     res.status(201).json(user);
