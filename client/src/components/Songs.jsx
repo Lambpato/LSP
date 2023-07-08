@@ -114,6 +114,9 @@ export default function Songs ({ userId }) {
 };
 
   const SongList = ({songs, onClick}) => {
+
+    if(songs.lenght === 0) return <p>Oops no songs, save a song at the <a href="/songs/new" className="link-secondary">upload page</a>!</p>
+
     const songsList = songs.map(songs =>
       <li role="button" className="d-flex gap-2" key={songs.songId} onClick={() => onClick(songs)}>
         <FileMusicFill />
