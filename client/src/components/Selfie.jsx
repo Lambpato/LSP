@@ -107,12 +107,15 @@ export default function Selfie ({ userId }) {
   )
 };
 
-  const ImageList = ({images, onClick}) => {
-    const imagesList = images.map(images =>
-           <li role="button" className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
-              <FileEarmarkImageFill />
-              <p className="mb-0 align-items-center">{images.url}</p>
-           </li> );
+function ImageList ({images, onClick}) {
 
-           return   <ul className="list-unstyled">{imagesList}</ul>
-          };
+  if(images.length === 0) return <p>Oops no photos, take a selfie at the <a href="/camera" className="link-secondary">camera page</a></p>
+
+  const imagesList = images.map(images =>
+    <li role="button" className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
+      <FileEarmarkImageFill />
+      <p className="mb-0 align-items-center">{images.url}</p>
+    </li> );
+
+  return   <ul className="list-unstyled">{imagesList}</ul>
+};
