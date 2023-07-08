@@ -47,8 +47,8 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Background/>}>
           <Route index element={<WelcomePage/>} />
-          <Route path='log-in' element={<LockScreen action={'log-in'} onLogIn={handleLogIn}/>}/>
-          <Route path='register' element={<LockScreen action={'register'}/>}/>
+          <Route path='log-in' element={<LockScreen button={"Log In"} action={'log-in'} onLogIn={handleLogIn}/>}/>
+          <Route path='register' element={<LockScreen button={"Register"} action={'register'}/>}/>
           <Route path='homepage' element={<HomePage onLogOut={handleLogOut}/>}/>
           <Route path='guide' element={<GuidePage/>}/>
           <Route path='camera' element={<CameraPage userId={user}/>}/>

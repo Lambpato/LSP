@@ -3,7 +3,7 @@ import { RegIn } from '../lib';
 import { useNavigate } from 'react-router-dom';
 
 
-export default function RegisterPage ({ action, onLogIn }) {
+export default function RegisterPage ({ button, action, onLogIn }) {
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [password, setPassword] = useState('');
@@ -59,10 +59,10 @@ export default function RegisterPage ({ action, onLogIn }) {
           ></input>
         </label>
       <button
-        type="submit"
+        type={passwordReq === "Strong Password" || action === 'log-in' ? "submit" : "button"}
         className="rounded-pill mb-4 btn fw-semibold border border-dark"
         >
-        {action}
+        {button}
       </button>
       {(error || (passwordReq && action === 'register')) && <div style={{ color: "red" }}>{error ? error.message : passwordReq}</div>}
        <Button action={action}/>
