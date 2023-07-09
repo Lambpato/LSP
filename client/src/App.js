@@ -39,7 +39,7 @@ export default function App() {
   const handleLogOut = () => {
     localStorage.removeItem(tokenKey);
     setUser(undefined);
-    navigate('/log-in');
+    navigate('/');
   }
 
  return (

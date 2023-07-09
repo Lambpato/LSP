@@ -34,7 +34,7 @@ export function ActionContextProvider(props) {
   const handleSavedPhotos = () => { navigate('/photos') };
   const handleNewSong = () => { navigate('/songs/new') };
   const handleSavedSongs = () => { navigate('/songs') };
-  const handleBack = () =>  { navigate(-1) };
+  const handleBack = () =>  { navigate('/homepage') };
 
   const contextValue = {
     handleRegister,
