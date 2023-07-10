@@ -1,4 +1,4 @@
-import HomePage from '../components/HomePage';
+import Home from '../components/Home';
 import NavBar from '../components/NavBar';
 import settings from '../public/icons/Settings.png';
 import Guide from '../public/icons/Guide.png';
@@ -7,12 +7,12 @@ import camera from '../public/icons/Camera.png';
 import data from '../public/icons/Data.png';
 import music from '../public/icons/Music.png';
 import plus from '../public/icons/Plus.png';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ActionContext } from '../components/ActionContext';
 
-export default function HomepagePage ({ onLogOut }) {
+export default function HomePage ({ onLogOut }) {
 
-const { handleGuide, handleCamera, handleSavedPhotos, handleNewSong, handleSavedSongs } = useContext(ActionContext);
+const { handleGuide, handleCamera, handleSavedPhotos, handleNewSong, handleSavedSongs, ifLoggedOut } = useContext(ActionContext);
 
   const icons = [{
     id: 1,
@@ -56,13 +56,17 @@ const { handleGuide, handleCamera, handleSavedPhotos, handleNewSong, handleSaved
         childUrl: data,
         onClick: handleSavedSongs
       }]
-}];
+  }];
+
+  useEffect(() => {
+    ifLoggedOut();
+  }, [ifLoggedOut]);
 
   return (
     <div className="position-absolute top-0 start-0 bottom-0 end-0 d-flex flex-column">
       <NavBar onClick={onLogOut} action={'Log Out'} />
       <div className="mx-auto my-auto">
-        <HomePage icons={icons} />
+        <Home icons={icons} />
       </div>
     </div>
   )

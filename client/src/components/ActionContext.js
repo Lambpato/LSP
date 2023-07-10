@@ -1,34 +1,40 @@
 import { createContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive'
 
 export const ActionContext = createContext();
 
 export function ActionContextProvider(props) {
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
 
+  const mediaQuery = useMediaQuery({ query: '(min-width: 768px)' });
   const tokenKey = 'react-context-jwt';
   const token = localStorage.getItem(tokenKey);
 
   const handleRegister = (e) => {
     e.preventDefault();
-    nagivate('/register');
+    navigate('/register');
   };
 
   const handleLogIn = (e) => {
     e.preventDefault();
-    nagivate('/log-in');
+    navigate('/log-in');
   };
 
   const ifLoggedIn = () => {
-    if(token) nagivate('/homepage');
+    if(token) navigate('/homepage');
   };
 
-  const handleGuide = () => { nagivate('/guide') };
-  const handleCamera = () => { nagivate('/camera') };
-  const handleSavedPhotos = () => { nagivate('/photos') };
-  const handleNewSong = () => { nagivate('/songs/new') };
-  const handleSavedSongs = () => { nagivate('/songs') };
-  const handleBack = () =>  { nagivate(-1) };
+  const ifLoggedOut = () => {
+    if(!token) navigate('/');
+  };
+
+  const handleGuide = () => { navigate('/guide') };
+  const handleCamera = () => { navigate('/camera') };
+  const handleSavedPhotos = () => { navigate('/photos') };
+  const handleNewSong = () => { navigate('/songs/new') };
+  const handleSavedSongs = () => { navigate('/songs') };
+  const handleBack = () =>  { navigate('/homepage') };
 
   const contextValue = {
     handleRegister,
@@ -40,6 +46,8 @@ export function ActionContextProvider(props) {
     handleSavedSongs,
     handleBack,
     ifLoggedIn,
+    ifLoggedOut,
+    mediaQuery,
     token
   };
 

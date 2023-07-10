@@ -10,6 +10,8 @@ export default function Selfie ({ userId }) {
   const [current, setCurrent] = useState(0);
   const [activeImg, setActiveImg] = useState('');
   const [keyPressed, setKeyPressed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
   const { token } = useContext(ActionContext);
 
 
@@ -21,15 +23,16 @@ export default function Selfie ({ userId }) {
         'Authorization': `Bearer ${token}`
         }
       });
-      if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: ${response.statusText}`);
       const imagesJson = await response.json();
       setImages(imagesJson);
     } catch (err) {
+      setError(err);
       console.error(err);
+    } finally {
+      setIsLoading(false);
     };
   };
-
-  const myModal = new Modal(document.getElementById("delete-modal"));
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'D') {
@@ -38,6 +41,7 @@ export default function Selfie ({ userId }) {
   });
 
   if(current !== 0 && keyPressed) {
+    const myModal = new Modal(document.getElementById("delete-modal"));
     setKeyPressed(false)
     myModal.show();
   } else if (current === 0 && keyPressed){
@@ -46,7 +50,7 @@ export default function Selfie ({ userId }) {
 
    getImages();
 
-  }, [current, keyPressed, userId, token]);
+  }, [current, keyPressed, userId, token, activeImg]);
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
@@ -58,7 +62,7 @@ export default function Selfie ({ userId }) {
           'Authorization': `Bearer ${token}`
           }
         });
-      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boken`);
+      if (!response.ok) throw new Error(`Error Code: ${response.status} Error Message: ${response.statusText}`);
       const imageJson = await response.json();
       const { url } = imageJson
       activeImg !== url ? setActiveImg(url) : setActiveImg('');
@@ -73,6 +77,13 @@ export default function Selfie ({ userId }) {
     setActiveImg('');
     setCurrent(0);
     setKeyPressed(false);
+  };
+
+  if(isLoading) return <div>Loading ...</div>;
+
+  if(error) {
+    console.error(`Fetch Error: ${error}`);
+    return <div>Error! {error.message}</div>
   };
 
   return(
@@ -96,12 +107,15 @@ export default function Selfie ({ userId }) {
   )
 };
 
-  const ImageList = ({images, onClick}) => {
-    const imagesList = images.map(images =>
-           <li className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
-              <FileEarmarkImageFill />
-              <p className="mb-0 align-items-center">{images.url}</p>
-           </li> );
+function ImageList ({images, onClick}) {
 
-           return   <ul className="list-unstyled">{imagesList}</ul>
-          };
+  if(images.length === 0) return <p>Oops no photos, take a selfie at the <a href="/camera" className="link-secondary">camera page</a>!</p>
+
+  const imagesList = images.map(images =>
+    <li role="button" className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
+      <FileEarmarkImageFill />
+      <p className="mb-0 align-items-center">{images.url}</p>
+    </li> );
+
+  return   <ul className="list-unstyled">{imagesList}</ul>
+};

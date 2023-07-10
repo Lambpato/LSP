@@ -1,10 +1,15 @@
 import NavBar from "../components/NavBar";
 import Selfie from "../components/Selfie";
 import { ActionContext } from "../components/ActionContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export default function PhotosPage ({ userId }) {
-  const { handleBack } = useContext(ActionContext)
+  const { handleBack, ifLoggedOut } = useContext(ActionContext)
+
+  useEffect(() => {
+    ifLoggedOut();
+  }, [ifLoggedOut]);
+
   return (
     <div className="position-absolute top-0 start-0 bottom-0 end-0">
       <NavBar action={'Back'} onClick={handleBack} />
