@@ -50,7 +50,7 @@ export default function Selfie ({ userId }) {
 
    getImages();
 
-  }, [current, keyPressed, userId, token]);
+  }, [current, keyPressed, userId, token, activeImg]);
 
   const displayImage = (imageId) => {
     current !== imageId ? setCurrent(imageId) : setCurrent(0);
