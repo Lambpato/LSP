@@ -1,4 +1,3 @@
-import './App.css';
 import WelcomePage from './Pages/WelcomePage';
 import LockScreen from './Pages/LockScreen'
 import Background from './components/Background';

@@ -36,19 +36,19 @@ export default function Songs ({ userId }) {
       };
     };
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'D') {
-    setKeyPressed(true);
-    };
-  });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'D') {
+      setKeyPressed(true);
+      };
+    });
 
-  if(current !== 0 && keyPressed) {
-    const myModal = new Modal(document.getElementById("delete-modal"));
-    setKeyPressed(false)
-    myModal.show();
-  } else if (current === 0 && keyPressed){
-    setKeyPressed(false);
-  };
+    if(current !== 0 && keyPressed) {
+      const myModal = new Modal(document.getElementById("delete-modal"));
+      setKeyPressed(false)
+      myModal.show();
+    } else if (current === 0 && keyPressed){
+      setKeyPressed(false);
+    };
 
     getSongs();
 
