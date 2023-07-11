@@ -52,40 +52,23 @@ export default function MediaControls({song, index, displaySong, songs}) {
     } else if (index + 1 === songs.length) {
       displaySong(songs[0]);
       setIsPlaying(true);
+      setPercentage(0)
     } else {
       displaySong(songs[index + 1]);
       setIsPlaying(true);
+      setPercentage(0);
     };
    }, [displaySong, index, songs]);
 
    useEffect(() => {
     setCurrentSong(song.url);
 
-    const songComplete = () => {
-      if(songs.length === 2 && index + 1 === 2 && percentage === 100 && isPlaying) {
-        displaySong(songs[0]);
-        setIsPlaying(true);
-        setPercentage(0);
-      };
-
-      if (songs.length === 2 && index === 0 && percentage === 100 && isPlaying) {
-        displaySong(songs[index + 1]);
-        setIsPlaying(true);
-        setPercentage(0);
-      };
-
-      if (songs.length > 2 && percentage === 100 && isPlaying) {
-        onSkip();
-      };
-    };
-
-    const newSongSelected = () => {
-      if(currentSong !== song.url) { setIsPlaying(true) };
-    };
+    const songComplete = () => { if (percentage === 100 && isPlaying) onSkip() };
+    const newSongSelected = () => { if(currentSong !== song.url) setIsPlaying(true) };
 
     newSongSelected();
     songComplete();
-   }, [currentSong, displaySong, index, isPlaying, percentage, onSkip, song.url, songs]);
+   }, [currentSong, displaySong, index, isPlaying, percentage, onSkip, song.url]);
 
   const getCurrentDuration = (e) => {
     const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2);
