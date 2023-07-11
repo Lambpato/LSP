@@ -21,14 +21,8 @@ export function ActionContextProvider(props) {
     navigate('/log-in');
   };
 
-  const ifLoggedIn = () => {
-    if(token) navigate('/homepage');
-  };
-
-  const ifLoggedOut = () => {
-    if(!token) navigate('/');
-  };
-
+  const ifLoggedIn = () => { if(token) navigate('/homepage') };
+  const ifLoggedOut = () => { if(!token) navigate('/') };
   const handleGuide = () => { navigate('/guide') };
   const handleCamera = () => { navigate('/camera') };
   const handleSavedPhotos = () => { navigate('/photos') };

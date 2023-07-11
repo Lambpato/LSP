@@ -1,7 +1,7 @@
 import ConfirmDelete from "./ConfirmDelete";
 
 export default function DeleteModal ({ userId, path, id, reset, cancel }) {
-const action = path.slice(0, -1);
+  const action = path.slice(0, -1);
 
   return (
     <div className="modal fade" id="delete-modal" data-bs-backdrop="static" data-bs-keyboard="true" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

@@ -71,7 +71,7 @@ export default function MediaControls({song, index, displaySong, songs}) {
 
     newSongSelected();
     songComplete();
-   }, [currentSong, isPlaying, onSkip, percentage, song.url]);
+   }, [currentSong, displaySong, index, isPlaying, percentage, onSkip, song.url]);
 
   const getCurrentDuration = (e) => {
     const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2);

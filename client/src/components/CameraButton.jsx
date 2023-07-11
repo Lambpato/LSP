@@ -31,10 +31,8 @@ export default function CameraButton({ isPressed, notPressed, selfie, userId}) {
   };
 
   return (
-    <>
-      <button onClick={handleImage} type='button' className='btn-lg btn fs-1 text-light position-absolute align-self-end'>
-        <StopCircle />
-      </button>
-    </>
+    <button onClick={handleImage} type='button' className='btn-lg btn fs-1 text-light position-absolute align-self-end'>
+      <StopCircle />
+    </button>
   )
 };
