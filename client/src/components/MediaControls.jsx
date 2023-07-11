@@ -62,7 +62,21 @@ export default function MediaControls({song, index, displaySong, songs}) {
     setCurrentSong(song.url);
 
     const songComplete = () => {
-      if(percentage === 100 && isPlaying) { onSkip() };
+      if(songs.length === 2 && index + 1 === 2 && percentage === 100 && isPlaying) {
+        displaySong(songs[0]);
+        setIsPlaying(true);
+        setPercentage(0);
+      };
+
+      if (songs.length === 2 && index === 0 && percentage === 100 && isPlaying) {
+        displaySong(songs[index + 1]);
+        setIsPlaying(true);
+        setPercentage(0);
+      };
+
+      if (songs.length > 2 && percentage === 100 && isPlaying) {
+        onSkip();
+      };
     };
 
     const newSongSelected = () => {
@@ -71,7 +85,7 @@ export default function MediaControls({song, index, displaySong, songs}) {
 
     newSongSelected();
     songComplete();
-   }, [currentSong, displaySong, index, isPlaying, percentage, onSkip, song.url]);
+   }, [currentSong, displaySong, index, isPlaying, percentage, onSkip, song.url, songs]);
 
   const getCurrentDuration = (e) => {
     const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2);
