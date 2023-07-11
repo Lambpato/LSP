@@ -32,7 +32,6 @@ app.post('/api/users/register', async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const usaname = username.toLowerCase();
-    console.log(usaname);
     const date = new Date();
     if (!username || !password) { throw new ClientError(400, 'username and password are required fields'); }
     const hashedPassword = await argon2.hash(password);
