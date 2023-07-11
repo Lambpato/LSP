@@ -1,5 +1,3 @@
-import RegButton from "../components/RegButton";
-
 export default function Welcome({handleRegister, handleLogIn}) {
   return (
     <div className='col mt-5'>
@@ -11,5 +9,12 @@ export default function Welcome({handleRegister, handleLogIn}) {
         </div>
       </div>
     </div>
+  )
+};
+
+function RegButton ({handleClick, name}) {
+
+  return (
+    <button className='rounded-pill mb-4 btn fw-semibold border border-dark' type="button" onClick={handleClick}>{name}</button>
   )
 };

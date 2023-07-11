@@ -1,4 +1,3 @@
-
 import Time from "./Time"
 
 export default function NavBar ({action, onClick}) {
