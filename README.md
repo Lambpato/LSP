@@ -36,6 +36,7 @@ Kapture 2023-07-12 at 02.14.11.gif
 
 - Node.js 10 or higher
 - NPM 6 or higher
+- PostgresSQL or higher
 
 ### Getting Started
 
@@ -54,13 +55,18 @@ Kapture 2023-07-12 at 02.14.11.gif
     npm react-webcam
     ```
 
-3. Import the example database to postgresql.
-
+3. Copy .env.example
     ```shell
-    mongoimport --db sgt-react database/dump.json
+    cp .env.example .env
     ```
 
-4. Start the project. Once started you can view the application by opening http://localhost:3000 in your browser.
+4. Import the database schema for postgresql.
+
+    ```shell
+    npm run db:import
+    ```
+
+5. Start the project. Once started you can view the application by opening http://localhost:3000 in your browser.
 
     ```shell
     npm run dev
