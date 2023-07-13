@@ -22,8 +22,6 @@ export default function Camera ({userId}) {
   const isPressed = () => setPressed(true);
   const notPressed = () => setPressed(false);
 
-  console.log(pressed)
-
   return (
     <div className={`d-flex justify-content-center ${mediaQuery ? 'mt-5' : 'mt-2'}`}>
       <div className="position-relative">
