@@ -53,6 +53,7 @@ app.post('/api/users/register', async (req, res, next) => {
 app.post('/api/users/log-in', async (req, res, next) => {
   try {
     const { username, password } = req.body;
+    const usaname = username.toLowerCase();
     if (!username || !password) { throw new ClientError(401, 'Invalid Login'); }
     const sql = `
     select "userId",
@@ -60,7 +61,7 @@ app.post('/api/users/log-in', async (req, res, next) => {
       from "users"
       where "username" = $1
     `;
-    const params = [username];
+    const params = [usaname];
     const result = await db.query(sql, params);
     if (!result) { throw new ClientError(401, 'Invalid Login'); }
     const user = result.rows[0];

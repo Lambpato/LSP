@@ -109,7 +109,7 @@ export default function Selfie ({ userId }) {
 
 function ImageList ({images, onClick}) {
 
-  if(images.length === 0) return <p>Oops no photos, take a selfie at the <a href="/camera" className="link-secondary">camera page</a>!</p>
+  if(images.length === 0) return <p>Oops no photos, take a selfie at the camera <a href="/camera" className="link-secondary">page</a>!</p>
 
   const imagesList = images.map(images =>
     <li role="button" className="d-flex gap-2" key={images.imageId} onClick={() => onClick(images.imageId)} >
