@@ -28,7 +28,7 @@ const SongTimes = ({currentTime, duration}) => {
   };
 
   return (
-    <div className="d-flex">
+    <div className="d-flex justify-content-around">
       <div className="timer">{secondsToHms(currentTime)}</div>
       <div className="timer">{secondsToHms(duration)}</div>
     </div>
