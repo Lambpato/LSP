@@ -104,7 +104,7 @@ export default function Songs ({ userId }) {
           </div>
 
           <div>
-            {songs.length === 0 ? <div>Take a Selfie at the camera <Link to="/camera">page</Link></div> : <SongList songs={songs} onClick={displaySong}/>}
+            {songs.length === 0 ? <div>Save songs at the song upload <Link to="/songs/new">page</Link></div> : <SongList songs={songs} onClick={displaySong}/>}
           </div>
         </div>
         { activeSong !== '' ? <MediaControls song={activeSong} displaySong={displaySong} index={index}  songs={songs} /> : undefined}
