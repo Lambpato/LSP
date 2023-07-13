@@ -28,7 +28,9 @@ Try the application live at
 
 ## Preview
 
-Kapture 2023-07-12 at 02.14.11.gif
+![Kapture 2023-07-13 at 11 14 32](https://github.com/Lambpato/LSP/assets/34325124/ac46bd49-084e-4c7e-84e2-854549e70f09)
+
+![Kapture 2023-07-13 at 00 40 48](https://github.com/Lambpato/LSP/assets/34325124/d74d22d8-f9b9-4fdd-844a-fe424eeb1387)
 
 ## Development
 
