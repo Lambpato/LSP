@@ -7,7 +7,6 @@ import CameraPage from './Pages/CameraPage';
 import PhotosPage from './Pages/PhotosPage';
 import NewSongPage from './Pages/NewSongPage';
 import SongPage from './Pages/SongPage';
-import jwtDecode from 'jwt-decode';
 import { useState, useEffect } from 'react';
 import { ActionContextProvider } from './components/ActionContext';
 import { Routes, Route, useNavigate } from 'react-router-dom';
@@ -20,11 +19,9 @@ export default function App() {
   const [authorized, setAuthorized] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem(tokenKey);
-    const user = token ? jwtDecode(token) : null;
     if (user) setUser(user.userId);
     setAuthorized(false);
-  }, []);
+  }, [user]);
 
   if(authorized) return null;
 
