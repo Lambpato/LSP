@@ -16,6 +16,7 @@ const tokenKey = 'react-context-jwt';
 export default function App() {
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [userId, setUserId] = useState();
   const [authorizing, setAuthorizing] = useState(true);
 
   useEffect(() => {
@@ -26,9 +27,9 @@ export default function App() {
   if (authorizing) return null;
 
   const handleLogIn = result => {
-    const { token } = result;
-    localStorage.setItem(tokenKey, token);
-    setUser(user);
+    localStorage.setItem(tokenKey, result);
+    setUser(result);
+    setUserId(result.user.userId);
     navigate('/homepage');
   };
 
@@ -62,9 +63,9 @@ export default function App() {
             element={<HomePage onLogOut={handleLogOut} />}
           />
           <Route path="guide" element={<GuidePage />} />
-          <Route path="camera" element={<CameraPage userId={user} />} />
-          <Route path="photos" element={<PhotosPage userId={user} />} />
-          <Route path="songs/new" element={<NewSongPage userId={user} />} />
+          <Route path="camera" element={<CameraPage userId={userId} />} />
+          <Route path="photos" element={<PhotosPage userId={userId} />} />
+          <Route path="songs/new" element={<NewSongPage userId={userId} />} />
           <Route path="songs" element={<SongPage userId={user} />} />
         </Route>
       </Routes>
