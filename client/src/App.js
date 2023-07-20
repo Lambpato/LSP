@@ -13,27 +13,24 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 
 export default function App() {
   const navigate = useNavigate();
-  const [user, setUser] = useState();
   const [userId, setUserId] = useState();
   const [authorizing, setAuthorizing] = useState(true);
 
   useEffect(() => {
-    if (user) setUser(user.userId);
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) setUserId(user.user.userId);
     setAuthorizing(false);
-  }, [user]);
+  }, []);
 
   if (authorizing) return null;
 
   const handleLogIn = result => {
     localStorage.setItem('user', JSON.stringify(result));
-    setUser(result);
-    setUserId(result.user.userId);
     navigate('/homepage');
   };
 
   const handleLogOut = () => {
     localStorage.removeItem('user');
-    setUser(undefined);
     navigate('/');
   };
 
@@ -64,7 +61,7 @@ export default function App() {
           <Route path="camera" element={<CameraPage userId={userId} />} />
           <Route path="photos" element={<PhotosPage userId={userId} />} />
           <Route path="songs/new" element={<NewSongPage userId={userId} />} />
-          <Route path="songs" element={<SongPage userId={user} />} />
+          <Route path="songs" element={<SongPage userId={userId} />} />
         </Route>
       </Routes>
     </ActionContextProvider>

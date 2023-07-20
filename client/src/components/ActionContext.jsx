@@ -1,14 +1,19 @@
-import { createContext } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 export const ActionContext = createContext();
 
 export function ActionContextProvider(props) {
+  const [token, setToken] = useState();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    user ? setToken(user.token) : setToken('');
+  }, [user]);
 
   const mediaQuery = useMediaQuery({ query: '(min-width: 768px)' });
-  const token = JSON.parse(localStorage.getItem('user')).token;
 
   const handleRegister = e => {
     e.preventDefault();
