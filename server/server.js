@@ -33,7 +33,9 @@ app.post('/api/users/register', async (req, res, next) => {
     const { username, password } = req.body;
     const usaname = username.toLowerCase();
     const date = new Date();
-    if (!username || !password) { throw new ClientError(400, 'username and password are required fields'); }
+    if (!username || !password) {
+      throw new ClientError(400, 'username and password are required fields');
+    }
     const hashedPassword = await argon2.hash(password);
     const sql = `
       insert into "users" ("username", "hashedPassword", "createdAt")
@@ -54,7 +56,9 @@ app.post('/api/users/log-in', async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const usaname = username.toLowerCase();
-    if (!username || !password) { throw new ClientError(401, 'Invalid Login'); }
+    if (!username || !password) {
+      throw new ClientError(401, 'Invalid Login');
+    }
     const sql = `
     select "userId",
      "hashedPassword"
@@ -63,11 +67,17 @@ app.post('/api/users/log-in', async (req, res, next) => {
     `;
     const params = [usaname];
     const result = await db.query(sql, params);
-    if (!result) { throw new ClientError(401, 'Invalid Login'); }
+    if (!result) {
+      throw new ClientError(401, 'Invalid Login');
+    }
     const user = result.rows[0];
-    if (!user) { throw new ClientError(401, 'Invalid Login'); }
+    if (!user) {
+      throw new ClientError(401, 'Invalid Login');
+    }
     const { userId, hashedPassword } = user;
-    if (!await argon2.verify(hashedPassword, password)) { throw new ClientError(401, 'Invalid Login'); }
+    if (!(await argon2.verify(hashedPassword, password))) {
+      throw new ClientError(401, 'Invalid Login');
+    }
     const payload = { userId, user };
     const token = jwt.sign(payload, process.env.TOKEN_SECRET);
     res.json({ user: payload, token });
@@ -78,29 +88,36 @@ app.post('/api/users/log-in', async (req, res, next) => {
 app.use(authorizationMiddleware);
 
 // upload image
-app.post('/api/:userId/images/upload', imgUploadsMiddleware.single('image'), async (req, res, next) => {
-  try {
-    const userId = Number(req.params.userId);
-    const date = new Date();
-    const url = `/images/${req.file.filename}`;
-    const sql = `
+app.post(
+  '/api/:userId/images/upload',
+  imgUploadsMiddleware.single('image'),
+  async (req, res, next) => {
+    try {
+      const userId = Number(req.params.userId);
+      const date = new Date();
+      const url = `/images/${req.file.filename}`;
+      const sql = `
     insert into "images" ("userId", "url", "createdAt")
     values ($1, $2, $3)
     returning *
   `;
-    const params = [userId, url, date];
-    const result = await db.query(sql, params);
-    const image = result.rows[0];
-    res.status(201).json(image);
-  } catch (err) {
-    next(err);
+      const params = [userId, url, date];
+      const result = await db.query(sql, params);
+      const image = result.rows[0];
+      res.status(201).json(image);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 // get images
 app.get('/api/:userId/images', async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
+    if (!userId) {
+      throw new ClientError(404, `Could not find ${userId}`);
+    }
     const sql = `
     select "imageId", "createdAt", "url"
     from "images"
@@ -128,7 +145,9 @@ app.get('/api/:userId/images/:imageId', async (req, res, next) => {
     const params = [userId, imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
-    if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);
+    if (!image) {
+      throw new ClientError(404, `Could not find image with Id ${imageId}`);
+    }
     res.status(200).json(image);
   } catch (err) {
     next(err);
@@ -149,7 +168,12 @@ app.delete('/api/:userId/images/:imageId', async (req, res, next) => {
     const params = [userId, imageId];
     const result = await db.query(sql, params);
     const image = result.rows[0];
-    if (!image) throw new ClientError(404, `Could not find image with imageId ${imageId}`);
+    if (!image) {
+      throw new ClientError(
+        404,
+        `Could not find image with imageId ${imageId}`
+      );
+    }
     res.status(204).json(image);
   } catch (err) {
     next(err);
@@ -157,27 +181,33 @@ app.delete('/api/:userId/images/:imageId', async (req, res, next) => {
 });
 
 // upload song
-app.post('/api/:userId/songs/upload', audioUploadsMiddleware.single('audio'), async (req, res, next) => {
-  try {
-    const { name } = req.body;
-    const userId = Number(req.params.userId);
-    const date = new Date();
-    if (!name) { throw new ClientError(400, 'name is a required field'); }
-    const url = `/audio/${req.file.filename}`;
-    const sql = `
+app.post(
+  '/api/:userId/songs/upload',
+  audioUploadsMiddleware.single('audio'),
+  async (req, res, next) => {
+    try {
+      const { name } = req.body;
+      const userId = Number(req.params.userId);
+      const date = new Date();
+      if (!name) {
+        throw new ClientError(400, 'name is a required field');
+      }
+      const url = `/audio/${req.file.filename}`;
+      const sql = `
     insert into "songs" ("userId", "url", "name", "createdAt")
     values ($1, $2, $3, $4)
     returning *
     `;
-    const params = [userId, url, name, date];
-    const result = await db.query(sql, params);
-    const song = result.rows[0];
+      const params = [userId, url, name, date];
+      const result = await db.query(sql, params);
+      const song = result.rows[0];
 
-    res.status(201).json(song);
-  } catch (err) {
-    next(err);
+      res.status(201).json(song);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 // get songs
 app.get('/api/:userId/songs', async (req, res, next) => {
@@ -210,7 +240,9 @@ app.get('/api/:userId/songs/:songId', async (req, res, next) => {
     const params = [userId, songId];
     const result = await db.query(sql, params);
     const song = result.rows[0];
-    if (!song) throw new ClientError(404, `Could not find song with songId ${songId}`);
+    if (!song) {
+      throw new ClientError(404, `Could not find song with songId ${songId}`);
+    }
     res.status(200).json(song);
   } catch (err) {
     next(err);
@@ -230,7 +262,9 @@ app.delete('/api/:userId/songs/:songId', async (req, res, next) => {
     const params = [songId];
     const result = await db.query(sql, params);
     const song = result.rows[0];
-    if (!song) throw new ClientError(404, `Could not find song with songId ${songId}`);
+    if (!song) {
+      throw new ClientError(404, `Could not find song with songId ${songId}`);
+    }
     res.status(204).json(song);
   } catch (err) {
     next(err);

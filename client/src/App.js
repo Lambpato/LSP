@@ -11,8 +11,6 @@ import { useState, useEffect } from 'react';
 import { ActionContextProvider } from './components/ActionContext';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
-const tokenKey = 'react-context-jwt';
-
 export default function App() {
   const navigate = useNavigate();
   const [user, setUser] = useState();
@@ -27,14 +25,14 @@ export default function App() {
   if (authorizing) return null;
 
   const handleLogIn = result => {
-    localStorage.setItem(tokenKey, result);
+    localStorage.setItem('user', JSON.stringify(result));
     setUser(result);
     setUserId(result.user.userId);
     navigate('/homepage');
   };
 
   const handleLogOut = () => {
-    localStorage.removeItem(tokenKey);
+    localStorage.removeItem('user');
     setUser(undefined);
     navigate('/');
   };
