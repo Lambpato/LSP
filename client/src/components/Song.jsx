@@ -1,25 +1,28 @@
-import { ActionContext } from "./ActionContext";
-import { useContext, useState } from "react";
+import { ActionContext } from './ActionContext';
+import { useContext, useState } from 'react';
 
-export default function Song ({ userId }) {
-  const [title, setTitle] = useState("Upload New Song!");
+export default function Song({ userId }) {
+  const [title, setTitle] = useState('Upload New Song!');
   const { token } = useContext(ActionContext);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const formData = new FormData(e.target);
     try {
-      const response = await fetch (`/api/${userId}/songs/upload`, {
-        method: "POST",
+      const response = await fetch(`/api/${userId}/songs/upload`, {
+        method: 'POST',
         body: formData,
         headers: {
-        'Authorization':`Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
-      if(!response.ok) throw new Error(`Error Code: ${response.status} Error Message: It Boke`);
+      if (!response.ok)
+        throw new Error(
+          `Error Code: ${response.status} Error Message: It Boke`
+        );
     } catch (err) {
-      console.error('Error:', err)
-    };
+      console.error('Error:', err);
+    }
   };
 
   return (
@@ -37,16 +40,18 @@ export default function Song ({ userId }) {
                   type="text"
                   id="name"
                   name="name"
-                  className="form-control bg-light" />
+                  className="form-control bg-light"
+                />
               </label>
             </div>
             <div className="d-flex justify-content-between align-items-center">
-              <input
-                required
-                type="file"
-                name="audio"
-                accept=".mp3" />
-              <button type="submit" className="btn btn-primary" onClick={() => {setTitle("Song Saved!")}}>
+              <input required type="file" name="audio" accept=".mp3" />
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={() => {
+                  setTitle('Song Saved!');
+                }}>
                 Upload
               </button>
             </div>
@@ -54,5 +59,5 @@ export default function Song ({ userId }) {
         </div>
       </div>
     </div>
-  )
-};
+  );
+}
