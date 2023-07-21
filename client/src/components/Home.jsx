@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-export default function Home ({ icons }) {
+export default function Home({ icons }) {
   const [current, setCurrent] = useState(0);
 
-  const toggleCurrent = (i) => {
+  const toggleCurrent = i => {
     current !== i ? setCurrent(i) : setCurrent(0);
   };
 
@@ -13,23 +13,36 @@ export default function Home ({ icons }) {
         <CurrentIcon icons={icons} onClick={toggleCurrent} current={current} />
       </div>
     </div>
-  )
-};
+  );
+}
 
- const CurrentIcon = ({ icons, onClick, current }) => {
-    const dashboard = icons.map(icons =>
-      <li role="button" className="list-item-group" onClick={() => onClick(icons.id)} key={icons.id}>
-        <div>
-          <img style={{width: '100px'}} src={icons.imgUrl} alt={icons.name}/>
-        </div>
+const CurrentIcon = ({ icons, onClick, current }) => {
+  const dashboard = icons.map(icons => (
+    <li
+      role="button"
+      className="list-item-group"
+      onClick={() => onClick(icons.id)}
+      key={icons.id}>
+      <div>
+        <img style={{ width: '100px' }} src={icons.imgUrl} alt={icons.name} />
+      </div>
 
-        {current === icons.id ? icons.children.map(child =>
-          <div className="d-flex flex-row align-items-center gap-2 align-items-center" key={child.childId} onClick={child.onClick}>
+      {current === icons.id &&
+        icons.children.map(child => (
+          <div
+            className="d-flex flex-row align-items-center gap-2 align-items-center"
+            key={child.childId}
+            onClick={child.onClick}>
             <img src={child.childUrl} alt={child.name} />
-            <p  className="text-secondary">{child.name}</p>
-          </div>)
-        : undefined}
-      </li>);
+            <p className="text-secondary">{child.name}</p>
+          </div>
+        ))}
+    </li>
+  ));
 
-  return <ul className="list-unstyled list-group list-group-horizontal d-flex align-items-center gap-5">{dashboard}</ul>
+  return (
+    <ul className="list-unstyled list-group list-group-horizontal d-flex align-items-center gap-5">
+      {dashboard}
+    </ul>
+  );
 };
