@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-export default function Time () {
+export default function Time() {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -8,10 +8,8 @@ export default function Time () {
       setTime(new Date());
     }, 100);
     return () => clearInterval(interval);
-    }, []);
+  }, []);
 
-    const hora = `${time.getHours()}:${('0' + time.getMinutes()).slice(-2)}`;
-  return (
-    <p className="mt-2 me-2">{hora}</p>
-  )
+  const hora = `${time.getHours()}:${('0' + time.getMinutes()).slice(-2)}`;
+  return <p className="mt-2 me-2">{hora}</p>;
 }

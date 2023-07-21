@@ -1,9 +1,9 @@
 import NavBar from '../components/NavBar';
-import Song from  '../components/Song';
+import Song from '../components/Song';
 import { ActionContext } from '../components/ActionContext';
 import { useContext, useEffect } from 'react';
 
-export default function NewSongPage ({userId}) {
+export default function NewSongPage({ userId }) {
   const { handleBack, ifLoggedOut } = useContext(ActionContext);
 
   useEffect(() => {
@@ -12,8 +12,8 @@ export default function NewSongPage ({userId}) {
 
   return (
     <div className="position-absolute top-0 start-0 bottom-0 end-0">
-      <NavBar action={'Back'} onClick={handleBack}/>
-      <Song userId={userId}/>
+      <NavBar text={'Back'} onClick={handleBack} />
+      <Song userId={userId} />
     </div>
-  )
-};
+  );
+}

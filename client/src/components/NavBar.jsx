@@ -1,18 +1,21 @@
-import Time from "./Time"
+import Time from './Time';
 
-export default function NavBar ({action, onClick}) {
-
+export default function NavBar({ text, onClick }) {
   return (
     <div className="d-flex flex-row justify-content-between bg-light bg-gradient fw-semibold">
-      <BackButton action={action} onClick={onClick} />
+      <BackButton text={text} onClick={onClick} />
       <Time />
     </div>
-  )
-};
-
-function BackButton ({action, onClick}) {
-
-  return (
-    <button type="button" className="btn align-self-start fw-semibold" onClick={onClick}>{action}</button>
   );
-};
+}
+
+function BackButton({ text, onClick }) {
+  return (
+    <button
+      type="button"
+      className="btn align-self-start fw-semibold"
+      onClick={onClick}>
+      {text}
+    </button>
+  );
+}

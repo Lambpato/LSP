@@ -10,53 +10,69 @@ import plus from '../public/icons/Plus.png';
 import { useContext, useEffect } from 'react';
 import { ActionContext } from '../components/ActionContext';
 
-export default function HomePage ({ onLogOut }) {
+export default function HomePage({ onLogOut }) {
+  const {
+    handleGuide,
+    handleCamera,
+    handleSavedPhotos,
+    handleNewSong,
+    handleSavedSongs,
+    ifLoggedOut
+  } = useContext(ActionContext);
 
-const { handleGuide, handleCamera, handleSavedPhotos, handleNewSong, handleSavedSongs, ifLoggedOut } = useContext(ActionContext);
-
-  const icons = [{
-    id: 1,
-    name: 'Settings',
-    imgUrl: settings,
-    children: [{
-      childId: 1,
-      name: 'Guide',
-      childUrl: Guide,
-      onClick: handleGuide
-    }]
-  },
-  {
-    id: 2,
-    name: 'Photos',
-    imgUrl: photos,
-    children: [{
-      childId: 1,
-      name: 'Camera',
-      childUrl: camera,
-      onClick: handleCamera
-    },{
-      childId: 2,
+  const icons = [
+    {
+      id: 1,
+      name: 'Settings',
+      imgUrl: settings,
+      children: [
+        {
+          childId: 1,
+          name: 'Guide',
+          childUrl: Guide,
+          onClick: handleGuide
+        }
+      ]
+    },
+    {
+      id: 2,
       name: 'Photos',
-      childUrl: data,
-      onClick: handleSavedPhotos
-    }]
-  },
-  {
-    id: 3,
-    name: 'Music',
-    imgUrl: music,
-      children: [{
-        childId: 1,
-        name:'New Song',
-        childUrl: plus,
-        onClick: handleNewSong
-      }, {
-        childId: 2,
-        name: 'Saved Songs',
-        childUrl: data,
-        onClick: handleSavedSongs
-      }]
-  }];
+      imgUrl: photos,
+      children: [
+        {
+          childId: 1,
+          name: 'Camera',
+          childUrl: camera,
+          onClick: handleCamera
+        },
+        {
+          childId: 2,
+          name: 'Photos',
+          childUrl: data,
+          onClick: handleSavedPhotos
+        }
+      ]
+    },
+    {
+      id: 3,
+      name: 'Music',
+      imgUrl: music,
+      children: [
+        {
+          childId: 1,
+          name: 'New Song',
+          childUrl: plus,
+          onClick: handleNewSong
+        },
+        {
+          childId: 2,
+          name: 'Saved Songs',
+          childUrl: data,
+          onClick: handleSavedSongs
+        }
+      ]
+    }
+  ];
 
   useEffect(() => {
     ifLoggedOut();
@@ -64,10 +80,10 @@ const { handleGuide, handleCamera, handleSavedPhotos, handleNewSong, handleSaved
 
   return (
     <div className="position-absolute top-0 start-0 bottom-0 end-0 d-flex flex-column">
-      <NavBar onClick={onLogOut} action={'Log Out'} />
+      <NavBar onClick={onLogOut} text={'Log Out'} />
       <div className="mx-auto my-auto">
         <Home icons={icons} />
       </div>
     </div>
-  )
+  );
 }
