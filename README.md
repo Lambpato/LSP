@@ -17,7 +17,7 @@ While working on projects I love to listen to music and have a great start but I
 
 ## Live Demo
 
-Try the application live at
+Try the application live at https://lamb-station-portable.azurewebsites.net/
 
 ## Features
 
