@@ -159,6 +159,9 @@ app.delete('/api/:userId/images/:imageId', async (req, res, next) => {
   try {
     const imageId = Number(req.params.imageId);
     const userId = Number(req.params.userId);
+    if (imageId === 1 && userId === 1) {
+      throw new ClientError(403, 'Cannot delete demo data!');
+    }
     const sql = `
     delete
       from "images"
