@@ -214,8 +214,8 @@ app.post(
 
 // get songs
 app.get('/api/:userId/songs', async (req, res, next) => {
-  const userId = Number(req.params.userId);
   try {
+    const userId = Number(req.params.userId);
     const sql = `
   select "songId", "name"
   from "songs"
@@ -255,7 +255,11 @@ app.get('/api/:userId/songs/:songId', async (req, res, next) => {
 // delete song
 app.delete('/api/:userId/songs/:songId', async (req, res, next) => {
   try {
+    const demoData = [1, 2, 3];
     const songId = Number(req.params.songId);
+    if (demoData.includes(songId)) {
+      throw new ClientError(403, 'Cannot delete demo data!');
+    }
     const sql = `
     delete
       from "songs"
