@@ -12,6 +12,7 @@ export default function Selfie({ userId }) {
   const [keyPressed, setKeyPressed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
+  const [forbidden, setForbidden] = useState(false);
   const { token } = useContext(ActionContext);
 
   useEffect(() => {
@@ -35,6 +36,12 @@ export default function Selfie({ userId }) {
         setIsLoading(false);
       }
     };
+
+    if (activeImg === '/images/image-1689264867032.png') {
+      setForbidden(true);
+    } else {
+      setForbidden(false);
+    }
 
     document.addEventListener('keydown', e => {
       if (e.key === 'D') {
@@ -92,7 +99,13 @@ export default function Selfie({ userId }) {
 
   return (
     <>
-      <DeleteModal userId={userId} path={'images'} id={current} reset={reset} />
+      <DeleteModal
+        userId={userId}
+        path={'images'}
+        id={current}
+        reset={reset}
+        forbidden={forbidden}
+      />
       <div>
         <div className="d-flex">
           <img src={data} alt="photos"></img>
