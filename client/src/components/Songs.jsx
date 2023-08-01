@@ -11,13 +11,20 @@ export default function Songs({ userId }) {
   const [songs, setSongs] = useState([]);
   const [current, setCurrent] = useState({});
   const [index, setIndex] = useState(0);
-  const [activeSong, setActiveSong] = useState('');
+  const [activeSong, setActiveSong] = useState({});
   const [keyPressed, setKeyPressed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
+  const [forbidden, setForbidden] = useState(false);
   const { token } = useContext(ActionContext);
 
   useEffect(() => {
+    const demoData = [
+      '/audio/1689235152806-audio.mp3',
+      '/audio/1689235339915-audio.mp3',
+      '/audio/1689235476562-audio.mp3'
+    ];
+
     const getSongs = async () => {
       try {
         const response = await fetch(`/api/${userId}/songs/`, {
@@ -39,6 +46,12 @@ export default function Songs({ userId }) {
       }
     };
 
+    if (demoData.includes(activeSong.url)) {
+      setForbidden(true);
+    } else {
+      setForbidden(false);
+    }
+
     document.addEventListener('keydown', e => {
       if (e.key === 'D') {
         setKeyPressed(true);
@@ -54,7 +67,7 @@ export default function Songs({ userId }) {
     }
 
     getSongs();
-  }, [current, token, keyPressed, userId]);
+  }, [current, token, keyPressed, userId, activeSong.url]);
 
   const displaySong = songPlaying => {
     setIndex(songs.indexOf(songPlaying));
@@ -76,7 +89,7 @@ export default function Songs({ userId }) {
           );
         const songJson = await response.json();
         const song = songJson;
-        activeSong !== song.url ? setActiveSong(song) : setActiveSong('');
+        activeSong.url !== song.url ? setActiveSong(song) : setActiveSong({});
       } catch (err) {
         console.error(err);
       }
@@ -85,7 +98,7 @@ export default function Songs({ userId }) {
   };
 
   const reset = () => {
-    setActiveSong('');
+    setActiveSong({});
     setCurrent({});
     setKeyPressed(false);
   };
@@ -108,6 +121,7 @@ export default function Songs({ userId }) {
         id={current.songId}
         reset={reset}
         cancel={cancel}
+        forbidden={forbidden}
       />
       <div className="d-flex justify-content-between">
         <div>
@@ -126,14 +140,14 @@ export default function Songs({ userId }) {
             )}
           </div>
         </div>
-        {activeSong !== '' ? (
+        {activeSong.url && (
           <MediaControls
             song={activeSong}
             displaySong={displaySong}
             index={index}
             songs={songs}
           />
-        ) : undefined}
+        )}
       </div>
     </>
   );
