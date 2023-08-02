@@ -29,7 +29,6 @@ export default function RegisterPage({ button, action, onLogIn }) {
     const { username, password } = Object.fromEntries(formData.entries());
     try {
       const result = await regIn(action, username, password);
-      // if (!result.ok) throw new Error(result);
       if (action === 'register') {
         navigate('/log-in');
       } else if (result.user && result.token) onLogIn(result);
@@ -39,8 +38,6 @@ export default function RegisterPage({ button, action, onLogIn }) {
     }
   }
 
-  console.log(error);
-
   return (
     <div className="col mt-5">
       <form
@@ -49,7 +46,7 @@ export default function RegisterPage({ button, action, onLogIn }) {
         onSubmit={handleSubmit}>
         <label className="form-label">
           <input
-            // required
+            required
             type="text"
             name="username"
             placeholder="Username"
@@ -58,7 +55,7 @@ export default function RegisterPage({ button, action, onLogIn }) {
 
         <label className="form-label">
           <input
-            // required
+            required
             type="password"
             name="password"
             placeholder="Password"
