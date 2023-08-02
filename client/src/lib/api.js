@@ -15,6 +15,9 @@ export async function regIn(action, username, password) {
     body: JSON.stringify({ username, password })
   };
   const res = await fetch(`/api/users/${action}`, req);
-  if (!res.ok) throw new Error(`Error: ${res.status}`);
+  if (!res.ok) {
+    const message = await res.text(res.body);
+    throw new Error(`Error: ${message.substring(10, message.length - 2)}`);
+  }
   return await res.json();
 }
