@@ -85,7 +85,8 @@ app.post('/api/users/log-in', async (req, res, next) => {
     next(err);
   }
 });
-app.use(authorizationMiddleware);
+
+app.use('/api/*', authorizationMiddleware);
 
 // upload image
 app.post(
@@ -277,6 +278,8 @@ app.delete('/api/:userId/songs/:songId', async (req, res, next) => {
     next(err);
   }
 });
+
+app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
 app.use(errorMiddleware);
 
