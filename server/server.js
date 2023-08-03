@@ -32,8 +32,18 @@ app.post('/api/users/register', async (req, res, next) => {
   try {
     const password = req.body.password;
     const username = req.body.username.toLowerCase();
-    if (/\d/.test(username)) {
+    if (/\d/.test(username) && /[!@#$%^&*()]+/.test(username)) {
+      throw new ClientError(
+        401,
+        'Numbers and special characters are not allowed in usernames!'
+      );
+    } else if (/\d/.test(username)) {
       throw new ClientError(401, 'Numbers are not allowed in usernames!');
+    } else if (/[!@#$%^&*()]+/.test(username)) {
+      throw new ClientError(
+        401,
+        'Special characters are not allowed in usernames!'
+      );
     }
     const date = new Date();
     if (!username || !password) {
