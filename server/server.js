@@ -30,8 +30,11 @@ app.use(express.json());
 // register
 app.post('/api/users/register', async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    const usaname = username.toLowerCase();
+    const password = req.body.password;
+    const username = req.body.username.toLowerCase();
+    if (/\d/.test(username)) {
+      throw new ClientError(401, 'Numbers are not allowed in usernames!');
+    }
     const date = new Date();
     if (!username || !password) {
       throw new ClientError(400, 'username and password are required fields');
@@ -42,7 +45,7 @@ app.post('/api/users/register', async (req, res, next) => {
       values ($1, $2, $3)
       returning *
     `;
-    const params = [usaname, hashedPassword, date];
+    const params = [username, hashedPassword, date];
     const result = await db.query(sql, params);
     const user = result.rows[0];
     res.status(201).json(user);
