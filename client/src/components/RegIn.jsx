@@ -72,7 +72,10 @@ export default function RegisterPage({ button, action, onLogIn }) {
           {button}
         </button>
         {(error || (passwordReq && action === 'register')) && (
-          <div style={{ color: 'red' }}>
+          <div
+            style={{
+              color: passwordReq !== 'Strong Password' ? 'red' : 'green'
+            }}>
             {error ? error.message : passwordReq}
           </div>
         )}
