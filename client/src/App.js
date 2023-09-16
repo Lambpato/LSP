@@ -15,17 +15,19 @@ export default function App() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState();
   const [authorizing, setAuthorizing] = useState(true);
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
     if (user) setUserId(user.user.userId);
     setAuthorizing(false);
-  }, []);
+    console.log(user);
+  }, [user]);
 
   if (authorizing) return null;
 
   const handleLogIn = result => {
     localStorage.setItem('user', JSON.stringify(result));
+    setUser(result);
     navigate('/homepage');
   };
 
