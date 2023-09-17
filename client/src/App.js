@@ -18,9 +18,10 @@ export default function App() {
   const [user, setUser] = useState();
 
   useEffect(() => {
+    const account = JSON.parse(localStorage.getItem('user'));
+    if (!user && account) setUser(account);
     if (user) setUserId(user.user.userId);
     setAuthorizing(false);
-    console.log(user);
   }, [user]);
 
   if (authorizing) return null;
