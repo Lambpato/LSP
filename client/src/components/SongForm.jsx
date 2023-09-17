@@ -1,7 +1,7 @@
 import { ActionContext } from './ActionContext';
 import { useContext, useState } from 'react';
 
-export default function Song({ userId }) {
+export default function SongForm({ userId }) {
   const [title, setTitle] = useState('Upload New Song!');
   const { token } = useContext(ActionContext);
 

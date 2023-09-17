@@ -5,7 +5,7 @@ import HomePage from './Pages/HomePage';
 import GuidePage from './Pages/GuidePage';
 import CameraPage from './Pages/CameraPage';
 import PhotosPage from './Pages/PhotosPage';
-import NewSongPage from './Pages/NewSongPage';
+import SongFormPage from './Pages/SongFormPage';
 import SongPage from './Pages/SongPage';
 import { useState, useEffect } from 'react';
 import { ActionContextProvider } from './components/ActionContext';
@@ -63,7 +63,7 @@ export default function App() {
           <Route path="guide" element={<GuidePage />} />
           <Route path="camera" element={<CameraPage userId={userId} />} />
           <Route path="photos" element={<PhotosPage userId={userId} />} />
-          <Route path="songs/new" element={<NewSongPage userId={userId} />} />
+          <Route path="songs/new" element={<SongFormPage userId={userId} />} />
           <Route path="songs" element={<SongPage userId={userId} />} />
         </Route>
       </Routes>
