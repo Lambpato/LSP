@@ -37,8 +37,8 @@ export default function SongForm({ userId }) {
                   required
                   autoFocus
                   type="text"
-                  id="song-name"
-                  name="song name"
+                  id="song"
+                  name="song"
                   placeholder="song name"
                   className="form-control bg-light"
                 />

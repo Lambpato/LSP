@@ -203,7 +203,7 @@ app.post(
   audioUploadsMiddleware.single('audio'),
   async (req, res, next) => {
     try {
-      const { name } = req.body;
+      const { song, artist } = req.body;
       const userId = Number(req.params.userId);
       const date = new Date();
       if (!name) {
@@ -211,11 +211,11 @@ app.post(
       }
       const url = `/audio/${req.file.filename}`;
       const sql = `
-    insert into "songs" ("userId", "url", "name", "createdAt")
-    values ($1, $2, $3, $4)
+    insert into "songs" ("userId", "url", "song", "artist", "createdAt")
+    values ($1, $2, $3, $4, $5)
     returning *
     `;
-      const params = [userId, url, name, date];
+      const params = [userId, url, song, artist, date];
       const result = await db.query(sql, params);
       const song = result.rows[0];
 

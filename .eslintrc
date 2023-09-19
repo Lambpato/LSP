@@ -16,10 +16,7 @@
     }
   },
   "rules": {
-    "curly": [
-      "error",
-      "multi-line"
-    ],
+    "curly": ["error", "multi-line"],
     "no-restricted-globals": [
       "error",
       {
@@ -28,10 +25,7 @@
       }
     ],
     "padded-blocks": "off",
-    "semi": [
-      "error",
-      "always"
-    ],
+    "semi": ["error", "always"],
     "space-before-function-paren": [
       "error",
       {
@@ -40,22 +34,15 @@
         "asyncArrow": "always"
       }
     ],
-    "react/jsx-filename-extension": [
-      "error"
-    ],
+    "react/jsx-filename-extension": ["error"],
     "comma-dangle": ["error", "only-multiline"]
   },
   "overrides": [
     {
-      "files": [
-        "**/*.jsx"
-      ],
+      "files": ["**/*.jsx"],
       "rules": {
         "react/prop-types": "off",
-        "react/jsx-curly-brace-presence": [
-          "error",
-          "never"
-        ],
+        "react/jsx-curly-brace-presence": ["error", "never"],
         "react/jsx-indent": [
           "error",
           2,
@@ -63,33 +50,17 @@
             "checkAttributes": true
           }
         ],
-        "react/no-this-in-sfc": [
-          "error"
-        ],
-        "react/no-typos": [
-          "error"
-        ],
-        "react/no-unused-class-component-methods": [
-          "error"
-        ],
-        "react/jsx-no-useless-fragment": [
-          "error"
-        ],
-        "react/self-closing-comp": [
-          "error"
-        ],
-        "react/style-prop-object": [
-          "error"
-        ]
+        "react/no-this-in-sfc": ["error"],
+        "react/no-typos": ["error"],
+        "react/no-unused-class-component-methods": ["error"],
+        "react/jsx-no-useless-fragment": ["error"],
+        "react/self-closing-comp": ["error"],
+        "react/style-prop-object": ["error"]
       }
     },
     {
-      "files": [
-        "**/*.html"
-      ],
-      "plugins": [
-        "eslint-plugin-html"
-      ]
+      "files": ["**/*.html"],
+      "plugins": ["react-hooks"]
     }
   ]
 }
