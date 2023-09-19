@@ -31,15 +31,26 @@ export default function SongForm({ userId }) {
         <div className="col col-md-8">
           <h3 className="text-center mb-5">{title}</h3>
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
+            <div className="d-flex flex-column mb-3" style={{ width: '25%' }}>
               <label className="form-label">
-                Song Name:
                 <input
                   required
                   autoFocus
                   type="text"
-                  id="name"
-                  name="name"
+                  id="song-name"
+                  name="song name"
+                  placeholder="song name"
+                  className="form-control bg-light"
+                />
+              </label>
+              <label className="form-label">
+                <input
+                  required
+                  autoFocus
+                  type="text"
+                  id="artist"
+                  name="artist"
+                  placeholder="artist"
                   className="form-control bg-light"
                 />
               </label>
