@@ -31,7 +31,7 @@ export default function SongForm({ userId }) {
         <div className="col col-md-8">
           <h3 className="text-center mb-5">{title}</h3>
           <form onSubmit={handleSubmit}>
-            <div className="d-flex flex-column mb-3" style={{ width: '25%' }}>
+            <div className="d-flex flex-column mb-3 w-25">
               <label className="form-label">
                 <input
                   required
