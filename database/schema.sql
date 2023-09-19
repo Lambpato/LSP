@@ -34,7 +34,8 @@ CREATE TABLE "public"."songs" (
 	"songId" serial NOT NULL,
 	"userId" INTEGER NOT NULL,
 	"url" TEXT NOT NULL,
-	"name" TEXT NOT NULL,
+	"song" TEXT NOT NULL,
+  "artist" TEXT NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "songs_pk" PRIMARY KEY ("songId")
 ) WITH (
