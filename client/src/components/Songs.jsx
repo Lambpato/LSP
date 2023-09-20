@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { ActionContext } from './ActionContext';
 import { FileMusicFill } from 'react-bootstrap-icons';
 import { Modal } from 'bootstrap';
@@ -129,15 +128,8 @@ export default function Songs({ userId }) {
             <img src={data} alt="songs"></img>
             <p>Songs</p>
           </div>
-
           <div>
-            {songs.length === 0 ? (
-              <div>
-                Save songs at the song upload <Link to="/songs/new">page</Link>
-              </div>
-            ) : (
-              <SongList songs={songs} onClick={displaySong} />
-            )}
+            <SongList songs={songs} onClick={displaySong} />
           </div>
         </div>
         {activeSong.url && (
@@ -154,7 +146,7 @@ export default function Songs({ userId }) {
 }
 
 const SongList = ({ songs, onClick }) => {
-  if (songs.lenght === 0)
+  if (songs.length === 0) {
     return (
       <p>
         Oops no songs, save a song at the{' '}
@@ -164,17 +156,40 @@ const SongList = ({ songs, onClick }) => {
         !
       </p>
     );
+  } else {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Song</th>
+            <th>Artist</th>
+          </tr>
+        </thead>
+        <tbody>
+          {songs.map(songs => (
+            <tr role="button" key={songs.songId} onClick={() => onClick(songs)}>
+              <td className="pe-4">
+                <FileMusicFill />
+                {songs.song}
+              </td>
+              <td>{songs.artist}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
 
-  const songsList = songs.map(songs => (
-    <li
-      role="button"
-      className="d-flex gap-2"
-      key={songs.songId}
-      onClick={() => onClick(songs)}>
-      <FileMusicFill />
-      <p className="mb-0 align-items-center">{songs.name}</p>
-    </li>
-  ));
+  // const songsList = songs.map(songs => (
+  //   <li
+  //     role="button"
+  //     className="d-flex gap-2"
+  //     key={songs.songId}
+  //     onClick={() => onClick(songs)}>
+  //     <FileMusicFill />
+  //     <p className="mb-0 align-items-center">{songs.name}</p>
+  //   </li>
+  // ));
 
-  return <ul className="list-unstyled">{songsList}</ul>;
+  // return <ul className="list-unstyled">{songsList}</ul>;
 };
