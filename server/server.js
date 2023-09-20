@@ -217,9 +217,9 @@ app.post(
     `;
       const params = [userId, url, song, artist, date];
       const result = await db.query(sql, params);
-      const song = result.rows[0];
+      const songs = result.rows[0];
 
-      res.status(201).json(song);
+      res.status(201).json(songs);
     } catch (err) {
       next(err);
     }
