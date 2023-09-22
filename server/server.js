@@ -250,7 +250,7 @@ app.get('/api/:userId/songs/:songId', async (req, res, next) => {
     const songId = Number(req.params.songId);
     const userId = Number(req.params.userId);
     const sql = `
-    select "url", "song"
+    select "url", "song", "artist"
     from "songs"
     where "userId" = $1 and "songId" = $2
     `;

@@ -122,8 +122,8 @@ export default function Songs({ userId }) {
         cancel={cancel}
         forbidden={forbidden}
       />
-      <div className="d-flex justify-content-between">
-        <div>
+      <div className="row">
+        <div className="col">
           <div className="d-flex">
             <img src={data} alt="songs"></img>
             <p>Songs</p>
@@ -132,14 +132,16 @@ export default function Songs({ userId }) {
             <SongList songs={songs} onClick={displaySong} />
           </div>
         </div>
-        {activeSong.url && (
-          <MediaControls
-            song={activeSong}
-            displaySong={displaySong}
-            index={index}
-            songs={songs}
-          />
-        )}
+        <div className="col">
+          {activeSong.url && (
+            <MediaControls
+              song={activeSong}
+              displaySong={displaySong}
+              index={index}
+              songs={songs}
+            />
+          )}
+        </div>
       </div>
     </>
   );
@@ -179,17 +181,4 @@ const SongList = ({ songs, onClick }) => {
       </table>
     );
   }
-
-  // const songsList = songs.map(songs => (
-  //   <li
-  //     role="button"
-  //     className="d-flex gap-2"
-  //     key={songs.songId}
-  //     onClick={() => onClick(songs)}>
-  //     <FileMusicFill />
-  //     <p className="mb-0 align-items-center">{songs.name}</p>
-  //   </li>
-  // ));
-
-  // return <ul className="list-unstyled">{songsList}</ul>;
 };
