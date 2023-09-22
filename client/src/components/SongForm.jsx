@@ -20,6 +20,7 @@ export default function SongForm({ userId }) {
         throw new Error(
           `Error Code: ${response.status} Error Message: It Boke`
         );
+      setTitle('Song Saved!');
     } catch (err) {
       console.error('Error:', err);
     }
@@ -57,12 +58,7 @@ export default function SongForm({ userId }) {
             </div>
             <div className="d-flex justify-content-between align-items-center">
               <input required type="file" name="audio" accept=".mp3" />
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={() => {
-                  setTitle('Song Saved!');
-                }}>
+              <button type="submit" className="btn btn-primary">
                 Upload
               </button>
             </div>

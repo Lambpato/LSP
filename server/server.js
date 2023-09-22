@@ -206,7 +206,7 @@ app.post(
       const { song, artist } = req.body;
       const userId = Number(req.params.userId);
       const date = new Date();
-      if (!name) {
+      if (!song || !artist) {
         throw new ClientError(400, 'name is a required field');
       }
       const url = `/audio/${req.file.filename}`;
