@@ -5,7 +5,7 @@ import HomePage from './Pages/HomePage';
 import GuidePage from './Pages/GuidePage';
 import CameraPage from './Pages/CameraPage';
 import PhotosPage from './Pages/PhotosPage';
-import NewSongPage from './Pages/NewSongPage';
+import SongFormPage from './Pages/SongFormPage';
 import SongPage from './Pages/SongPage';
 import { useState, useEffect } from 'react';
 import { ActionContextProvider } from './components/ActionContext';
@@ -18,9 +18,10 @@ export default function App() {
   const [user, setUser] = useState();
 
   useEffect(() => {
+    const account = JSON.parse(localStorage.getItem('user'));
+    if (!user && account) setUser(account);
     if (user) setUserId(user.user.userId);
     setAuthorizing(false);
-    console.log(user);
   }, [user]);
 
   if (authorizing) return null;
@@ -62,7 +63,7 @@ export default function App() {
           <Route path="guide" element={<GuidePage />} />
           <Route path="camera" element={<CameraPage userId={userId} />} />
           <Route path="photos" element={<PhotosPage userId={userId} />} />
-          <Route path="songs/new" element={<NewSongPage userId={userId} />} />
+          <Route path="songs/new" element={<SongFormPage userId={userId} />} />
           <Route path="songs" element={<SongPage userId={userId} />} />
         </Route>
       </Routes>

@@ -13,13 +13,12 @@ export default function Slider({
   }, [percentage]);
 
   return (
-    <div className="slider-container">
-      <div className="thumb"></div>
+    <div className="w-50">
       <input
         type="range"
         value={!position ? 0 : position}
         step="0.01"
-        className="range"
+        className="form-range"
         onChange={onChange}></input>
       <SongTimes currentTime={currentTime} duration={duration} />
     </div>
@@ -38,7 +37,7 @@ const SongTimes = ({ currentTime, duration }) => {
   };
 
   return (
-    <div className="d-flex justify-content-around">
+    <div className="d-flex justify-content-between">
       <div className="timer">{secondsToHms(currentTime)}</div>
       <div className="timer">{secondsToHms(duration)}</div>
     </div>

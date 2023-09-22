@@ -203,23 +203,23 @@ app.post(
   audioUploadsMiddleware.single('audio'),
   async (req, res, next) => {
     try {
-      const { name } = req.body;
+      const { song, artist } = req.body;
       const userId = Number(req.params.userId);
       const date = new Date();
-      if (!name) {
+      if (!song || !artist) {
         throw new ClientError(400, 'name is a required field');
       }
       const url = `/audio/${req.file.filename}`;
       const sql = `
-    insert into "songs" ("userId", "url", "name", "createdAt")
-    values ($1, $2, $3, $4)
+    insert into "songs" ("userId", "url", "song", "artist", "createdAt")
+    values ($1, $2, $3, $4, $5)
     returning *
     `;
-      const params = [userId, url, name, date];
+      const params = [userId, url, song, artist, date];
       const result = await db.query(sql, params);
-      const song = result.rows[0];
+      const songs = result.rows[0];
 
-      res.status(201).json(song);
+      res.status(201).json(songs);
     } catch (err) {
       next(err);
     }
@@ -231,7 +231,7 @@ app.get('/api/:userId/songs', async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
     const sql = `
-  select "songId", "name"
+  select *
   from "songs"
   where "userId" = $1
   `;
@@ -250,7 +250,7 @@ app.get('/api/:userId/songs/:songId', async (req, res, next) => {
     const songId = Number(req.params.songId);
     const userId = Number(req.params.userId);
     const sql = `
-    select "url", "name"
+    select "url", "song", "artist"
     from "songs"
     where "userId" = $1 and "songId" = $2
     `;

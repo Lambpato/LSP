@@ -1,7 +1,7 @@
 import { ActionContext } from './ActionContext';
 import { useContext, useState } from 'react';
 
-export default function Song({ userId }) {
+export default function SongForm({ userId }) {
   const [title, setTitle] = useState('Upload New Song!');
   const { token } = useContext(ActionContext);
 
@@ -20,6 +20,7 @@ export default function Song({ userId }) {
         throw new Error(
           `Error Code: ${response.status} Error Message: It Boke`
         );
+      setTitle('Song Saved!');
     } catch (err) {
       console.error('Error:', err);
     }
@@ -31,27 +32,33 @@ export default function Song({ userId }) {
         <div className="col col-md-8">
           <h3 className="text-center mb-5">{title}</h3>
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
+            <div className="d-flex flex-column mb-3 w-25">
               <label className="form-label">
-                Song Name:
                 <input
                   required
                   autoFocus
                   type="text"
-                  id="name"
-                  name="name"
+                  id="song"
+                  name="song"
+                  placeholder="song name"
+                  className="form-control bg-light"
+                />
+              </label>
+              <label className="form-label">
+                <input
+                  required
+                  autoFocus
+                  type="text"
+                  id="artist"
+                  name="artist"
+                  placeholder="artist"
                   className="form-control bg-light"
                 />
               </label>
             </div>
             <div className="d-flex justify-content-between align-items-center">
               <input required type="file" name="audio" accept=".mp3" />
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={() => {
-                  setTitle('Song Saved!');
-                }}>
+              <button type="submit" className="btn btn-primary">
                 Upload
               </button>
             </div>

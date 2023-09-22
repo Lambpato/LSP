@@ -98,14 +98,19 @@ export default function MediaControls({ song, index, displaySong, songs }) {
   };
 
   return (
-    <div className="d-flex flex-column align-items-center">
-      <h1>{song.name}</h1>
+    <div className="d-flex flex-column align-items-center pt-4">
+      <div className="text-center">
+        <h1>{song.song}</h1>
+        <h6>{`by ${song.artist}`}</h6>
+      </div>
+
       <Slider
         duration={duration}
         currentTime={currentTime}
         onChange={onChange}
         percentage={percentage}
       />
+
       <audio
         ref={audioRef}
         src={song.url}
@@ -114,14 +119,15 @@ export default function MediaControls({ song, index, displaySong, songs }) {
         }}
         onTimeUpdate={getCurrentDuration}
         autoPlay={true}></audio>
-      <div>
-        <button className="btn btn-link" onClick={onBackSkip}>
+
+      <div className="w-50 d-flex justify-content-between">
+        <button className="btn btn-link fs-3 ps-0" onClick={onBackSkip}>
           <SkipBackwardFill />
         </button>
-        <button className="btn btn-link" onClick={onPlay}>
+        <button className="btn btn-link fs-2" onClick={onPlay}>
           {isPlaying ? <PauseCircleFill /> : <PlayCircleFill />}
         </button>
-        <button className="btn btn-link" onClick={onSkip}>
+        <button className="btn btn-link fs-3 pe-0" onClick={onSkip}>
           <SkipForwardFill />
         </button>
       </div>
