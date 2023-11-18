@@ -197,6 +197,26 @@ app.delete('/api/:userId/images/:imageId', async (req, res, next) => {
   }
 });
 
+// delete all but dummy data
+app.delete('/api/images/:userId', async (req, res, next) => {
+  const userId = Number(req.params.songId);
+  try {
+    const sql = `
+    delete *
+    from "images
+    where "imageId" > 1
+    returning *`;
+    const result = await db.query(sql);
+    const images = result.rows[0];
+    if (userId !== 1) {
+      throw new ClientError(403, 'This account contains no dummy data');
+    }
+    res.status(204).json(images);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // upload song
 app.post(
   '/api/:userId/songs/upload',
@@ -293,7 +313,7 @@ app.delete('/api/:userId/songs/:songId', async (req, res, next) => {
 });
 
 // delete all but dummy data
-app.delete('/api/:userId', async (req, res, next) => {
+app.delete('/api/songs/:userId', async (req, res, next) => {
   const userId = Number(req.params.songId);
   try {
     const sql = `
