@@ -292,6 +292,26 @@ app.delete('/api/:userId/songs/:songId', async (req, res, next) => {
   }
 });
 
+// delete all but dummy data
+app.delete('/api/:userId', async (req, res, next) => {
+  const userId = Number(req.params.songId);
+  try {
+    const sql = `
+    delete *
+    from "songs
+    where "songId" > 3
+    returning *`;
+    const result = await db.query(sql);
+    const songs = result.rows[0];
+    if (userId !== 1) {
+      throw new ClientError(403, 'This account contains no dummy data');
+    }
+    res.status(204).json(songs);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
 app.use(errorMiddleware);
