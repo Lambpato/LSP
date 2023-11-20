@@ -4,7 +4,7 @@ import { regIn } from '../lib';
 import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage({ button, action, onLogIn }) {
-  const { deleteImgs, deleteSongs, token } = useContext(ActionContext);
+  const { deleteImgs, deleteSongs } = useContext(ActionContext);
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [password, setPassword] = useState('');
