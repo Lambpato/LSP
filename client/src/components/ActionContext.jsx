@@ -15,6 +15,44 @@ export function ActionContextProvider(props) {
 
   const mediaQuery = useMediaQuery({ query: '(min-width: 768px)' });
 
+  const deleteImgs = async username => {
+    if (username === 'Example' || 'example') {
+      try {
+        const response = await fetch(`/api/images/${username}/`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok)
+          throw new Error(
+            `Error Code: ${response.status} Error Message: It Boken`
+          );
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  const deleteSongs = async username => {
+    if (username === 'Example' || 'example') {
+      try {
+        const response = await fetch(`/api/songs/${username}/`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok)
+          throw new Error(
+            `Error Code: ${response.status} Error Message: It Boken`
+          );
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   const handleRegister = e => {
     e.preventDefault();
     navigate('/register');
@@ -61,6 +99,8 @@ export function ActionContextProvider(props) {
     handleBack,
     ifLoggedIn,
     ifLoggedOut,
+    deleteImgs,
+    deleteSongs,
     mediaQuery,
     token
   };

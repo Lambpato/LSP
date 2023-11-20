@@ -99,6 +99,44 @@ app.post('/api/users/log-in', async (req, res, next) => {
   }
 });
 
+// delete all but dummy data
+app.delete('/api/songs/:username', async (req, res, next) => {
+  const username = String(req.params.username);
+  try {
+    const sql = `
+    delete from "songs"
+    where "songId" > 3
+    returning *`;
+    const result = await db.query(sql);
+    const songs = result.rows[0];
+    if (username.toLocaleLowerCase() !== 'example') {
+      throw new ClientError(403, 'This account contains no dummy data');
+    }
+    res.status(204).json(songs);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// delete all but dummy data
+app.delete('/api/images/:username', async (req, res, next) => {
+  const username = String(req.params.username);
+  try {
+    const sql = `
+      delete from "images"
+      where "imageId" > 1
+      returning *`;
+    const result = await db.query(sql);
+    const images = result.rows[0];
+    if (username.toLowerCase() !== 'example') {
+      throw new ClientError(403, 'This account contains no dummy data');
+    }
+    res.status(204).json(images);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use('/api/*', authorizationMiddleware);
 
 // upload image
@@ -299,3 +337,39 @@ app.use(errorMiddleware);
 app.listen(process.env.PORT, () => {
   process.stdout.write(`\n\napp listening on port ${process.env.PORT}\n\n`);
 });
+
+//  const deleteImgs = async username => {
+//    try {
+//      const response = await fetch(`/api/images/${username}/`, {
+//        method: 'DELETE',
+//        headers: {
+//          'Content-Type': 'application/json',
+//          Authorization: `Bearer ${token}`
+//        }
+//      });
+//      if (!response.ok)
+//        throw new Error(
+//          `Error Code: ${response.status} Error Message: It Boken`
+//        );
+//    } catch (err) {
+//      console.error(err);
+//    }
+//  };
+
+//  const deleteSongs = async username => {
+//    try {
+//      const response = await fetch(`/api/songs/${username}/`, {
+//        method: 'DELETE',
+//        headers: {
+//          'Content-Type': 'application/json',
+//          Authorization: `Bearer ${token}`
+//        }
+//      });
+//      if (!response.ok)
+//        throw new Error(
+//          `Error Code: ${response.status} Error Message: It Boken`
+//        );
+//    } catch (err) {
+//      console.error(err);
+//    }
+//  };
