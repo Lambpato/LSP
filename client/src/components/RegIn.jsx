@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ActionContext } from './ActionContext';
 import { regIn } from '../lib';
 import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage({ button, action, onLogIn }) {
+  const { deleteImgs, deleteSongs, token } = useContext(ActionContext);
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [password, setPassword] = useState('');
@@ -29,6 +31,14 @@ export default function RegisterPage({ button, action, onLogIn }) {
     const { username, password } = Object.fromEntries(formData.entries());
     try {
       const result = await regIn(action, username, password);
+      if (
+        result &&
+        action === 'log-in' &&
+        (username === 'Example' || 'example')
+      ) {
+        deleteImgs(username);
+        deleteSongs(username);
+      }
       if (action === 'register') {
         navigate('/log-in');
       } else if (result.user && result.token) onLogIn(result);
